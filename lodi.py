@@ -300,6 +300,10 @@ def extract_lodi(data_liturgia):
         return None
 
     soup = BeautifulSoup(response.content, 'html.parser', from_encoding='utf-8')
+    page_text = soup.get_text(separator="\n")
+    if "Nessun Contenuto Trovato" in page_text or "Nessun contenuto trovato" in page_text:
+        print(f"⚠️  Nessun contenuto disponibile per questa data")
+        return None
 
     # Cerca celebrazione nel titolo della pagina o intestazione
     title_celebrazione = ""

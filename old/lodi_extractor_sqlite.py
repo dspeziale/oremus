@@ -135,13 +135,13 @@ def navigazione(data, direzione):
 if __name__ == '__main__':
     import os
 
-    if not os.path.exists('templates'):
-        os.makedirs('templates')
-    if not os.path.exists('static'):
-        os.makedirs('static')
+    if not os.path.exists('../templates'):
+        os.makedirs('../templates')
+    if not os.path.exists('../static'):
+        os.makedirs('../static')
 
     # Template base AdminLTE
-    with open('templates/base.html', 'w', encoding='utf-8') as f:
+    with open('../templates/base.html', 'w', encoding='utf-8') as f:
         f.write('''<!DOCTYPE html>
 <html lang="it">
 <head>
@@ -343,7 +343,7 @@ if __name__ == '__main__':
 </html>''')
 
     # Template Dashboard
-    with open('templates/index.html', 'w', encoding='utf-8') as f:
+    with open('../templates/index.html', 'w', encoding='utf-8') as f:
         f.write('''{% extends "base.html" %}
 
 {% block title %}Dashboard - Lodi Mattutine{% endblock %}
@@ -461,7 +461,7 @@ if __name__ == '__main__':
 {% endblock %}''')
 
     # Template Lodi
-    with open('templates/lodi.html', 'w', encoding='utf-8') as f:
+    with open('../templates/lodi.html', 'w', encoding='utf-8') as f:
         f.write('''{% extends "base.html" %}
 
 {% block title %}Lodi Mattutine{% endblock %}
@@ -725,7 +725,7 @@ if (currentData && currentData !== 'None') {
 {% endblock %}''')
 
     # Template Calendario
-    with open('templates/calendario.html', 'w', encoding='utf-8') as f:
+    with open('../templates/calendario.html', 'w', encoding='utf-8') as f:
         f.write('''{% extends "base.html" %}
 
 {% block title %}Calendario - Lodi Mattutine{% endblock %}
