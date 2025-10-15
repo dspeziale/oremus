@@ -277,6 +277,33 @@ def clean_text(text):
     return text.strip()
 
 
+def estrai_tutti_testi_tra(testo, inizio, fine):
+    """
+    Estrae tutti i testi compresi tra due stringhe.
+
+    Returns:
+        list: Lista di tutti i testi estratti
+    """
+    risultati = []
+    pos = 0
+
+    while True:
+        try:
+            pos_inizio = testo.index(inizio, pos) + len(inizio)
+            pos_fine = testo.index(fine, pos_inizio)
+            risultati.append(testo[pos_inizio:pos_fine])
+            pos = pos_fine + len(fine)
+        except ValueError:
+            break
+
+    return risultati
+
+
+# # Esempio
+# testo = "Nome: <tag>Mario</tag> Cognome: <tag>Rossi</tag>"
+# risultati = estrai_tutti_testi_tra(testo, "<tag>", "</tag>")
+# print(risultati)  # Output: ['Mario', 'Rossi']
+
 def extract_lodi(data_liturgia):
     """
     Estrae le Lodi Mattutine COMPLETE per la data specificata
@@ -294,6 +321,9 @@ def extract_lodi(data_liturgia):
         return None
 
     soup = BeautifulSoup(response.content, 'html.parser', from_encoding='utf-8')
+    risultati=estrai_tutti_testi_tra(str(soup),'<div class="row cci-liturgia-ore-menu-container">','Amen.</div>')
+    print(risultati)
+    soup=risultati
 
     lodi = {
         "data": data_liturgia,
@@ -332,7 +362,8 @@ def extract_lodi(data_liturgia):
         "conclusione": {"benedizione": "", "risposta": ""}
     }
 
-    page_text = soup.get_text(separator="\n")
+    #page_text = soup.get_text(separator="\n")
+    page_text = str(soup)
     lines = [clean_text(line) for line in page_text.split("\n") if clean_text(line)]
 
     i = 0
