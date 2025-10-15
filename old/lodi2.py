@@ -415,7 +415,7 @@ def main():
             return
 
         num_giorni = (dt_fine - dt_inizio).days + 1
-        output_dir = "lodi_json"
+        output_dir = "../lodi_json"
         os.makedirs(output_dir, exist_ok=True)
 
         print(f"\n{'=' * 60}")

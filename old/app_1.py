@@ -114,11 +114,11 @@ def navigazione(data, direzione):
 if __name__ == '__main__':
     import os
 
-    if not os.path.exists('templates'):
-        os.makedirs('templates')
+    if not os.path.exists('../templates'):
+        os.makedirs('../templates')
 
     # Template base con design moderno
-    with open('templates/base.html', 'w', encoding='utf-8') as f:
+    with open('../templates/base.html', 'w', encoding='utf-8') as f:
         f.write('''<!DOCTYPE html>
 <html lang="it">
 <head>
@@ -490,7 +490,7 @@ if __name__ == '__main__':
 </html>''')
 
     # Template index
-    with open('templates/index.html', 'w', encoding='utf-8') as f:
+    with open('../templates/index.html', 'w', encoding='utf-8') as f:
         f.write('''{% extends "base.html" %}
 
 {% block title %}Lodi Mattutine{% endblock %}
@@ -671,7 +671,7 @@ document.getElementById('nav-home').classList.add('active');
 {% endblock %}''')
 
     # Template calendario
-    with open('templates/calendario.html', 'w', encoding='utf-8') as f:
+    with open('../templates/calendario.html', 'w', encoding='utf-8') as f:
         f.write('''{% extends "base.html" %}
 
 {% block title %}Calendario{% endblock %}
