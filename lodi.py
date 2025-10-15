@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Estrattore Lodi Mattutine dalla Liturgia delle Ore
-Versione finale con salvataggio JSON e SQLite
+Versione corretta con fix encoding e sintassi
 """
 import requests
 from bs4 import BeautifulSoup
@@ -25,7 +25,10 @@ def clean_text(text):
     replacements = {
         'â€™': "'", 'â€"': "—", 'â€œ': '"', 'â€': '"',
         'Ã¨': 'è', 'Ã©': 'é', 'Ã¬': 'ì', 'Ã²': 'ò',
-        'Ã¹': 'ù', 'Ã ': 'à', 'Ãˆ': 'È', '\u0001': ''
+        'Ã¹': 'ù', 'Ã ': 'à', 'Ãˆ': 'È', '\u0001': '',
+        'PoichÃ©': 'Poiché', 'piÃ¹': 'più', 'CosÃ¬': 'Così',
+        'finchÃ©': 'finché', 'benedirÃ²': 'benedirò',
+        'loderÃ ': 'loderà', 'sazierÃ²': 'sazierò'
     }
 
     for old, new in replacements.items():
@@ -91,11 +94,12 @@ def init_database(db_path="lodi.db"):
             sottotitolo TEXT,
             citazione TEXT,
             testo TEXT,
+            dossologia TEXT,
             FOREIGN KEY (lodi_data) REFERENCES lodi(data)
         )
     ''')
 
-    # Tabella Invocazioni
+    # Tabella Invocazioni - FIX: rimossa virgola dopo testo
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS invocazioni (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -166,19 +170,24 @@ def save_to_database(lodi, db_path="lodi.db"):
 
         # Salva salmodia
         for salmo in lodi["salmodia"]:
-            cursor.execute('''
-                INSERT INTO salmodia (
-                    lodi_data, numero, antifona, titolo, sottotitolo, citazione, testo
-                ) VALUES (?, ?, ?, ?, ?, ?, ?)
-            ''', (
-                lodi["data"],
-                salmo["numero"],
-                salmo["antifona"],
-                salmo["titolo"],
-                salmo["sottotitolo"],
-                salmo["citazione"],
-                json.dumps(salmo["testo"], ensure_ascii=False)
-            ))
+            try:
+                cursor.execute('''
+                    INSERT INTO salmodia (
+                        lodi_data, numero, antifona, titolo, sottotitolo, citazione, testo, dossologia
+                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+                ''', (
+                    lodi["data"],
+                    salmo["numero"],
+                    salmo["antifona"],
+                    salmo["titolo"],
+                    salmo["sottotitolo"],
+                    salmo["citazione"],
+                    json.dumps(salmo["testo"], ensure_ascii=False),
+                    salmo.get("dossologia", "")  # Usa .get() per evitare KeyError
+                ))
+            except Exception as e:
+                print(f"\n⚠️ Errore salvataggio salmo {salmo['numero']}: {e}")
+                print(f"Chiavi disponibili: {salmo.keys()}")
 
         # Elimina vecchie invocazioni per questa data
         cursor.execute('DELETE FROM invocazioni WHERE lodi_data = ?', (lodi["data"],))
@@ -228,10 +237,10 @@ def extract_celebrazione(orazione_text, invocazioni_text, antifone_text=""):
         'Giustizia', 'Misericordia', 'Provvidenza', 'Sapienza'
     ]
 
-    # Cerca pattern di santi/beati
+    # FIX: rimosso pattern duplicato per "beato"
     patterns = [
         r'sant[ao]\s+([A-ZÀ-Ù][a-zà-ù]+(?:\s+[A-ZÀ-Ù][a-zà-ù]+){0,3})',
-        r'beat[ao]\s+([A-ZÀ-Ù][a-zà-ù]+(?:\s+[A-ZÀ-Ù][a-zà-ù]+){0,3})',
+        r'beat[ao]\s+([A-ZÀ-Ù][a-zà-ù]+(?:\s+[A-ZÀ-Ù][a-zà-ù]+){0,3})'
     ]
 
     candidati = []
@@ -256,7 +265,6 @@ def extract_celebrazione(orazione_text, invocazioni_text, antifone_text=""):
                     break
 
             # Verifica che sia un nome proprio (almeno una maiuscola dopo la prima parola)
-            # Es: "Santa Pelagia" è OK, "santa Chiesa" non lo è
             words = santo_clean.split()
             if len(words) > 1 and not any(w[0].isupper() for w in words[1:]):
                 is_valid = False
@@ -266,13 +274,10 @@ def extract_celebrazione(orazione_text, invocazioni_text, antifone_text=""):
 
     # Se abbiamo trovato candidati, prendiamo il primo
     if candidati:
-        # Rimuovi duplicati mantenendo l'ordine
         candidati_unici = []
         for c in candidati:
             if c not in candidati_unici:
                 candidati_unici.append(c)
-
-        # Prendi il primo candidato valido
         return candidati_unici[0], "Memoria"
 
     return "", ""
@@ -281,11 +286,13 @@ def extract_lodi(data_liturgia):
     """Estrae le Lodi Mattutine per la data specificata"""
     url = f"https://www.chiesacattolica.it/la-liturgia-delle-ore/?data-liturgia={data_liturgia}&ora=lodi-mattutine"
 
-    # Rimuovo il print da qui per non interferire con il main
-    # print(f"📡 Recupero dati da: {url}")
-
     try:
-        response = requests.get(url, timeout=30)
+        # FIX: aggiunto header per encoding corretto
+        headers = {
+            'Accept-Charset': 'utf-8',
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+        }
+        response = requests.get(url, timeout=30, headers=headers)
         response.encoding = 'utf-8'
         response.raise_for_status()
     except requests.RequestException as e:
@@ -302,7 +309,6 @@ def extract_lodi(data_liturgia):
     title_tag = soup.find('title')
     if title_tag:
         title_text = title_tag.get_text()
-        # Pattern: "Liturgia delle ore - Lodi mattutine - 01 Novembre 2025 - SOLENNITÀ DI TUTTI I SANTI"
         if " - " in title_text:
             parts = title_text.split(" - ")
             for part in parts:
@@ -318,14 +324,12 @@ def extract_lodi(data_liturgia):
                 elif "MEMORIA" in part_upper:
                     title_tipo = "Memoria"
                     title_celebrazione = part.strip().replace("MEMORIA DI", "").replace("MEMORIA", "").strip()
-                    # Rimuovi eventuali suffissi come "- MEMORIA"
                     if " - " in title_celebrazione:
                         title_celebrazione = title_celebrazione.split(" - ")[0].strip()
                     break
 
     # 2. Se non trovato nel title, cerca nell'intestazione della pagina
     if not title_celebrazione:
-        # Cerca nei primi 50 righe per pattern come "SANTI ANGELI CUSTODI - MEMORIA"
         page_text_preview = soup.get_text(separator="\n")
         preview_lines = page_text_preview.split("\n")[:50]
 
@@ -333,7 +337,6 @@ def extract_lodi(data_liturgia):
             line_clean = clean_text(line).strip()
             line_upper = line_clean.upper()
 
-            # Pattern: "SANTI ANGELI CUSTODI - MEMORIA"
             if " - MEMORIA" in line_upper or " - SOLENNITÀ" in line_upper or " - FESTA" in line_upper:
                 if " - SOLENNITÀ" in line_upper:
                     title_tipo = "Solennità"
@@ -378,7 +381,7 @@ def extract_lodi(data_liturgia):
     while i < len(lines):
         line = lines[i]
 
-        # ==================== INTRODUZIONE ====================
+        # INTRODUZIONE
         if "O Dio, vieni a salvarmi" in line:
             lodi["introduzione"]["versetto"] = "O Dio, vieni a salvarmi"
             i += 1
@@ -386,10 +389,12 @@ def extract_lodi(data_liturgia):
                 i += 1
             if i < len(lines):
                 lodi["introduzione"]["risposta"] = lines[i]
+            # Dossologia fissa
+            lodi["introduzione"]["dossologia"] = "Gloria al Padre e al Figlio *\ne allo Spirito Santo.\nCome era nel principio, e ora e sempre *\nnei secoli dei secoli. Amen."
             i += 1
             continue
 
-        # ==================== INNO ====================
+        # INNO
         if line == "INNO":
             i += 1
             while i < len(lines):
@@ -405,7 +410,7 @@ def extract_lodi(data_liturgia):
                 i += 1
             continue
 
-        # ==================== SALMODIA ====================
+        # SALMODIA
         if line.endswith("ant.") and line[0].isdigit():
             salmo_num = int(line[0])
             i += 1
@@ -460,7 +465,8 @@ def extract_lodi(data_liturgia):
                 "titolo": titolo,
                 "sottotitolo": " ".join(sottotitolo_lines),
                 "citazione": citazione,
-                "testo": testo_lines
+                "testo": testo_lines,
+                "dossologia": "Gloria al Padre e al Figlio *\ne allo Spirito Santo.\nCome era nel principio, e ora e sempre *\nnei secoli dei secoli. Amen."
             })
 
             # Salta ripetizione antifona
@@ -470,7 +476,7 @@ def extract_lodi(data_liturgia):
                     i += 1
             continue
 
-        # ==================== LETTURA BREVE ====================
+        # LETTURA BREVE
         if line == "LETTURA BREVE":
             i += 1
             if i < len(lines):
@@ -484,7 +490,7 @@ def extract_lodi(data_liturgia):
             lodi["lettura_breve"]["testo"] = "\n".join(lettura_lines)
             continue
 
-        # ==================== RESPONSORIO BREVE ====================
+        # RESPONSORIO BREVE
         if line == "RESPONSORIO BREVE":
             i += 1
             resp_lines = []
@@ -496,7 +502,7 @@ def extract_lodi(data_liturgia):
             lodi["responsorio_breve"] = resp_lines
             continue
 
-        # ==================== CANTICO EVANGELICO ====================
+        # CANTICO EVANGELICO - Antifona
         if "Ant" in line and "Ben" in line:
             i += 1
             ant_lines = []
@@ -508,6 +514,7 @@ def extract_lodi(data_liturgia):
             lodi["cantico_evangelico"]["antifona"] = "\n".join(ant_lines)
             continue
 
+        # CANTICO DI ZACCARIA
         if "CANTICO DI ZACCARIA" in line:
             i += 1
 
@@ -555,16 +562,14 @@ def extract_lodi(data_liturgia):
                     i += 1
             continue
 
-        # ==================== INVOCAZIONI ====================
+        # INVOCAZIONI
         if line == "INVOCAZIONI":
             i += 1
 
-            # Raccogli tutto prima del primo "—" o nome di invocazione
+            # Raccogli tutto prima del primo "—"
             pre_invocazioni = []
             while i < len(lines) and lines[i] != "—" and "Padre nostro" not in lines[i]:
-                # Cerca pattern di inizio invocazione
-                if re.match(r'^(Cristo|Signore|Tu|Per|Verbo)', lines[i]):
-                    # Controlla se 2 righe dopo c'è un "—"
+                if re.match(r'^(Cristo|Signore|Tu|Per|Verbo|O\s)', lines[i]):
                     if i + 2 < len(lines) and lines[i + 2] == "—":
                         break
                     if i + 1 < len(lines) and lines[i + 1] == "—":
@@ -574,7 +579,6 @@ def extract_lodi(data_liturgia):
                 i += 1
 
             # Separa introduzione e ritornello
-            # L'introduzione finisce con ":"
             intro_end = -1
             for idx, text in enumerate(pre_invocazioni):
                 if text.endswith(':'):
@@ -587,37 +591,31 @@ def extract_lodi(data_liturgia):
             else:
                 lodi["invocazioni"]["introduzione"] = "\n".join(pre_invocazioni)
 
-            # Raccogli invocazioni (nome + "—" + risposta)
+            # FIX: migliorata logica raccolta invocazioni
             invocazioni_lista = []
             current_inv = []
 
             while i < len(lines) and "Padre nostro" not in lines[i]:
                 if lines[i] == "—":
                     current_inv.append(lines[i])
+                    # Salva invocazione completa quando incontri il separatore
+                    if len(current_inv) > 1:
+                        invocazioni_lista.append("\n".join(current_inv))
+                        current_inv = []
                 else:
                     cleaned = clean_text(lines[i])
                     if cleaned:
                         current_inv.append(cleaned)
-
-                        # Se la prossima riga inizia con maiuscola ed è un nome, salva invocazione
-                        if i + 1 < len(lines):
-                            next_line = lines[i + 1]
-                            if (re.match(r'^(Cristo|Signore|Tu|Per|Verbo|Re)', next_line) or
-                                    "Padre nostro" in next_line):
-                                if current_inv:
-                                    invocazioni_lista.append("\n".join(current_inv))
-                                    current_inv = []
-
                 i += 1
 
             # Ultima invocazione
-            if current_inv:
+            if current_inv and len(current_inv) > 1:
                 invocazioni_lista.append("\n".join(current_inv))
 
             lodi["invocazioni"]["lista"] = invocazioni_lista
             continue
 
-        # ==================== ORAZIONE ====================
+        # ORAZIONE
         if line == "ORAZIONE":
             i += 1
             or_lines = []
@@ -638,7 +636,7 @@ def extract_lodi(data_liturgia):
             lodi["orazione"] = " ".join(or_lines)
             continue
 
-        # ==================== CONCLUSIONE ====================
+        # CONCLUSIONE
         if "Il Signore ci benedica" in line:
             lodi["conclusione"]["benedizione"] = clean_text(line)
             i += 1
@@ -651,12 +649,10 @@ def extract_lodi(data_liturgia):
         i += 1
 
     # Estrai celebrazione
-    # 1. Prima controlla se c'è nel titolo HTML
     if title_celebrazione and title_tipo:
         lodi["celebrazione"]["santo"] = clean_text(title_celebrazione)
         lodi["celebrazione"]["tipo"] = title_tipo
     else:
-        # 2. Altrimenti cerca nel contenuto
         antifone_text = " ".join([s["antifona"] for s in lodi["salmodia"]])
         celebrazione, tipo = extract_celebrazione(
             lodi["orazione"],
@@ -674,12 +670,12 @@ def main():
     """Funzione principale"""
 
     sys.argv.append('20251001')
-    sys.argv.append('20260630')
+    sys.argv.append('20251231')
 
     if len(sys.argv) < 2:
         print("📖 Uso:")
-        print("  python lodi_extractor.py YYYYMMDD [--db-only]")
-        print("  python lodi_extractor.py YYYYMMDD YYYYMMDD [--db-only]")
+        print("  python lodi3.py YYYYMMDD [--db-only]")
+        print("  python lodi3.py YYYYMMDD YYYYMMDD [--db-only]")
         print("\nOpzioni:")
         print("  --db-only    Salva solo su database (no JSON)")
         return
