@@ -1,0 +1,620 @@
+#!/usr/bin/env python3
+"""
+Script CORRETTO per estrarre le Lodi Mattutine dalla Liturgia delle Ore
+Risolve problemi di encoding e caratteri speciali
+"""
+import os
+import time
+import requests
+from bs4 import BeautifulSoup
+import json
+import sys
+from datetime import datetime, timedelta
+import html
+import unicodedata
+
+
+def clean_text(text):
+    """
+    Pulisce il testo da caratteri speciali e HTML entities
+    """
+    if not text:
+        return ""
+
+    # Decodifica HTML entities
+    text = html.unescape(text)
+
+    # Sostituzioni specifiche per caratteri problematici
+    replacements = {
+        'â€™': "'",
+        'â€"': "—",
+        'â€œ': '"',
+        'â€': '"',
+        'Ã¨': 'è',
+        'Ã©': 'é',
+        'Ã¬': 'ì',
+        'Ã²': 'ò',
+        'Ã¹': 'ù',
+        'Ã ': 'à',
+        'Ãˆ': 'È',
+        'â€ ': '† ',
+        '\u0001': '',  # Carattere di controllo
+        '†': '†',  # Dagger
+    }
+
+    for old, new in replacements.items():
+        text = text.replace(old, new)
+
+    # Normalizza unicode (combina caratteri accentati separati)
+    text = unicodedata.normalize('NFC', text)
+
+    # Rimuovi caratteri di controllo rimanenti (tranne newline e tab)
+    text = ''.join(
+        char for char in text if char == '\n' or char == '\t' or not unicodedata.category(char).startswith('C'))
+
+    return text.strip()
+
+
+def extract_lodi(data_liturgia):
+    """
+    Estrae le Lodi Mattutine COMPLETE per la data specificata
+    """
+    url = f"https://www.chiesacattolica.it/la-liturgia-delle-ore/?data-liturgia={data_liturgia}&ora=lodi-mattutine"
+
+    print(f"Recupero dati da: {url}")
+
+    try:
+        # Forza UTF-8 encoding
+        response = requests.get(url, timeout=30)
+        response.encoding = 'utf-8'
+        response.raise_for_status()
+    except requests.RequestException as e:
+        print(f"Errore nel recupero dei dati: {e}")
+        return None
+
+    soup = BeautifulSoup(response.content, 'html.parser', from_encoding='utf-8')
+
+    # Struttura dati
+    lodi = {
+        "data": data_liturgia,
+        "data_formattata": format_date(data_liturgia),
+        "tipo": "Lodi Mattutine",
+        "url_fonte": url,
+        "introduzione": {
+            "versetto_iniziale": {
+                "versetto": "",
+                "risposta": ""
+            },
+            "dossologia": "",
+            "nota": ""
+        },
+        "inno": {
+            "opzione_1": {
+                "lingua": "italiano",
+                "testo_completo": []
+            },
+            "opzione_2": {
+                "lingua": "latino",
+                "testo_completo": []
+            }
+        },
+        "salmodia": [
+            {
+                "numero": 1,
+                "antifona": "",
+                "titolo_salmo": "",
+                "sottotitolo": "",
+                "citazione_introduttiva": "",
+                "testo_completo": []
+            },
+            {
+                "numero": 2,
+                "antifona": "",
+                "titolo_cantico": "",
+                "sottotitolo": "",
+                "citazione_introduttiva": "",
+                "testo_completo": []
+            },
+            {
+                "numero": 3,
+                "antifona": "",
+                "titolo_salmo": "",
+                "sottotitolo": "",
+                "citazione_introduttiva": "",
+                "testo_completo": []
+            }
+        ],
+        "lettura_breve": {
+            "riferimento": "",
+            "testo_completo": ""
+        },
+        "responsorio_breve": {
+            "testo_completo": []
+        },
+        "cantico_evangelico": {
+            "nome": "Cantico di Zaccaria (Benedictus)",
+            "riferimento": "Lc 1, 68-79",
+            "sottotitolo": "",
+            "antifona": "",
+            "testo_completo": [],
+            "dossologia": ""
+        },
+        "invocazioni": {
+            "introduzione": "",
+            "ritornello": "",
+            "invocazioni_lista": [],
+            "padre_nostro": "Padre nostro"
+        },
+        "orazione": {
+            "testo_completo": ""
+        },
+        "conclusione": {
+            "benedizione": "",
+            "risposta": ""
+        }
+    }
+
+    # Estrai tutto il testo e puliscilo
+    page_text = soup.get_text(separator="\n")
+    lines = [clean_text(line) for line in page_text.split("\n") if clean_text(line)]
+
+    i = 0
+    inno_opzione = 1
+    collecting_inno = False
+    collecting_benedictus = False
+
+    while i < len(lines):
+        line = lines[i]
+
+        # ==================== INTRODUZIONE ====================
+        if "O Dio, vieni a salvarmi" in line:
+            lodi["introduzione"]["versetto_iniziale"]["versetto"] = clean_text("O Dio, vieni a salvarmi")
+            i += 1
+            if i < len(lines) and "R." in lines[i]:
+                i += 1
+            if i < len(lines):
+                lodi["introduzione"]["versetto_iniziale"]["risposta"] = clean_text(lines[i])
+            i += 1
+            continue
+
+        if "Gloria al Padre e al Figlio" in line and not collecting_benedictus:
+            dossologia_lines = []
+            while i < len(lines) and "Amen" not in lines[i]:
+                dossologia_lines.append(clean_text(lines[i]))
+                i += 1
+            if i < len(lines) and "Amen" in lines[i]:
+                dossologia_lines.append(clean_text(lines[i]))
+                i += 1
+            lodi["introduzione"]["dossologia"] = "\n".join(dossologia_lines)
+            continue
+
+        if "Questa introduzione si omette" in line:
+            lodi["introduzione"]["nota"] = clean_text(line)
+            i += 1
+            continue
+
+        # ==================== INNO ====================
+        if line == "INNO":
+            collecting_inno = True
+            inno_opzione = 1
+            i += 1
+            continue
+
+        if collecting_inno and line == "Oppure:":
+            inno_opzione = 2
+            i += 1
+            continue
+
+        if collecting_inno and line.startswith("1 ant"):
+            collecting_inno = False
+            continue
+
+        if collecting_inno:
+            cleaned = clean_text(line)
+            if cleaned:  # Solo se non vuoto dopo pulizia
+                if inno_opzione == 1:
+                    lodi["inno"]["opzione_1"]["testo_completo"].append(cleaned)
+                else:
+                    lodi["inno"]["opzione_2"]["testo_completo"].append(cleaned)
+            i += 1
+            continue
+
+        # ==================== SALMODIA ====================
+        # SALMO 1
+        if line == "1 ant.":
+            salmo_idx = 0
+            i += 1
+
+            antifona_lines = []
+            while i < len(lines) and not lines[i].startswith("SALMO"):
+                antifona_lines.append(clean_text(lines[i]))
+                i += 1
+            lodi["salmodia"][salmo_idx]["antifona"] = " ".join(antifona_lines)
+
+            if i < len(lines) and lines[i].startswith("SALMO"):
+                lodi["salmodia"][salmo_idx]["titolo_salmo"] = clean_text(lines[i])
+                i += 1
+
+            sottotitolo_lines = []
+            while i < len(lines) and not lines[i].startswith("("):
+                sottotitolo_lines.append(clean_text(lines[i]))
+                i += 1
+            if sottotitolo_lines:
+                lodi["salmodia"][salmo_idx]["sottotitolo"] = " ".join(sottotitolo_lines)
+
+            if i < len(lines) and lines[i].startswith("("):
+                citazione_lines = []
+                while i < len(lines):
+                    citazione_lines.append(clean_text(lines[i]))
+                    if lines[i].endswith(").") or lines[i].endswith(")"):
+                        i += 1
+                        break
+                    i += 1
+                lodi["salmodia"][salmo_idx]["citazione_introduttiva"] = " ".join(citazione_lines)
+
+            testo_lines = []
+            while i < len(lines) and lines[i] != "1 ant.":
+                cleaned = clean_text(lines[i])
+                if cleaned:
+                    testo_lines.append(cleaned)
+                i += 1
+            lodi["salmodia"][salmo_idx]["testo_completo"] = testo_lines
+
+            if i < len(lines) and lines[i] == "1 ant.":
+                i += 1
+                while i < len(lines) and not (lines[i] == "2 ant." or lines[i] == "LETTURA BREVE"):
+                    i += 1
+            continue
+
+        # CANTICO 2
+        if line == "2 ant.":
+            salmo_idx = 1
+            i += 1
+
+            antifona_lines = []
+            while i < len(lines) and not lines[i].startswith("CANTICO"):
+                antifona_lines.append(clean_text(lines[i]))
+                i += 1
+            lodi["salmodia"][salmo_idx]["antifona"] = " ".join(antifona_lines)
+
+            if i < len(lines) and lines[i].startswith("CANTICO"):
+                lodi["salmodia"][salmo_idx]["titolo_cantico"] = clean_text(lines[i])
+                i += 1
+
+            sottotitolo_lines = []
+            while i < len(lines) and not lines[i].startswith("("):
+                sottotitolo_lines.append(clean_text(lines[i]))
+                i += 1
+            if sottotitolo_lines:
+                lodi["salmodia"][salmo_idx]["sottotitolo"] = " ".join(sottotitolo_lines)
+
+            if i < len(lines) and lines[i].startswith("("):
+                citazione_lines = []
+                while i < len(lines):
+                    citazione_lines.append(clean_text(lines[i]))
+                    if lines[i].endswith(").") or lines[i].endswith(")"):
+                        i += 1
+                        break
+                    i += 1
+                lodi["salmodia"][salmo_idx]["citazione_introduttiva"] = " ".join(citazione_lines)
+
+            testo_lines = []
+            while i < len(lines) and lines[i] != "2 ant.":
+                cleaned = clean_text(lines[i])
+                if cleaned:
+                    testo_lines.append(cleaned)
+                i += 1
+            lodi["salmodia"][salmo_idx]["testo_completo"] = testo_lines
+
+            if i < len(lines) and lines[i] == "2 ant.":
+                i += 1
+                while i < len(lines) and not (lines[i] == "3 ant." or lines[i] == "LETTURA BREVE"):
+                    i += 1
+            continue
+
+        # SALMO 3
+        if line == "3 ant.":
+            salmo_idx = 2
+            i += 1
+
+            antifona_lines = []
+            while i < len(lines) and not lines[i].startswith("SALMO"):
+                antifona_lines.append(clean_text(lines[i]))
+                i += 1
+            lodi["salmodia"][salmo_idx]["antifona"] = " ".join(antifona_lines)
+
+            if i < len(lines) and lines[i].startswith("SALMO"):
+                lodi["salmodia"][salmo_idx]["titolo_salmo"] = clean_text(lines[i])
+                i += 1
+
+            sottotitolo_lines = []
+            while i < len(lines) and not lines[i].startswith("("):
+                sottotitolo_lines.append(clean_text(lines[i]))
+                i += 1
+            if sottotitolo_lines:
+                lodi["salmodia"][salmo_idx]["sottotitolo"] = " ".join(sottotitolo_lines)
+
+            if i < len(lines) and lines[i].startswith("("):
+                citazione_lines = []
+                while i < len(lines):
+                    citazione_lines.append(clean_text(lines[i]))
+                    if lines[i].endswith(").") or lines[i].endswith(")"):
+                        i += 1
+                        break
+                    i += 1
+                lodi["salmodia"][salmo_idx]["citazione_introduttiva"] = " ".join(citazione_lines)
+
+            testo_lines = []
+            while i < len(lines) and lines[i] != "3 ant." and lines[i] != "LETTURA BREVE":
+                cleaned = clean_text(lines[i])
+                if cleaned:
+                    testo_lines.append(cleaned)
+                i += 1
+            lodi["salmodia"][salmo_idx]["testo_completo"] = testo_lines
+
+            if i < len(lines) and lines[i] == "3 ant.":
+                i += 1
+                while i < len(lines) and lines[i] != "LETTURA BREVE":
+                    i += 1
+            continue
+
+        # ==================== LETTURA BREVE ====================
+        if line == "LETTURA BREVE":
+            i += 1
+
+            if i < len(lines):
+                lodi["lettura_breve"]["riferimento"] = clean_text(lines[i])
+                i += 1
+
+            lettura_lines = []
+            while i < len(lines) and not lines[i].startswith("RESPONSORIO"):
+                lettura_lines.append(clean_text(lines[i]))
+                i += 1
+            lodi["lettura_breve"]["testo_completo"] = "\n".join(lettura_lines)
+            continue
+
+        # ==================== RESPONSORIO BREVE ====================
+        if line == "RESPONSORIO BREVE":
+            i += 1
+            responsorio_lines = []
+            while i < len(lines) and not (lines[i].startswith("Ant") or "CANTICO" in lines[i]):
+                cleaned = clean_text(lines[i])
+                if cleaned:
+                    responsorio_lines.append(cleaned)
+                i += 1
+            lodi["responsorio_breve"]["testo_completo"] = responsorio_lines
+            continue
+
+        # ==================== CANTICO EVANGELICO ====================
+        if "Ant. al Ben" in line:
+            i += 1
+            antifona_ben_lines = []
+            while i < len(lines) and not ("CANTICO" in lines[i]):
+                antifona_ben_lines.append(clean_text(lines[i]))
+                i += 1
+            lodi["cantico_evangelico"]["antifona"] = "\n".join(antifona_ben_lines)
+            continue
+
+        if line == "CANTICO DI ZACCARIA":
+            i += 1
+            if i < len(lines) and lines[i].startswith("Lc"):
+                lodi["cantico_evangelico"]["riferimento"] = clean_text(lines[i])
+                i += 1
+            if i < len(lines) and not lines[i].startswith("Benedetto"):
+                lodi["cantico_evangelico"]["sottotitolo"] = clean_text(lines[i])
+                i += 1
+            collecting_benedictus = True
+            continue
+
+        if collecting_benedictus:
+            if "Ant. al Ben" in line:
+                collecting_benedictus = False
+                i += 1
+                while i < len(lines) and lines[i] != "INVOCAZIONI":
+                    i += 1
+                continue
+
+            if line == "INVOCAZIONI":
+                collecting_benedictus = False
+                continue
+
+            if "Gloria al Padre" in line:
+                doss_lines = []
+                while i < len(lines) and "Amen" not in lines[i]:
+                    doss_lines.append(clean_text(lines[i]))
+                    i += 1
+                if i < len(lines):
+                    doss_lines.append(clean_text(lines[i]))
+                    i += 1
+                lodi["cantico_evangelico"]["dossologia"] = "\n".join(doss_lines)
+                continue
+
+            cleaned = clean_text(line)
+            if cleaned:
+                lodi["cantico_evangelico"]["testo_completo"].append(cleaned)
+            i += 1
+            continue
+
+        # ==================== INVOCAZIONI ====================
+        if line == "INVOCAZIONI":
+            i += 1
+
+            intro_lines = []
+            while i < len(lines) and not ("Gesù" in lines[i] or "Cristo" in lines[i]):
+                intro_lines.append(clean_text(lines[i]))
+                i += 1
+            lodi["invocazioni"]["introduzione"] = "\n".join(intro_lines)
+
+            ritornello_lines = []
+            while i < len(lines) and lines[i] != "—":
+                ritornello_lines.append(clean_text(lines[i]))
+                i += 1
+            lodi["invocazioni"]["ritornello"] = "\n".join(ritornello_lines)
+
+            invocazioni_list = []
+            current_invocazione = []
+
+            while i < len(lines) and not lines[i].startswith("Padre nostro"):
+                if lines[i] == "—":
+                    if current_invocazione:
+                        invocazioni_list.append("\n".join(current_invocazione))
+                    current_invocazione = []
+                    i += 1
+                    while i < len(lines) and lines[i] != "—" and not lines[i].startswith("Padre nostro"):
+                        cleaned = clean_text(lines[i])
+                        if cleaned:
+                            current_invocazione.append(cleaned)
+                        i += 1
+                else:
+                    i += 1
+
+            if current_invocazione:
+                invocazioni_list.append("\n".join(current_invocazione))
+
+            lodi["invocazioni"]["invocazioni_lista"] = invocazioni_list
+
+            if i < len(lines) and "Padre nostro" in lines[i]:
+                i += 1
+            continue
+
+        # ==================== ORAZIONE ====================
+        if line == "ORAZIONE":
+            i += 1
+            orazione_lines = []
+            while i < len(lines) and not lines[i].startswith("Il Signore"):
+                orazione_lines.append(clean_text(lines[i]))
+                i += 1
+            lodi["orazione"]["testo_completo"] = " ".join(orazione_lines)
+            continue
+
+        # ==================== CONCLUSIONE ====================
+        if "Il Signore ci benedica" in line:
+            lodi["conclusione"]["benedizione"] = clean_text(line)
+            i += 1
+            if i < len(lines) and "R." in lines[i]:
+                i += 1
+            if i < len(lines):
+                lodi["conclusione"]["risposta"] = clean_text(lines[i])
+            break
+
+        i += 1
+
+    return lodi
+
+
+def format_date(date_string):
+    """Formatta la data da YYYYMMDD a formato leggibile italiano"""
+    try:
+        date_obj = datetime.strptime(date_string, "%Y%m%d")
+        giorni = ["Lunedì", "Martedì", "Mercoledì", "Giovedì", "Venerdì", "Sabato", "Domenica"]
+        mesi = ["gennaio", "febbraio", "marzo", "aprile", "maggio", "giugno",
+                "luglio", "agosto", "settembre", "ottobre", "novembre", "dicembre"]
+
+        giorno_settimana = giorni[date_obj.weekday()]
+        giorno = date_obj.day
+        mese = mesi[date_obj.month - 1]
+        anno = date_obj.year
+
+        return f"{giorno_settimana} {giorno} {mese} {anno}"
+    except:
+        return date_string
+
+
+def extract_lodi_range(data_inizio, data_fine, output_dir="lodi_json_fixed"):
+    """Estrae le Lodi per un range di date"""
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
+
+    try:
+        dt_inizio = datetime.strptime(data_inizio, "%Y%m%d")
+        dt_fine = datetime.strptime(data_fine, "%Y%m%d")
+    except ValueError:
+        print("❌ Errore: formato data non valido. Usa YYYYMMDD")
+        return None
+
+    if dt_inizio > dt_fine:
+        print("❌ Errore: la data di inizio deve essere precedente alla data di fine")
+        return None
+
+    delta = dt_fine - dt_inizio
+    num_giorni = delta.days + 1
+
+    print("\n" + "=" * 60)
+    print(f"ESTRAZIONE LODI MATTUTINE - RANGE (VERSIONE CORRETTA)")
+    print("=" * 60)
+    print(f"Data inizio: {format_date(data_inizio)}")
+    print(f"Data fine: {format_date(data_fine)}")
+    print(f"Numero giorni: {num_giorni}")
+    print(f"Directory output: {output_dir}/")
+    print("=" * 60 + "\n")
+
+    stats = {
+        "totale": num_giorni,
+        "successo": 0,
+        "errori": 0,
+        "files": []
+    }
+
+    current_date = dt_inizio
+    for i in range(num_giorni):
+        data_str = current_date.strftime("%Y%m%d")
+
+        print(f"[{i + 1}/{num_giorni}] Estrazione {format_date(data_str)}...", end=" ")
+
+        lodi = extract_lodi(data_str)
+
+        if lodi:
+            output_file = os.path.join(output_dir, f"lodi_{data_str}.json")
+            with open(output_file, 'w', encoding='utf-8') as f:
+                json.dump(lodi, f, ensure_ascii=False, indent=2)
+
+            file_size = os.path.getsize(output_file)
+            size_str = f"{file_size / 1024:.2f} KB" if file_size >= 1024 else f"{file_size} bytes"
+
+            print(f"✓ OK ({size_str})")
+            stats["successo"] += 1
+            stats["files"].append(output_file)
+        else:
+            print("✗ ERRORE")
+            stats["errori"] += 1
+
+        current_date += timedelta(days=1)
+
+        if i < num_giorni - 1:
+            time.sleep(0.5)
+
+    print("\n" + "=" * 60)
+    print("RIEPILOGO ESTRAZIONE")
+    print("=" * 60)
+    print(f"✓ Successo: {stats['successo']}/{stats['totale']}")
+    if stats['errori'] > 0:
+        print(f"✗ Errori: {stats['errori']}/{stats['totale']}")
+    print(f"📁 Files salvati in: {output_dir}/")
+    print("=" * 60 + "\n")
+
+    return stats
+
+
+def main():
+    sys.argv.append('20251015')
+    sys.argv.append('20251031')
+    if len(sys.argv) == 3:
+        data_inizio = sys.argv[1]
+        data_fine = sys.argv[2]
+        extract_lodi_range(data_inizio, data_fine)
+    elif len(sys.argv) == 2:
+        data_liturgia = sys.argv[1]
+        lodi = extract_lodi(data_liturgia)
+
+        if lodi:
+            output_file = f"lodi_{data_liturgia}_fixed.json"
+            with open(output_file, 'w', encoding='utf-8') as f:
+                json.dump(lodi, f, ensure_ascii=False, indent=2)
+            print(f"✓ File JSON creato: {output_file}")
+    else:
+        print("Uso: python lodi_extractor_fixed.py YYYYMMDD")
+        print("     python lodi_extractor_fixed.py YYYYMMDD YYYYMMDD (range)")
+
+
+if __name__ == "__main__":
+    main()
