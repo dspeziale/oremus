@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 """
-Estrattore completo del Santo del Giorno
-Legge tutti i dettagli da https://www.chiesacattolica.it/santo-del-giorno/
+Estrattore Santo del Giorno
+https://www.chiesacattolica.it/santo-del-giorno/
 """
 import requests
 from bs4 import BeautifulSoup
@@ -15,7 +16,7 @@ import os
 
 
 def clean_text(text):
-    """Pulisce il testo da caratteri speciali e HTML entities"""
+    """Pulisce il testo"""
     if not text:
         return ""
 
@@ -36,46 +37,41 @@ def clean_text(text):
     return text.strip()
 
 
-def extract_santo_giorno(data_liturgia):
-    """Estrae tutti i dettagli dal Santo del Giorno"""
-    url = f"https://www.chiesacattolica.it/santo-del-giorno/?data-liturgia={data_liturgia}"
+def extract_santo_giorno(data):
+    """Estrae santo del giorno"""
+    url = f"https://www.chiesacattolica.it/santo-del-giorno/?data-liturgia={data}"
 
     try:
         headers = {
-            'Accept-Charset': 'utf-8',
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
         }
         response = requests.get(url, timeout=30, headers=headers)
         response.encoding = 'utf-8'
         response.raise_for_status()
-    except requests.RequestException as e:
-        print(f"❌ Errore nel fetching: {e}")
+    except Exception as e:
+        print(f"Errore: {e}")
         return None
 
     soup = BeautifulSoup(response.content, 'html.parser', from_encoding='utf-8')
 
-    # Estrai titolo della pagina per il santo principale
+    # Estrai santo principale dal title
     title_tag = soup.find('title')
     title_text = title_tag.get_text() if title_tag else ""
 
-    # Formato: "Santo del giorno 19 Ottobre 2025 San Paolo della Croce, sacerdote"
     santo_principale = ""
     if " - Chiesacattolica.it" in title_text:
         parts = title_text.replace(" - Chiesacattolica.it", "").split(" ", 4)
         if len(parts) >= 5:
-            # Prendi tutto dopo la data
             santo_principale = " ".join(parts[4:]).strip()
 
-    # Estrai il contenuto principale
+    # Estrai contenuto
     page_text = soup.get_text(separator="\n")
     lines = [clean_text(line) for line in page_text.split("\n") if clean_text(line)]
 
-    # Rimuovi linee di navigazione e metadata
     content_lines = []
     start_extracting = False
 
     for line in lines:
-        # Salta i primi elementi di navigazione
         if "Santo del giorno" in line:
             start_extracting = True
             continue
@@ -83,28 +79,33 @@ def extract_santo_giorno(data_liturgia):
         if start_extracting and line and not line.startswith("http"):
             content_lines.append(line)
 
-    # Dividi per santi individuali (ogni santo inizia con una posizione geografica)
+    # Estrai santi
     santi = []
     current_santo = ""
 
+    # Patterns per inizio santo: posizione geografica o "A " prefixes
+    location_pattern = r'^(A|Ad|Presso|Nel|Nella|Nell|Nell\'|Vicino|In|Presso|A Roma|A Gerusalemme)\s+'
+
     for line in content_lines:
-        # Se la linea inizia con "A ", "Ad ", "Presso ", "Nel ", "Nella " etc - è un nuovo santo
-        if re.match(r'^(A|Ad|Presso|Nel|Nella|Nell|Nell\'|Vicino|Nel|Nella)\s+', line):
+        # Se la linea inizia con location pattern - è un nuovo santo
+        if re.match(location_pattern, line, re.IGNORECASE):
             if current_santo:
-                santi.append(current_santo.strip())
+                # Estrai nome santo e martirologio
+                santo_entry = parse_santo(current_santo)
+                santi.append(santo_entry)
             current_santo = line
         else:
             if current_santo:
                 current_santo += " " + line
 
-    # Aggiungi l'ultimo santo
+    # Aggiungi ultimo santo
     if current_santo:
-        santi.append(current_santo.strip())
+        santo_entry = parse_santo(current_santo)
+        santi.append(santo_entry)
 
-    # Struttura dati
-    santo = {
-        "data": data_liturgia,
-        "data_formattata": formato_data(data_liturgia),
+    return {
+        "data": data,
+        "data_formattata": formato_data(data),
         "url": url,
         "santo_principale": santo_principale,
         "santi_commemorati": santi,
@@ -112,11 +113,33 @@ def extract_santo_giorno(data_liturgia):
         "testo_completo": " ".join(content_lines)
     }
 
-    return santo
+
+def parse_santo(text):
+    """Estrae nome santo e martirologio dal testo"""
+    text = text.strip()
+
+    # Pattern: "A Roma, San Paolo della Croce, sacerdote"
+    # Cerchiamo di separare il nome del santo dal resto
+
+    # Prima, estrai il nome: cerca pattern "San/Santa NOME"
+    name_match = re.search(r'(San|Santa|S\.)\s+([A-Za-z\s]+?)(?:,|\.|—|–|$)', text)
+
+    if name_match:
+        nome = name_match.group(0).replace(',', '').strip()
+    else:
+        nome = ""
+
+    # Il martirologio è il resto del testo
+    martirologio = text.strip()
+
+    return {
+        "nome": nome,
+        "martirologio": martirologio
+    }
 
 
 def formato_data(date_string):
-    """Formatta la data da YYYYMMDD a formato italiano"""
+    """Formatta data"""
     try:
         dt = datetime.strptime(date_string, "%Y%m%d")
         giorni = ["Lunedì", "Martedì", "Mercoledì", "Giovedì", "Venerdì", "Sabato", "Domenica"]
@@ -128,52 +151,18 @@ def formato_data(date_string):
 
 
 def main():
-
-    sys.argv.append('20251019')
-
     if len(sys.argv) < 2:
-        print("📖 Uso: python script.py YYYYMMDD [YYYYMMDD ...]")
-        print("Esempi:")
-        print("  python script.py 20251019")
-        print("  python script.py 20251019 20251020 20251101")
-        return
+        sys.exit(1)
 
-    # Crea directory se non esiste
     os.makedirs("json", exist_ok=True)
 
-    date_args = sys.argv[1:]
-
-    for data in date_args:
-        print(f"\n{'=' * 80}")
-        print(f"ESTRAZIONE SANTO DEL GIORNO - {formato_data(data)}")
-        print(f"{'=' * 80}\n")
-
+    for data in sys.argv[1:]:
         santo = extract_santo_giorno(data)
 
         if santo:
-            # Salva JSON
             output_file = f"json/santo_{data}.json"
             with open(output_file, 'w', encoding='utf-8') as f:
                 json.dump(santo, f, ensure_ascii=False, indent=2)
-            print(f"✅ File salvato: {output_file}\n")
-
-            # Mostra informazioni estratte
-            if santo["santo_principale"]:
-                print(f"🎉 SANTO PRINCIPALE: {santo['santo_principale']}\n")
-
-            print(f"📌 SANTI COMMEMORATI: {santo['numero_santi']}\n")
-
-            for i, s in enumerate(santo["santi_commemorati"][:5], 1):
-                preview = s[:120] + "..." if len(s) > 120 else s
-                print(f"  {i}. {preview}\n")
-
-            if santo['numero_santi'] > 5:
-                print(f"  ... e altri {santo['numero_santi'] - 5} santi\n")
-
-            print(f"{'=' * 80}")
-            print(f"🔗 URL: {santo['url']}\n")
-        else:
-            print("❌ Errore nell'estrazione")
 
 
 if __name__ == "__main__":

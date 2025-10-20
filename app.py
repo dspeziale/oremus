@@ -340,7 +340,7 @@ def calendar():
 
 @app.route('/api/dates/<month>')
 def api_dates(month):
-    """API: ottiene date disponibili per mese"""
+    """API: ottiene date disponibili per mese con santo"""
     try:
         db = get_db()
         cursor = db.conn.cursor()
@@ -348,20 +348,21 @@ def api_dates(month):
         # Converti da 2025-10 a 202510
         month_yyyymm = month.replace('-', '')
 
-        print(f"🔍 Query: SELECT FROM date WHERE data LIKE '{month_yyyymm}%'")
-
         cursor.execute('''
-            SELECT data, data_formattata 
-            FROM date 
-            WHERE data LIKE ?
-            ORDER BY data
+            SELECT d.data, d.data_formattata, s.santo_principale
+            FROM date d
+            LEFT JOIN santo_giorno s ON d.id = s.data_id
+            WHERE d.data LIKE ?
+            ORDER BY d.data
         ''', (month_yyyymm + '%',))
 
-        dates = [{'data': r[0], 'data_fmt': r[1]} for r in cursor.fetchall()]
-
-        print(f"📊 Risultati: {len(dates)} date trovate")
-        for d in dates[:5]:
-            print(f"  - {d['data']}: {d['data_fmt']}")
+        dates = []
+        for r in cursor.fetchall():
+            dates.append({
+                'data': r[0],
+                'data_fmt': r[1],
+                'santo': r[2] if r[2] else ''
+            })
 
         return jsonify({'dates': dates, 'count': len(dates)})
     except Exception as e:

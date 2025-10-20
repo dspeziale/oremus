@@ -307,10 +307,19 @@ class OremusDB:
 
             # Salva santi commemorati
             for i, santo in enumerate(data_dict.get('santi_commemorati', [])):
+                # Gestisci sia il vecchio formato (string) che il nuovo (dict)
+                if isinstance(santo, dict):
+                    nome = santo.get('nome', '')
+                    martirologio = santo.get('martirologio', '')
+                    testo = f"{nome}\n{martirologio}" if nome and martirologio else martirologio
+                else:
+                    # Vecchio formato: stringa
+                    testo = santo
+
                 cursor.execute('''
                     INSERT INTO santo_commemorato (santo_giorno_id, ordine, testo)
                     VALUES (?, ?, ?)
-                ''', (santo_id, i + 1, santo))
+                ''', (santo_id, i + 1, testo))
 
             self.conn.commit()
             return True

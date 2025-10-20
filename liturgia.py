@@ -1,137 +1,146 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 """
-Estrattore completo della Liturgia del Giorno
-Legge tutti i dettagli da https://www.chiesacattolica.it/liturgia-del-giorno/
+Estrattore Liturgia del Giorno - Versione semplificata
 """
 import requests
 from bs4 import BeautifulSoup
 import json
 from datetime import datetime
-import html
-import unicodedata
 import sys
+import os
+import time
 
 
-def clean_text(text):
-    """Pulisce il testo da caratteri speciali e HTML entities"""
-    if not text:
-        return ""
-
-    text = html.unescape(text)
-
-    replacements = {
-        'â€™': "'", 'â€"': "—", 'â€œ': '"', 'â€': '"',
-        'Ã¨': 'è', 'Ã©': 'é', 'Ã¬': 'ì', 'Ã²': 'ò',
-        'Ã¹': 'ù', 'Ã ': 'à', 'Ãˆ': 'È', '\u0001': '',
-    }
-
-    for old, new in replacements.items():
-        text = text.replace(old, new)
-
-    text = unicodedata.normalize('NFC', text)
-    text = ''.join(c for c in text if c in '\n\t' or not unicodedata.category(c).startswith('C'))
-
-    return text.strip()
-
-
-def extract_liturgia_giorno(data_liturgia):
-    """Estrae tutti i dettagli della Liturgia del Giorno"""
-    url = f"https://www.chiesacattolica.it/liturgia-del-giorno/?data-liturgia={data_liturgia}"
+def extract_liturgia_giorno(data):
+    """Estrae la liturgia del giorno"""
+    url = f"https://www.chiesacattolica.it/liturgia-del-giorno/?data-liturgia={data}"
 
     try:
+        # Aggiungi delay e user agent
+        time.sleep(1)
         headers = {
-            'Accept-Charset': 'utf-8',
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
         }
-        response = requests.get(url, timeout=30, headers=headers)
-        response.encoding = 'utf-8'
-        response.raise_for_status()
-    except requests.RequestException as e:
-        print(f"❌ Errore nel fetching: {e}")
+        r = requests.get(url, headers=headers, timeout=30)
+        r.encoding = 'utf-8'
+        r.raise_for_status()
+    except Exception as e:
+        print(f"Errore fetch: {e}")
         return None
 
-    soup = BeautifulSoup(response.content, 'html.parser', from_encoding='utf-8')
+    soup = BeautifulSoup(r.text, 'html.parser')
+
+    # Rimuovi elementi inutili
+    for el in soup(['script', 'style', 'nav', 'footer', 'header']):
+        el.decompose()
+
+    # Cerca il contenuto principale
+    main = soup.find('main')
+    if not main:
+        main = soup.find('article')
+    if not main:
+        main = soup.body
+
+    if not main:
+        print("Nessun contenuto trovato")
+        return None
 
     # Estrai tutto il testo
-    page_text = soup.get_text(separator="\n")
-    lines = [clean_text(line) for line in page_text.split("\n") if clean_text(line)]
+    text = main.get_text('\n', strip=True)
+    lines = [l.strip() for l in text.split('\n') if l.strip()]
 
-    # Struttura dati
-    liturgia = {
-        "data": data_liturgia,
-        "url": url,
-        "sezioni": {}
-    }
+    if len(lines) < 10:
+        print(f"Troppo poche righe: {len(lines)}")
+        return None
 
-    # Estrai sezioni principali
-    current_section = None
-    current_content = []
+    sezioni = {}
+    sezione_attuale = None
+    contenuto = []
+
+    sezioni_keys = [
+        'PRIMA LETTURA',
+        'SALMO RESPONSORIALE',
+        'SECONDA LETTURA',
+        'CANTO AL VANGELO',
+        'ACCLAMAZIONE AL VANGELO',
+        'VANGELO',
+        'SULLE OFFERTE',
+        'ANTIFONA ALLA COMUNIONE',
+        'DOPO LA COMUNIONE'
+    ]
 
     for line in lines:
-        # Identifichi le sezioni principali
-        if line.upper() in [
-            "PRIMA LETTURA", "SALMO RESPONSORIALE", "SECONDA LETTURA",
-            "CANTO AL VANGELO", "VANGELO", "OMELIA", "PREGHIERA DEI FEDELI",
-            "ANTIFONA D'INGRESSO", "ANTIFONA ALLA COMUNIONE", "ANTIFONA DOPO LA COMUNIONE",
-            "INTROITO", "GRADUALE", "ALLELUIA", "TRACCIA", "COMMENTO"
-        ]:
-            if current_section and current_content:
-                liturgia["sezioni"][current_section] = "\n".join(current_content)
-            current_section = line.upper()
-            current_content = []
-        elif current_section:
-            current_content.append(line)
+        # Ferma se trovi testo non liturgico
+        if 'Scarica' in line or 'Privacy' in line or 'Cookie' in line:
+            break
+
+        # Verifica se è intestazione sezione
+        is_header = False
+        for key in sezioni_keys:
+            if line == key or line.upper() == key:
+                # Salva sezione precedente
+                if sezione_attuale and contenuto:
+                    testo = '\n'.join(contenuto).strip()
+
+                    # ANTIFONA ALLA COMUNIONE e DOPO LA COMUNIONE devono finire con "Per Cristo nostro Signore."
+                    if sezione_attuale in ['ANTIFONA ALLA COMUNIONE', 'DOPO LA COMUNIONE']:
+                        if 'Per Cristo nostro Signore.' in testo:
+                            testo = testo[:testo.find('Per Cristo nostro Signore.') + len('Per Cristo nostro Signore.')]
+
+                    sezioni[sezione_attuale] = testo
+
+                sezione_attuale = key
+                contenuto = []
+                is_header = True
+                break
+
+        if not is_header and sezione_attuale:
+            contenuto.append(line)
 
     # Salva ultima sezione
-    if current_section and current_content:
-        liturgia["sezioni"][current_section] = "\n".join(current_content)
+    if sezione_attuale and contenuto:
+        testo = '\n'.join(contenuto).strip()
 
-    return liturgia
+        # ANTIFONA ALLA COMUNIONE e DOPO LA COMUNIONE devono finire con "Per Cristo nostro Signore."
+        if sezione_attuale in ['ANTIFONA ALLA COMUNIONE', 'DOPO LA COMUNIONE']:
+            if 'Per Cristo nostro Signore.' in testo:
+                testo = testo[:testo.find('Per Cristo nostro Signore.') + len('Per Cristo nostro Signore.')]
+
+        sezioni[sezione_attuale] = testo
+
+    return {
+        'data': data,
+        'url': url,
+        'sezioni': sezioni
+    }
 
 
-def formato_data(date_string):
-    """Formatta la data da YYYYMMDD a formato italiano"""
+def formato_data(data_str):
+    """Formatta data"""
     try:
-        dt = datetime.strptime(date_string, "%Y%m%d")
-        giorni = ["Lunedì", "Martedì", "Mercoledì", "Giovedì", "Venerdì", "Sabato", "Domenica"]
-        mesi = ["gennaio", "febbraio", "marzo", "aprile", "maggio", "giugno",
-                "luglio", "agosto", "settembre", "ottobre", "novembre", "dicembre"]
+        dt = datetime.strptime(data_str, '%Y%m%d')
+        giorni = ['Lunedì', 'Martedì', 'Mercoledì', 'Giovedì', 'Venerdì', 'Sabato', 'Domenica']
+        mesi = ['gennaio', 'febbraio', 'marzo', 'aprile', 'maggio', 'giugno',
+                'luglio', 'agosto', 'settembre', 'ottobre', 'novembre', 'dicembre']
         return f"{giorni[dt.weekday()]} {dt.day} {mesi[dt.month - 1]} {dt.year}"
     except:
-        return date_string
+        return data_str
 
 
 def main():
-    sys.argv.append('20251019')
     if len(sys.argv) < 2:
-        print("📖 Uso: python script.py YYYYMMDD")
-        print("Esempio: python script.py 20251019")
-        return
+        sys.exit(1)
 
-    data = sys.argv[1]
+    os.makedirs('json', exist_ok=True)
 
-    print(f"\n{'=' * 70}")
-    print(f"ESTRAZIONE LITURGIA DEL GIORNO - {formato_data(data)}")
-    print(f"{'=' * 70}\n")
+    for data in sys.argv[1:]:
+        liturgia = extract_liturgia_giorno(data)
 
-    liturgia = extract_liturgia_giorno(data)
-
-    if liturgia:
-        # Salva JSON
-        output_file = f"json/liturgia_{data}.json"
-        with open(output_file, 'w', encoding='utf-8') as f:
-            json.dump(liturgia, f, ensure_ascii=False, indent=2)
-        print(f"✅ File salvato: {output_file}")
-
-        # Mostra anteprima
-        print(f"\n📄 Sezioni trovate: {len(liturgia['sezioni'])}")
-        for sezione in liturgia['sezioni']:
-            content_preview = liturgia['sezioni'][sezione][:100].replace('\n', ' ')
-            print(f"  • {sezione}: {content_preview}...")
-
-        print(f"\n🔗 URL: {liturgia['url']}")
-    else:
-        print("❌ Errore nell'estrazione")
+        if liturgia and liturgia['sezioni']:
+            out = f"json/liturgia_{data}.json"
+            with open(out, 'w', encoding='utf-8') as f:
+                json.dump(liturgia, f, ensure_ascii=False, indent=2)
 
 
 if __name__ == "__main__":
