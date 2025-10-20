@@ -1,21 +1,16 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Oremus Web - Applicazione Flask
-Interfaccia web per Liturgia delle Ore da instance/oremus.db
+Oremus Web - Applicazione Flask per Liturgia delle Ore
 """
 import os
 from datetime import datetime, timedelta
-from flask import Flask, render_template, request, jsonify, redirect, url_for
+from flask import Flask, render_template, jsonify, redirect, url_for
 from database import OremusDB
 
 app = Flask(__name__)
 app.config['JSON_AS_ASCII'] = False
 app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
-
-# Inizializza database GLOBALE (per statistiche)
-# Le query useranno connessioni per-request
-_global_db = OremusDB()
 
 
 def get_db():
@@ -51,31 +46,48 @@ def get_data_string(dt_obj):
 
 
 def get_santo(data):
-    """Ottiene santo dal DB"""
+    """Ottiene santo dal DB con commemorati"""
     try:
         db = get_db()
         cursor = db.conn.cursor()
+
+        # Debug: verifica se la data esiste
+        cursor.execute('SELECT id FROM date WHERE data = ?', (data,))
+        date_row = cursor.fetchone()
+        if not date_row:
+            print(f"⚠️ Data non trovata nel DB: {data}")
+            return None
+
+        date_id = date_row[0]
+
         cursor.execute('''
             SELECT id, santo_principale, numero_santi
-            FROM santo_giorno s
-            WHERE s.data_id = (SELECT id FROM date WHERE data = ?)
-        ''', (data,))
+            FROM santo_giorno
+            WHERE data_id = ?
+        ''', (date_id,))
 
         row = cursor.fetchone()
         if not row:
+            print(f"⚠️ Santo non trovato per data: {data}")
             return None
 
         santo_id, santo_principale, numero_santi = row
 
-        # Santi commemorati
+        # Santi commemorati con nome e martirologio
         cursor.execute('''
-            SELECT testo FROM santo_commemorato
+            SELECT nome, martirologio FROM santo_commemorato
             WHERE santo_giorno_id = ?
             ORDER BY ordine
-            LIMIT 5
         ''', (santo_id,))
 
-        commemorati = [r[0] for r in cursor.fetchall()]
+        commemorati = []
+        for r in cursor.fetchall():
+            commemorati.append({
+                'nome': r[0],
+                'martirologio': r[1]
+            })
+
+        print(f"✅ Santo caricato: {santo_principale} ({len(commemorati)} commemorati)")
 
         return {
             'principale': santo_principale,
@@ -83,7 +95,9 @@ def get_santo(data):
             'commemorati': commemorati
         }
     except Exception as e:
-        print(f"Errore get_santo: {e}")
+        print(f"❌ Errore get_santo: {e}")
+        import traceback
+        traceback.print_exc()
         return None
 
 
@@ -112,7 +126,7 @@ def get_lodi(data):
             ORDER BY numero
         ''', (lodi_id,))
 
-        salmodia = [{'numero': r[0], 'antifona': r[1], 'titolo': r[2], 'testo': r[3]}
+        salmodia = [{'numero': r[0], 'antifona_inizio': r[1], 'titolo': r[2], 'testo': r[3]}
                     for r in cursor.fetchall()]
 
         # Lettura breve
@@ -173,7 +187,7 @@ def get_vespri(data):
             ORDER BY numero
         ''', (vespri_id,))
 
-        salmodia = [{'numero': r[0], 'antifona': r[1], 'titolo': r[2], 'testo': r[3]}
+        salmodia = [{'numero': r[0], 'antifona_inizio': r[1], 'titolo': r[2], 'testo': r[3]}
                     for r in cursor.fetchall()]
 
         # Lettura breve
@@ -246,17 +260,6 @@ def get_liturgia(data):
         return None
 
 
-def date_exists(data):
-    """Verifica se data esiste nel DB"""
-    try:
-        db = get_db()
-        cursor = db.conn.cursor()
-        cursor.execute('SELECT id FROM date WHERE data = ?', (data,))
-        return cursor.fetchone() is not None
-    except:
-        return False
-
-
 @app.route('/')
 def index():
     """Home - reindirizza a oggi"""
@@ -305,7 +308,7 @@ def day(data):
 def calendar():
     """Pagina calendario"""
     today = datetime.now()
-    current_month = today.strftime("%Y%m")
+    current_month = today.strftime("%Y-%m")
 
     return render_template('calendar.html', current_month=current_month)
 
@@ -317,10 +320,7 @@ def api_dates(month):
         db = get_db()
         cursor = db.conn.cursor()
 
-        # Converti da 2025-10 a 202510
         month_yyyymm = month.replace('-', '')
-
-        print(f"🔍 Query: SELECT FROM date WHERE data LIKE '{month_yyyymm}%'")
 
         cursor.execute('''
             SELECT data, data_formattata 
@@ -331,38 +331,10 @@ def api_dates(month):
 
         dates = [{'data': r[0], 'data_fmt': r[1]} for r in cursor.fetchall()]
 
-        print(f"📊 Risultati: {len(dates)} date trovate")
-        for d in dates[:5]:
-            print(f"  - {d['data']}: {d['data_fmt']}")
-
         return jsonify({'dates': dates, 'count': len(dates)})
     except Exception as e:
         print(f"❌ Errore API: {e}")
         return jsonify({'dates': [], 'error': str(e)})
-
-
-@app.route('/api/search')
-def api_search():
-    """API: ricerca data"""
-    q = request.args.get('q', '')
-
-    if len(q) < 8:
-        return jsonify({'results': []})
-
-    try:
-        db = get_db()
-        cursor = db.conn.cursor()
-        cursor.execute('''
-            SELECT data, data_formattata FROM date
-            WHERE data LIKE ?
-            ORDER BY data DESC
-            LIMIT 10
-        ''', (q + '%',))
-
-        results = [{'data': r[0], 'data_fmt': r[1]} for r in cursor.fetchall()]
-        return jsonify({'results': results})
-    except:
-        return jsonify({'results': []})
 
 
 @app.route('/about')
@@ -409,4 +381,4 @@ def inject_now():
 
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=59000, threaded=True)
+    app.run(debug=True, host='0.0.0.0', port=5000, threaded=True)

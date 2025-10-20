@@ -3,183 +3,243 @@
 {% block title %}Chi Siamo - Oremus{% endblock %}
 
 {% block content %}
-<div class="container py-5">
-    <div class="row">
-        <!-- Informazioni Generali -->
-        <div class="col-lg-8">
-            <div class="card mb-4">
-                <div class="card-header" style="background-color: #2c3e50; color: white;">
-                    <h3 class="mb-0">
-                        <i class="fas fa-book-open"></i> Oremus
-                    </h3>
-                </div>
-                <div class="card-body">
-                    <p class="lead">
-                        <strong>Oremus</strong> è una piattaforma web moderna per accedere alla
-                        <strong>Liturgia delle Ore</strong> della Chiesa Cattolica Italiana
-                        direttamente dal tuo smartphone, tablet o computer.
-                    </p>
 
-                    <h5 class="mt-4">
-                        <i class="fas fa-star"></i> Caratteristiche
-                    </h5>
-                    <ul class="list-unstyled">
-                        <li class="mb-2">
-                            <i class="fas fa-check text-success"></i>
-                            <strong>Santo del Giorno</strong> - Leggi la vita e le commemorazioni
-                        </li>
-                        <li class="mb-2">
-                            <i class="fas fa-check text-success"></i>
-                            <strong>Lodi Mattutine</strong> - Salmi, antifone e cantico evangelico
-                        </li>
-                        <li class="mb-2">
-                            <i class="fas fa-check text-success"></i>
-                            <strong>Vespri</strong> - Salmi, Magnificat e intercessioni
-                        </li>
-                        <li class="mb-2">
-                            <i class="fas fa-check text-success"></i>
-                            <strong>Liturgia del Giorno</strong> - Letture e Vangelo della Messa
-                        </li>
-                        <li class="mb-2">
-                            <i class="fas fa-check text-success"></i>
-                            <strong>Calendario Liturgico</strong> - Naviga facilmente i giorni
-                        </li>
-                        <li class="mb-2">
-                            <i class="fas fa-check text-success"></i>
-                            <strong>Responsive Design</strong> - Perfetto su smartphone e desktop
-                        </li>
-                    </ul>
+<h1 style="font-weight: 700; margin-bottom: 1rem; color: #0f172a;">
+    <i class="fas fa-info-circle" style="color: #6366f1;"></i> Chi Siamo
+</h1>
 
-                    <h5 class="mt-4">
-                        <i class="fas fa-info-circle"></i> Fonte Dati
-                    </h5>
-                    <p>
-                        I dati liturgici sono estratti da
-                        <a href="https://www.chiesacattolica.it/" target="_blank" class="link-primary">
-                            www.chiesacattolica.it
-                        </a>
-                        - il sito ufficiale della Chiesa Cattolica Italiana.
-                    </p>
+<p style="font-size: 1.1rem; color: #4b5563; margin-bottom: 3rem;">
+    Scopri Oremus, la piattaforma moderna per la Liturgia delle Ore
+</p>
 
-                    <h5 class="mt-4">
-                        <i class="fas fa-cogs"></i> Tecnologie Utilizzate
-                    </h5>
-                    <div class="row g-2">
-                        <div class="col-auto">
-                            <span class="badge bg-primary">Python</span>
-                        </div>
-                        <div class="col-auto">
-                            <span class="badge bg-primary">Flask</span>
-                        </div>
-                        <div class="col-auto">
-                            <span class="badge bg-success">SQLite</span>
-                        </div>
-                        <div class="col-auto">
-                            <span class="badge bg-info">Bootstrap 5</span>
-                        </div>
-                        <div class="col-auto">
-                            <span class="badge bg-secondary">HTML5/CSS3</span>
-                        </div>
-                    </div>
-                </div>
+<div class="row g-4">
+    <!-- Main Content -->
+    <div class="col-lg-8">
+        <div class="card">
+            <div class="card-header">
+                <i class="fas fa-book-open"></i>
+                <h5>Cos'è Oremus?</h5>
             </div>
-        </div>
+            <div class="card-body">
+                <p style="line-height: 1.8; color: #4b5563;">
+                    <strong>Oremus</strong> è una piattaforma web moderna e intuitiva per accedere alla
+                    <strong>Liturgia delle Ore</strong> della Chiesa Cattolica Italiana. Leggi i salmi,
+                    le letture, i vangeli e le preghiere di ogni giorno direttamente dal tuo smartphone, tablet o computer.
+                </p>
 
-        <!-- Statistiche -->
-        <div class="col-lg-4">
-            <div class="card mb-4 border-start border-5" style="border-color: #3498db !important;">
-                <div class="card-header bg-light">
-                    <h5 class="mb-0">
-                        <i class="fas fa-chart-bar"></i> Statistiche Database
-                    </h5>
-                </div>
-                <div class="card-body">
-                    <div class="mb-3">
-                        <div class="d-flex justify-content-between">
-                            <span>📅 <strong>Date</strong></span>
-                            <span class="badge bg-primary">{{ stats.date }}</span>
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        <div class="d-flex justify-content-between">
-                            <span>🎉 <strong>Santi</strong></span>
-                            <span class="badge bg-warning">{{ stats.santo }}</span>
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        <div class="d-flex justify-content-between">
-                            <span>☀️ <strong>Lodi</strong></span>
-                            <span class="badge bg-success">{{ stats.lodi }}</span>
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        <div class="d-flex justify-content-between">
-                            <span>🌙 <strong>Vespri</strong></span>
-                            <span class="badge bg-info">{{ stats.vespri }}</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                <h5 class="section-title" style="margin-top: 2rem;">
+                    <i class="fas fa-star"></i> Caratteristiche
+                </h5>
 
-            <!-- Link Utili -->
-            <div class="card border-start border-5" style="border-color: #27ae60 !important;">
-                <div class="card-header bg-light">
-                    <h5 class="mb-0">
-                        <i class="fas fa-link"></i> Link Utili
-                    </h5>
+                <div style="display: grid; gap: 1rem;">
+                    <div style="display: flex; gap: 1rem;">
+                        <div style="color: #10b981; font-size: 1.3rem;">
+                            <i class="fas fa-check"></i>
+                        </div>
+                        <div>
+                            <strong>Santo del Giorno</strong>
+                            <p style="margin: 0.25rem 0 0 0; color: #6b7280; font-size: 0.9rem;">
+                                Scopri la vita dei santi e le commemorazioni di ogni giorno
+                            </p>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; gap: 1rem;">
+                        <div style="color: #10b981; font-size: 1.3rem;">
+                            <i class="fas fa-check"></i>
+                        </div>
+                        <div>
+                            <strong>Lodi Mattutine</strong>
+                            <p style="margin: 0.25rem 0 0 0; color: #6b7280; font-size: 0.9rem;">
+                                Salmi, antifone e cantico evangelico del Benedictus
+                            </p>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; gap: 1rem;">
+                        <div style="color: #10b981; font-size: 1.3rem;">
+                            <i class="fas fa-check"></i>
+                        </div>
+                        <div>
+                            <strong>Vespri Serali</strong>
+                            <p style="margin: 0.25rem 0 0 0; color: #6b7280; font-size: 0.9rem;">
+                                Salmi, Magnificat e intercessioni per la sera
+                            </p>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; gap: 1rem;">
+                        <div style="color: #10b981; font-size: 1.3rem;">
+                            <i class="fas fa-check"></i>
+                        </div>
+                        <div>
+                            <strong>Liturgia della Messa</strong>
+                            <p style="margin: 0.25rem 0 0 0; color: #6b7280; font-size: 0.9rem;">
+                                Letture, Salmo Responsoriale e Vangelo di ogni giorno
+                            </p>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; gap: 1rem;">
+                        <div style="color: #10b981; font-size: 1.3rem;">
+                            <i class="fas fa-check"></i>
+                        </div>
+                        <div>
+                            <strong>Calendario Intuitivo</strong>
+                            <p style="margin: 0.25rem 0 0 0; color: #6b7280; font-size: 0.9rem;">
+                                Naviga facilmente tra i giorni e i mesi
+                            </p>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; gap: 1rem;">
+                        <div style="color: #10b981; font-size: 1.3rem;">
+                            <i class="fas fa-check"></i>
+                        </div>
+                        <div>
+                            <strong>Responsive Design</strong>
+                            <p style="margin: 0.25rem 0 0 0; color: #6b7280; font-size: 0.9rem;">
+                                Perfetto su smartphone, tablet e desktop
+                            </p>
+                        </div>
+                    </div>
                 </div>
-                <div class="card-body">
-                    <a href="https://www.chiesacattolica.it/" target="_blank" class="btn btn-sm btn-outline-primary w-100 mb-2">
-                        <i class="fas fa-external-link-alt"></i> Chiesa Cattolica Italiana
+
+                <h5 class="section-title" style="margin-top: 2rem;">
+                    <i class="fas fa-link"></i> Fonte Dati
+                </h5>
+                <p style="color: #4b5563;">
+                    I dati liturgici sono estratti da
+                    <a href="https://www.chiesacattolica.it/" target="_blank" style="color: #6366f1; text-decoration: none; font-weight: 600;">
+                        www.chiesacattolica.it <i class="fas fa-external-link-alt" style="font-size: 0.8rem; margin-left: 0.25rem;"></i>
                     </a>
-                    <a href="/" class="btn btn-sm btn-outline-success w-100">
-                        <i class="fas fa-home"></i> Torna alla Home
-                    </a>
+                    — il sito ufficiale della Chiesa Cattolica Italiana.
+                </p>
+
+                <h5 class="section-title" style="margin-top: 2rem;">
+                    <i class="fas fa-code"></i> Tecnologie
+                </h5>
+                <div style="display: flex; flex-wrap: wrap; gap: 0.75rem;">
+                    <span style="background: #eff6ff; color: #0c4a6e; padding: 0.5rem 1rem; border-radius: 6px; font-size: 0.85rem; font-weight: 600;">Python 3.8+</span>
+                    <span style="background: #eff6ff; color: #0c4a6e; padding: 0.5rem 1rem; border-radius: 6px; font-size: 0.85rem; font-weight: 600;">Flask 3.0</span>
+                    <span style="background: #f0fdf4; color: #14532d; padding: 0.5rem 1rem; border-radius: 6px; font-size: 0.85rem; font-weight: 600;">SQLite</span>
+                    <span style="background: #f0f4ff; color: #3730a3; padding: 0.5rem 1rem; border-radius: 6px; font-size: 0.85rem; font-weight: 600;">Bootstrap 5</span>
+                    <span style="background: #fef3c7; color: #78350f; padding: 0.5rem 1rem; border-radius: 6px; font-size: 0.85rem; font-weight: 600;">Responsive Web Design</span>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Sezione Come Usare -->
-    <div class="card mt-4">
-        <div class="card-header" style="background-color: #f39c12; color: white;">
-            <h5 class="mb-0">
-                <i class="fas fa-graduation-cap"></i> Come Usare Oremus
-            </h5>
+    <!-- Sidebar -->
+    <div class="col-lg-4">
+        <!-- Stats Card -->
+        <div class="card">
+            <div class="card-header" style="background: linear-gradient(135deg, #6366f1 0%, #818cf8 100%);">
+                <i class="fas fa-chart-bar"></i>
+                <h5 style="color: white;">Statistiche</h5>
+            </div>
+            <div class="card-body">
+                <div style="font-size: 0.95rem;">
+                    <div class="mb-3" style="display: flex; justify-content: space-between; padding-bottom: 0.75rem; border-bottom: 1px solid #e5e7eb;">
+                        <span><i class="fas fa-calendar me-2" style="color: #6366f1;"></i>Date nel DB</span>
+                        <strong style="color: #6366f1;">{{ stats.date }}</strong>
+                    </div>
+                    <div class="mb-3" style="display: flex; justify-content: space-between; padding-bottom: 0.75rem; border-bottom: 1px solid #e5e7eb;">
+                        <span><i class="fas fa-cross me-2" style="color: #ef4444;"></i>Santi</span>
+                        <strong style="color: #ef4444;">{{ stats.santo }}</strong>
+                    </div>
+                    <div class="mb-3" style="display: flex; justify-content: space-between; padding-bottom: 0.75rem; border-bottom: 1px solid #e5e7eb;">
+                        <span><i class="fas fa-sun me-2" style="color: #f59e0b;"></i>Lodi</span>
+                        <strong style="color: #f59e0b;">{{ stats.lodi }}</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                        <span><i class="fas fa-moon me-2" style="color: #10b981;"></i>Vespri</span>
+                        <strong style="color: #10b981;">{{ stats.vespri }}</strong>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="card-body">
-            <div class="row">
-                <div class="col-md-6 mb-3">
-                    <h6><i class="fas fa-calendar"></i> 1. Seleziona una Data</h6>
-                    <p class="small">
-                        Usa la pagina <strong>Calendario</strong> oppure seleziona direttamente da questa pagina.
-                        Puoi navigare usando i pulsanti precedente/successivo.
+
+        <!-- Links Card -->
+        <div class="card mt-3">
+            <div class="card-header">
+                <i class="fas fa-external-link-alt"></i>
+                <h5>Link Utili</h5>
+            </div>
+            <div class="card-body">
+                <div class="d-grid gap-2">
+                    <a href="https://www.chiesacattolica.it/" target="_blank" class="btn btn-outline-primary btn-sm">
+                        <i class="fas fa-external-link-alt me-2"></i>Chiesa Cattolica
+                    </a>
+                    <a href="/" class="btn btn-primary btn-sm">
+                        <i class="fas fa-home me-2"></i>Torna alla Home
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- How to Use Section -->
+<div class="card mt-4">
+    <div class="card-header" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);">
+        <i class="fas fa-graduation-cap"></i>
+        <h5 style="color: white;">Come Usare Oremus</h5>
+    </div>
+    <div class="card-body">
+        <div class="row g-3">
+            <div class="col-md-6">
+                <div style="padding: 1rem; background: #f0fdf4; border-radius: 8px; border-left: 4px solid #10b981;">
+                    <h6 style="color: #059669; font-weight: 600; margin-bottom: 0.5rem;">
+                        <i class="fas fa-calendar me-2"></i>1. Seleziona una Data
+                    </h6>
+                    <p style="margin: 0; font-size: 0.85rem; color: #047857;">
+                        Usa il calendario o i pulsanti di navigazione per scegliere il giorno
                     </p>
                 </div>
-                <div class="col-md-6 mb-3">
-                    <h6><i class="fas fa-book"></i> 2. Esplora i Contenuti</h6>
-                    <p class="small">
-                        Visualizza Santo del Giorno, Lodi, Vespri e Liturgia.
-                        Scorri per leggere i testi completi.
+            </div>
+            <div class="col-md-6">
+                <div style="padding: 1rem; background: #eff6ff; border-radius: 8px; border-left: 4px solid #0284c7;">
+                    <h6 style="color: #0369a1; font-weight: 600; margin-bottom: 0.5rem;">
+                        <i class="fas fa-book me-2"></i>2. Esplora i Contenuti
+                    </h6>
+                    <p style="margin: 0; font-size: 0.85rem; color: #0c4a6e;">
+                        Visualizza Santo, Lodi, Vespri e Liturgia in tab separati
                     </p>
                 </div>
-                <div class="col-md-6 mb-3">
-                    <h6><i class="fas fa-expand"></i> 3. Espandi i Testi</h6>
-                    <p class="small">
-                        Clicca su "Leggi completo" per visualizzare il testo intero in una modal.
-                        Perfetto per leggere su smartphone.
+            </div>
+            <div class="col-md-6">
+                <div style="padding: 1rem; background: #fef3c7; border-radius: 8px; border-left: 4px solid #f59e0b;">
+                    <h6 style="color: #b45309; font-weight: 600; margin-bottom: 0.5rem;">
+                        <i class="fas fa-mobile-alt me-2"></i>3. Accedi da Qualsiasi Dispositivo
+                    </h6>
+                    <p style="margin: 0; font-size: 0.85rem; color: #92400e;">
+                        L'interfaccia si adatta perfettamente a smartphone e desktop
                     </p>
                 </div>
-                <div class="col-md-6 mb-3">
-                    <h6><i class="fas fa-mobile-alt"></i> 4. Usa su Smartphone</h6>
-                    <p class="small">
-                        L'interfaccia è completamente responsive.
-                        Accedi da qualsiasi dispositivo!
+            </div>
+            <div class="col-md-6">
+                <div style="padding: 1rem; background: #fce7f3; border-radius: 8px; border-left: 4px solid #ec4899;">
+                    <h6 style="color: #be185d; font-weight: 600; margin-bottom: 0.5rem;">
+                        <i class="fas fa-prayer-beads me-2"></i>4. Leggi la Liturgia
+                    </h6>
+                    <p style="margin: 0; font-size: 0.85rem; color: #9d174d;">
+                        Leggi i testi completi in modo chiaro e leggibile
                     </p>
                 </div>
             </div>
         </div>
     </div>
+</div>
+
+<!-- Footer Info -->
+<div style="text-align: center; margin-top: 3rem; padding-top: 2rem; border-top: 1px solid #e5e7eb; color: #9ca3af;">
+    <p style="margin: 0; font-size: 0.9rem;">
+        <i class="fas fa-heart" style="color: #ef4444;"></i> Sviluppato per la comunità cattolica
+    </p>
+    <p style="margin: 0.5rem 0 0 0; font-size: 0.85rem;">
+        © 2025 OREMUS | Fonte: Chiesa Cattolica Italiana
+    </p>
 </div>
 
 {% endblock %}

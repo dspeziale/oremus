@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 """
-Database SQLite per Oremus - Schema e gestione
+Database SQLite per OREMUS - Gestione completa della Liturgia delle Ore
 """
 import sqlite3
 import os
@@ -15,9 +16,7 @@ class OremusDB:
 
     def __init__(self):
         """Inizializza connessione e crea tabelle se necessario"""
-        # Crea directory instance se non esiste
         os.makedirs("instance", exist_ok=True)
-
         self.conn = None
         self.connect()
         self.create_tables()
@@ -37,7 +36,7 @@ class OremusDB:
         """Crea tabelle del database"""
         cursor = self.conn.cursor()
 
-        # Tabella principale Date
+        # Tabella Date
         cursor.execute('''
             CREATE TABLE IF NOT EXISTS date (
                 id INTEGER PRIMARY KEY,
@@ -68,7 +67,8 @@ class OremusDB:
                 id INTEGER PRIMARY KEY,
                 santo_giorno_id INTEGER NOT NULL,
                 ordine INTEGER,
-                testo TEXT,
+                nome TEXT,
+                martirologio TEXT,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 FOREIGN KEY(santo_giorno_id) REFERENCES santo_giorno(id) ON DELETE CASCADE
             )
@@ -154,20 +154,6 @@ class OremusDB:
             )
         ''')
 
-        # Tabella Invocazioni Lodi
-        cursor.execute('''
-            CREATE TABLE IF NOT EXISTS invocazione_lodi (
-                id INTEGER PRIMARY KEY,
-                lodi_mattutine_id INTEGER NOT NULL,
-                introduzione TEXT,
-                ordine INTEGER,
-                titolo TEXT,
-                testo TEXT,
-                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                FOREIGN KEY(lodi_mattutine_id) REFERENCES lodi_mattutine(id) ON DELETE CASCADE
-            )
-        ''')
-
         # Tabella Vespri
         cursor.execute('''
             CREATE TABLE IF NOT EXISTS vespri (
@@ -226,20 +212,6 @@ class OremusDB:
             )
         ''')
 
-        # Tabella Intercessioni Vespri
-        cursor.execute('''
-            CREATE TABLE IF NOT EXISTS intercessione_vespri (
-                id INTEGER PRIMARY KEY,
-                vespri_id INTEGER NOT NULL,
-                introduzione TEXT,
-                ordine INTEGER,
-                titolo TEXT,
-                risposta TEXT,
-                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                FOREIGN KEY(vespri_id) REFERENCES vespri(id) ON DELETE CASCADE
-            )
-        ''')
-
         # Tabella Log Estrazione
         cursor.execute('''
             CREATE TABLE IF NOT EXISTS extraction_log (
@@ -264,7 +236,6 @@ class OremusDB:
             if row:
                 return row[0]
 
-            # Estrai giorno della settimana
             from datetime import datetime
             dt = datetime.strptime(data, "%Y%m%d")
             giorni = ["Lunedì", "Martedì", "Mercoledì", "Giovedì", "Venerdì", "Sabato", "Domenica"]
@@ -282,13 +253,19 @@ class OremusDB:
             return None
 
     def save_santo_giorno(self, data_dict):
-        """Salva Santo del Giorno e santi commemorati"""
+        """Salva Santo del Giorno e santi commemorati con nome e martirologio separati"""
         try:
             date_id = self.get_or_create_date(data_dict['data'], data_dict.get('data_formattata', ''))
             if not date_id:
+                print(f"❌ Errore: impossibile creare/trovare data")
                 return False
 
             cursor = self.conn.cursor()
+
+            santo_principale = data_dict.get('santo_principale', '')
+            santi_commemorati = data_dict.get('santi_commemorati', [])
+
+            print(f"💾 Salvando santo: {santo_principale} con {len(santi_commemorati)} commemorati")
 
             # Salva santo principale
             cursor.execute('''
@@ -297,25 +274,39 @@ class OremusDB:
                 VALUES (?, ?, ?, ?, ?)
             ''', (
                 date_id,
-                data_dict.get('santo_principale', ''),
-                data_dict.get('numero_santi', 0),
+                santo_principale,
+                len(santi_commemorati),
                 data_dict.get('testo_completo', ''),
                 data_dict.get('url', '')
             ))
 
             santo_id = cursor.lastrowid
 
-            # Salva santi commemorati
-            for i, santo in enumerate(data_dict.get('santi_commemorati', [])):
-                cursor.execute('''
-                    INSERT INTO santo_commemorato (santo_giorno_id, ordine, testo)
-                    VALUES (?, ?, ?)
-                ''', (santo_id, i + 1, santo))
+            # Salva santi commemorati con nome e martirologio separati
+            for i, santo_item in enumerate(santi_commemorati):
+                # Gestisce sia formato dict che stringa
+                if isinstance(santo_item, dict):
+                    nome = santo_item.get('nome', '')
+                    martirologio = santo_item.get('martirologio', '')
+                else:
+                    # Se è stringa, usa come nome
+                    nome = str(santo_item)
+                    martirologio = ''
+
+                if nome.strip():  # Solo se c'è un nome
+                    cursor.execute('''
+                        INSERT INTO santo_commemorato (santo_giorno_id, ordine, nome, martirologio)
+                        VALUES (?, ?, ?, ?)
+                    ''', (santo_id, i + 1, nome, martirologio))
+                    print(f"  ✓ Commemorato {i + 1}: {nome}")
 
             self.conn.commit()
+            print(f"✅ Santo salvato con successo")
             return True
         except Exception as e:
             print(f"❌ Errore save_santo_giorno: {e}")
+            import traceback
+            traceback.print_exc()
             return False
 
     def save_liturgia_giorno(self, data_dict):
@@ -327,7 +318,6 @@ class OremusDB:
 
             cursor = self.conn.cursor()
 
-            # Salva liturgia principale
             cursor.execute('''
                 INSERT OR REPLACE INTO liturgia_giorno (data_id, url)
                 VALUES (?, ?)
@@ -335,7 +325,6 @@ class OremusDB:
 
             liturgia_id = cursor.lastrowid
 
-            # Salva letture
             ordine = 0
             for sezione, contenuto in data_dict.get('sezioni', {}).items():
                 cursor.execute('''
@@ -360,7 +349,6 @@ class OremusDB:
 
             cursor = self.conn.cursor()
 
-            # Salva lodi principale
             cursor.execute('''
                 INSERT OR REPLACE INTO lodi_mattutine
                 (data_id, introduzione, inno, responsorio_breve, orazione, conclusione, url)
@@ -418,23 +406,6 @@ class OremusDB:
                     cantico.get('dossologia', '')
                 ))
 
-            # Salva invocazioni
-            invocazioni = data_dict.get('invocazioni', {})
-            if invocazioni:
-                cursor.execute('''
-                    INSERT INTO invocazione_lodi
-                    (lodi_mattutine_id, introduzione, ordine)
-                    VALUES (?, ?, ?)
-                ''', (lodi_id, invocazioni.get('introduzione', ''), 0))
-
-                inv_id = cursor.lastrowid
-                for i, inv in enumerate(invocazioni.get('lista', [])):
-                    cursor.execute('''
-                        INSERT INTO invocazione_lodi
-                        (lodi_mattutine_id, titolo, testo, ordine)
-                        VALUES (?, ?, ?, ?)
-                    ''', (lodi_id, inv.get('titolo', ''), inv.get('testo', ''), i + 1))
-
             self.conn.commit()
             return True
         except Exception as e:
@@ -450,7 +421,6 @@ class OremusDB:
 
             cursor = self.conn.cursor()
 
-            # Salva vespri principale
             cursor.execute('''
                 INSERT OR REPLACE INTO vespri
                 (data_id, introduzione, inno, responsorio_breve, orazione, conclusione, url)
@@ -510,22 +480,6 @@ class OremusDB:
                     cantico.get('testo', ''),
                     cantico.get('dossologia', '')
                 ))
-
-            # Salva intercessioni
-            intercessioni = data_dict.get('invocazioni', {})
-            if intercessioni:
-                cursor.execute('''
-                    INSERT INTO intercessione_vespri
-                    (vespri_id, introduzione, ordine)
-                    VALUES (?, ?, ?)
-                ''', (vespri_id, intercessioni.get('introduzione', ''), 0))
-
-                for i, inv in enumerate(intercessioni.get('lista', [])):
-                    cursor.execute('''
-                        INSERT INTO intercessione_vespri
-                        (vespri_id, titolo, risposta, ordine)
-                        VALUES (?, ?, ?, ?)
-                    ''', (vespri_id, inv.get('titolo', ''), inv.get('risposta', ''), i + 1))
 
             self.conn.commit()
             return True

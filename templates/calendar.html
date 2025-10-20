@@ -3,92 +3,92 @@
 {% block title %}Calendario - Oremus{% endblock %}
 
 {% block content %}
-<div class="container">
-    <h1 class="mb-4">
-        <i class="fas fa-calendar"></i> Calendario Liturgico
-    </h1>
 
-    <div class="row">
-        <!-- Pannello Navigazione -->
-        <div class="col-lg-3 col-md-4 mb-4">
-            <div class="card">
-                <div class="card-header" style="background-color: #2c3e50; color: white;">
-                    <i class="fas fa-search"></i> Ricerca Data
-                </div>
-                <div class="card-body">
-                    <!-- Input data -->
-                    <div class="mb-3">
-                        <label for="dateInput" class="form-label">Seleziona data:</label>
-                        <input type="date" id="dateInput" class="form-control">
-                    </div>
+<h1 style="font-weight: 700; margin-bottom: 2rem; color: #0f172a;">
+    <i class="fas fa-calendar-days" style="color: #6366f1;"></i> Calendario Liturgico
+</h1>
 
-                    <!-- Pulsante vai -->
-                    <button class="btn btn-primary w-100" id="gotoDateBtn">
-                        <i class="fas fa-arrow-right"></i> Vai
-                    </button>
-
-                    <hr>
-
-                    <!-- Scorciatoie -->
-                    <h6 class="mb-3">Scorciatoie</h6>
-                    <button class="btn btn-outline-secondary btn-sm w-100 mb-2" id="todayBtn">
-                        <i class="fas fa-calendar-day"></i> Oggi
-                    </button>
-                    <button class="btn btn-outline-secondary btn-sm w-100 mb-2" id="tomorrowBtn">
-                        <i class="fas fa-calendar"></i> Domani
-                    </button>
-                    <button class="btn btn-outline-secondary btn-sm w-100 mb-2" id="nextWeekBtn">
-                        <i class="fas fa-calendar"></i> Prossima settimana
-                    </button>
-                </div>
+<div class="row g-4">
+    <!-- SIDEBAR -->
+    <div class="col-lg-3">
+        <!-- Ricerca -->
+        <div class="card">
+            <div class="card-header">
+                <i class="fas fa-search"></i>
+                <h5>Ricerca Data</h5>
             </div>
-
-            <!-- Statistiche -->
-            <div class="card mt-4">
-                <div class="card-header" style="background-color: #27ae60; color: white;">
-                    <i class="fas fa-chart-bar"></i> Statistiche
+            <div class="card-body">
+                <div class="mb-3">
+                    <label class="form-label" for="dateInput">Seleziona data:</label>
+                    <input type="date" id="dateInput" class="form-control">
                 </div>
-                <div class="card-body">
-                    <div id="statsContainer">
-                        <div class="spinner-border spinner-border-sm text-primary" role="status">
-                            <span class="visually-hidden">Caricamento...</span>
-                        </div>
-                    </div>
+                <button class="btn btn-primary w-100" id="gotoDateBtn">
+                    <i class="fas fa-arrow-right me-2"></i>Vai
+                </button>
+
+                <hr class="my-3">
+
+                <h6 class="mb-2">Scorciatoie</h6>
+                <div class="d-grid gap-2">
+                    <button class="btn btn-outline-secondary btn-sm" id="todayBtn">
+                        <i class="fas fa-calendar-day me-2"></i>Oggi
+                    </button>
+                    <button class="btn btn-outline-secondary btn-sm" id="tomorrowBtn">
+                        <i class="fas fa-calendar me-2"></i>Domani
+                    </button>
+                    <button class="btn btn-outline-secondary btn-sm" id="nextWeekBtn">
+                        <i class="fas fa-calendar me-2"></i>Prossima settimana
+                    </button>
                 </div>
             </div>
         </div>
 
-        <!-- Pannello Calendario -->
-        <div class="col-lg-9 col-md-8">
-            <div class="card">
-                <div class="card-header" style="background-color: #3498db; color: white;">
-                    <i class="fas fa-calendar-alt"></i> Date Disponibili
-                    <span id="monthDisplay" class="float-end"></span>
-                </div>
-                <div class="card-body">
-                    <!-- Selezione mese -->
-                    <div class="row mb-4">
-                        <div class="col">
-                            <button class="btn btn-outline-primary" id="prevMonthBtn">
-                                <i class="fas fa-chevron-left"></i> Mese Precedente
-                            </button>
-                        </div>
-                        <div class="col text-center">
-                            <h5 id="currentMonth"></h5>
-                        </div>
-                        <div class="col text-end">
-                            <button class="btn btn-outline-primary" id="nextMonthBtn">
-                                Mese Successivo <i class="fas fa-chevron-right"></i>
-                            </button>
-                        </div>
+        <!-- Stats -->
+        <div class="card mt-3">
+            <div class="card-header">
+                <i class="fas fa-chart-bar"></i>
+                <h5>Statistiche</h5>
+            </div>
+            <div class="card-body">
+                <div id="statsContainer">
+                    <div class="spinner-border spinner-border-sm" role="status">
+                        <span class="visually-hidden">Caricamento...</span>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-                    <!-- Calendario -->
-                    <div id="datesContainer">
-                        <div class="text-center">
-                            <div class="spinner-border text-primary" role="status">
-                                <span class="visually-hidden">Caricamento...</span>
-                            </div>
+    <!-- MAIN CALENDAR -->
+    <div class="col-lg-9">
+        <div class="card">
+            <div class="card-header">
+                <i class="fas fa-calendar-alt"></i>
+                <h5>Date Disponibili</h5>
+            </div>
+            <div class="card-body">
+                <!-- Month Navigation -->
+                <div class="row align-items-center mb-4">
+                    <div class="col">
+                        <button class="btn btn-outline-secondary btn-sm" id="prevMonthBtn">
+                            <i class="fas fa-chevron-left me-2"></i>Precedente
+                        </button>
+                    </div>
+                    <div class="col text-center">
+                        <h5 id="currentMonth" style="margin: 0; font-weight: 600; color: #0f172a;"></h5>
+                    </div>
+                    <div class="col text-end">
+                        <button class="btn btn-outline-secondary btn-sm" id="nextMonthBtn">
+                            Successivo<i class="fas fa-chevron-right ms-2"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Calendar Grid -->
+                <div id="datesContainer">
+                    <div class="text-center py-5">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Caricamento...</span>
                         </div>
                     </div>
                 </div>
@@ -96,6 +96,40 @@
         </div>
     </div>
 </div>
+
+<style>
+    .date-card {
+        background: white;
+        border: 1px solid #e5e7eb;
+        border-radius: 8px;
+        padding: 1.5rem;
+        text-align: center;
+        cursor: pointer;
+        text-decoration: none;
+        color: inherit;
+        display: block;
+        transition: all 0.3s ease;
+    }
+
+    .date-card:hover {
+        background: linear-gradient(135deg, #6366f1 0%, #818cf8 100%);
+        color: white;
+        border-color: #6366f1;
+        transform: translateY(-4px);
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    }
+
+    .date-card-day {
+        font-size: 1.75rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+    }
+
+    .date-card-date {
+        font-size: 0.85rem;
+        opacity: 0.8;
+    }
+</style>
 
 {% endblock %}
 
@@ -113,10 +147,9 @@
     function loadDates(month) {
         currentMonth = month;
         document.getElementById('currentMonth').textContent = formatMonth(month);
-        document.getElementById('monthDisplay').textContent = formatMonth(month);
 
         const container = document.getElementById('datesContainer');
-        container.innerHTML = '<div class="text-center"><div class="spinner-border text-primary" role="status"></div></div>';
+        container.innerHTML = '<div class="text-center py-5"><div class="spinner-border spinner-border-sm" role="status"></div></div>';
 
         fetch(`/api/dates/${month}`)
             .then(res => res.json())
@@ -124,19 +157,15 @@
                 let html = '<div class="row g-3">';
 
                 if (!data.dates || data.dates.length === 0) {
-                    html = '<div class="alert alert-info"><i class="fas fa-info-circle"></i> Nessuna data disponibile per questo mese. Estrai dati con: <code>python orchestrate.py 20251020</code></div>';
+                    html = '<div class="alert alert-info"><i class="fas fa-info-circle me-2"></i>Nessuna data disponibile. Esegui: <code>python orchestrate.py 20251020</code></div>';
                 } else {
                     data.dates.forEach(item => {
-                        const dayOfMonth = item.data.slice(6, 8);
+                        const day = item.data.slice(6, 8);
                         html += `
                             <div class="col-md-6 col-lg-4">
-                                <a href="/day/${item.data}" class="text-decoration-none">
-                                    <div class="card h-100 cursor-pointer" style="transition: all 0.3s; border: 2px solid #ecf0f1;">
-                                        <div class="card-body text-center">
-                                            <h5 class="card-title" style="color: #3498db; margin-bottom: 0.5rem;">${dayOfMonth}</h5>
-                                            <p class="card-text small text-muted">${item.data_fmt}</p>
-                                        </div>
-                                    </div>
+                                <a href="/day/${item.data}" class="date-card">
+                                    <div class="date-card-day">${day}</div>
+                                    <div class="date-card-date">${item.data_fmt}</div>
                                 </a>
                             </div>
                         `;
@@ -145,43 +174,37 @@
 
                 html += '</div>';
                 container.innerHTML = html;
-
-                // Aggiungi hover effect
-                document.querySelectorAll('.card').forEach(card => {
-                    card.addEventListener('mouseenter', () => {
-                        card.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)';
-                        card.style.borderColor = '#3498db';
-                    });
-                    card.addEventListener('mouseleave', () => {
-                        card.style.boxShadow = '';
-                        card.style.borderColor = '#ecf0f1';
-                    });
-                });
-            })
-            .catch(err => {
-                console.error('Errore:', err);
-                container.innerHTML = '<div class="alert alert-danger">Errore nel caricamento delle date</div>';
             });
     }
 
     function loadStats() {
-        // Placeholder - implementa con endpoint statistiche
         document.getElementById('statsContainer').innerHTML = `
-            <p><strong>Date disponibili:</strong> <span id="statDates">-</span></p>
-            <p><strong>Lodi Mattutine:</strong> <span id="statLodi">-</span></p>
-            <p><strong>Vespri:</strong> <span id="statVespri">-</span></p>
-            <p><strong>Santi:</strong> <span id="statSanti">-</span></p>
+            <div style="font-size: 0.9rem;">
+                <div class="mb-3 d-flex justify-content-between">
+                    <span><i class="fas fa-calendar me-2" style="color: #6366f1;"></i>Date</span>
+                    <strong>-</strong>
+                </div>
+                <div class="mb-3 d-flex justify-content-between">
+                    <span><i class="fas fa-cross me-2" style="color: #ef4444;"></i>Santi</span>
+                    <strong>-</strong>
+                </div>
+                <div class="mb-3 d-flex justify-content-between">
+                    <span><i class="fas fa-sun me-2" style="color: #f59e0b;"></i>Lodi</span>
+                    <strong>-</strong>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <span><i class="fas fa-moon me-2" style="color: #10b981;"></i>Vespri</span>
+                    <strong>-</strong>
+                </div>
+            </div>
         `;
     }
 
-    // Event listeners
     document.getElementById('dateInput').valueAsDate = new Date();
 
     document.getElementById('gotoDateBtn').addEventListener('click', () => {
         const date = document.getElementById('dateInput').value;
-        if (date) {
-            window.location.href = `/day/${date.replace(/-/g, '')}`;
-        }
+        if (date) window.location.href = `/day/${date.replace(/-/g, '')}`;
     });
 
     document.getElementById('todayBtn').addEventListener('click', () => {
@@ -221,7 +244,6 @@
         loadDates(`${newYear}-${String(newMonth).padStart(2, '0')}`);
     });
 
-    // Inizializzazione
     loadDates(currentMonth);
     loadStats();
 </script>
