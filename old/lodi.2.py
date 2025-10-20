@@ -1,8 +1,6 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 """
 Estrattore Lodi Mattutine - Script Pulito e Organizzato
-Versione corretta con righe iniziali nei salmi
 """
 import requests
 import re
@@ -33,7 +31,7 @@ def pulisci_testo(text):
     if not text:
         return ""
 
-    # Converti <br> in newline
+    # Convrti <br> in newline
     text = re.sub(r'<br\s*/?>', '\n', text)
 
     # Rimuovi altri tag HTML
@@ -93,7 +91,7 @@ def estrai_titolo(text):
 
 
 def estrai_testo_salmo(text):
-    """Estrae testo salmo (dopo SALMO/CANTICO) - inizia dopo il secondo newline"""
+    """Estrae testo salmo (dopo SALMO/CANTICO)"""
     lines = text.split('\n')
 
     # Trova inizio dopo titolo
@@ -106,20 +104,11 @@ def estrai_testo_salmo(text):
     if start_idx == -1:
         return ""
 
-    # Mantieni la prima riga (numero/titolo salmo)
-    first_line = lines[start_idx].strip() if start_idx < len(lines) else ""
-
-    # Salta la seconda riga (sottotitolo/descrizione)
-    # E inizia da quella dopo (terza riga)
-    text_start_idx = start_idx + 2
-
-    # Raccogli le righe dal testo vero e proprio
-    testo = [first_line] if first_line else []
-
-    for i in range(text_start_idx, len(lines)):
+    # Raccogli testo fino a antifona finale o Gloria
+    testo = []
+    for i in range(start_idx, len(lines)):
         line = lines[i].strip()
 
-        # Ferma quando trovi l'antifona finale o Gloria
         if ' ant.' in line or line.startswith('Gloria'):
             break
 
@@ -245,6 +234,8 @@ def estrai_lodi(data_liturgia):
             return lodi
 
         # Cerca il ritornello finale dell'introduzione
+        # Può essere "Signore, tu sei la vita e la salvezza nostra."
+        # o "Donaci il tuo Spirito, Signore."
         ritornello_idx = -1
 
         for i, line in enumerate(lines):
@@ -305,11 +296,13 @@ def estrai_lodi(data_liturgia):
 # ============================================================================
 
 def main():
+    sys.argv.append("20251019")
+    sys.argv.append("20251020")
     if len(sys.argv) < 2:
-        print("Uso: python lodi.py YYYYMMDD [YYYYMMDD ...]")
+        print("Uso: python script.py YYYYMMDD [YYYYMMDD ...]")
         return
 
-    os.makedirs("json", exist_ok=True)
+    os.makedirs("../json", exist_ok=True)
 
     for data in sys.argv[1:]:
         print(f"\nESTRAZIONE: {formato_data(data)}")

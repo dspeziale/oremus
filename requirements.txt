@@ -1,0 +1,37 @@
+# Oremus - Dipendenze Python
+
+
+# Web Scraping
+requests==2.31.0
+beautifulsoup4==4.12.2
+
+# Database
+# (SQLite è incluso in Python)
+
+# Parsing
+lxml==4.9.3
+
+# Unicode/Encoding
+chardet==5.2.0
+
+# Development
+python-dotenv==1.0.0
+
+# Optional - Produzione
+gunicorn==21.2.0
+
+# Optional - HTTPS
+pyOpenSSL==23.3.0
+
+# Optional - CORS
+flask-cors==4.0.0
+
+# Optional - Auth
+Flask-HTTPAuth==4.8.0
+
+# Optional - PDF Export
+weasyprint==60.1
+
+# Optional - Database avanzato (se migri da SQLite)
+# psycopg2-binary==2.9.9  # PostgreSQL
+# PyMySQL==1.1.0          # MySQL

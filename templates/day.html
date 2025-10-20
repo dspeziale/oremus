@@ -1,0 +1,292 @@
+{% extends "base.html" %}
+
+{% block title %}{{ data_fmt }} - Oremus{% endblock %}
+
+{% block extra_css %}
+<style>
+    .date-nav-compact {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        margin-bottom: 2rem;
+    }
+
+    .date-badge {
+        background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+        color: white;
+        padding: 0.75rem 1.5rem;
+        border-radius: 25px;
+        font-weight: 600;
+        flex: 1;
+        text-align: center;
+    }
+
+    .nav-tabs {
+        border-bottom: 2px solid #ecf0f1 !important;
+        gap: 0.5rem;
+    }
+
+    .nav-link {
+        border: none;
+        color: #7f8c8d;
+        font-weight: 600;
+        padding: 0.75rem 1.25rem;
+        border-radius: 8px 8px 0 0;
+        transition: all 0.3s ease;
+    }
+
+    .nav-link:hover {
+        background-color: #f8f9fa;
+        color: #2c3e50;
+    }
+
+    .nav-link.active {
+        background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+        color: white;
+        border-bottom: 3px solid #2980b9;
+    }
+
+    .card-header-compact {
+        background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+        color: white;
+        padding: 1rem;
+        border-bottom: none;
+    }
+
+    .section-title-compact {
+        color: #2c3e50;
+        font-weight: 700;
+        font-size: 1rem;
+        margin: 1.5rem 0 0.75rem 0;
+        padding-bottom: 0.5rem;
+        border-bottom: 2px solid #3498db;
+    }
+
+    .text-section-compact {
+        background-color: #f8f9fa;
+        padding: 0.875rem;
+        border-left: 3px solid #3498db;
+        border-radius: 4px;
+        line-height: 1.6;
+        white-space: pre-wrap;
+        word-wrap: break-word;
+        font-size: 0.95rem;
+    }
+
+    .salmo-card {
+        border: 1px solid #ecf0f1;
+        border-radius: 6px;
+        margin-bottom: 1rem;
+    }
+
+    .salmo-header {
+        background-color: #f8f9fa;
+        padding: 0.75rem;
+        border-bottom: 1px solid #ecf0f1;
+        font-weight: 600;
+        font-size: 0.95rem;
+    }
+
+    .salmo-body {
+        padding: 0.875rem;
+    }
+
+    .antifona-compact {
+        font-style: italic;
+        color: #7f8c8d;
+        margin-bottom: 0.75rem;
+        font-size: 0.9rem;
+    }
+
+    .biblia-ref {
+        color: #7f8c8d;
+        font-size: 0.85rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .dossologia-compact {
+        font-style: italic;
+        color: #95a5a6;
+        font-size: 0.9rem;
+        margin-top: 1rem;
+        padding-top: 1rem;
+        border-top: 1px solid #ecf0f1;
+    }
+
+    .tab-pane {
+        animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+
+    .card-compact {
+        border: none;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container py-3">
+    <!-- Data Navigation -->
+    <div class="date-nav-compact">
+        <a href="/day/{{ prev_date }}" class="btn btn-sm btn-outline-primary">
+            <i class="fas fa-chevron-left"></i>
+        </a>
+        <div class="date-badge">
+            {{ data_fmt }}
+        </div>
+        <a href="/day/{{ next_date }}" class="btn btn-sm btn-outline-primary">
+            <i class="fas fa-chevron-right"></i>
+        </a>
+    </div>
+
+    <!-- Menu Tab Compatto -->
+    <ul class="nav nav-tabs mb-3" role="tablist">
+        {% if santo %}
+        <li class="nav-item"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#santo-content" type="button"><i class="fas fa-star"></i> Santo</button></li>
+        {% endif %}
+        {% if lodi %}
+        <li class="nav-item"><button class="nav-link {% if not santo %}active{% endif %}" data-bs-toggle="tab" data-bs-target="#lodi-content" type="button"><i class="fas fa-sun"></i> Lodi</button></li>
+        {% endif %}
+        {% if vespri %}
+        <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#vespri-content" type="button"><i class="fas fa-moon"></i> Vespri</button></li>
+        {% endif %}
+        {% if liturgia %}
+        <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#liturgia-content" type="button"><i class="fas fa-book"></i> Liturgia</button></li>
+        {% endif %}
+    </ul>
+
+    {% if not has_data %}
+    <div class="alert alert-warning alert-sm" role="alert">
+        <i class="fas fa-exclamation-triangle"></i> Nessun dato per questa data. Esegui: <code>python orchestrate.py {{ data }}</code>
+    </div>
+    {% endif %}
+
+    <!-- Tab Content -->
+    <div class="tab-content">
+
+        <!-- SANTO -->
+        {% if santo %}
+        <div class="tab-pane fade show active" id="santo-content">
+            <div class="card card-compact">
+                <div class="card-header-compact">Santo del Giorno</div>
+                <div class="card-body" style="padding: 1.25rem;">
+                    <h5 style="color: #f39c12; margin-bottom: 1rem;">
+                        <i class="fas fa-cross"></i> {{ santo.principale }}
+                    </h5>
+                    {% if santo.commemorati %}
+                    <div>
+                        <h6 class="section-title-compact" style="border-bottom-color: #f39c12;">Commemorazioni</h6>
+                        {% for commemorato in santo.commemorati %}
+                        <div style="padding: 0.5rem 0; font-size: 0.9rem; line-height: 1.5;">{{ commemorato }}</div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- LODI -->
+        {% if lodi %}
+        <div class="tab-pane fade {% if not santo %}show active{% endif %}" id="lodi-content">
+            <div class="card card-compact">
+                <div class="card-header-compact">Lodi Mattutine</div>
+                <div class="card-body" style="padding: 1.25rem;">
+                    {% if lodi.introduzione %}<div class="mb-3"><h6 class="section-title-compact">Introduzione</h6><div class="text-section-compact">{{ lodi.introduzione }}</div></div>{% endif %}
+                    {% if lodi.inno %}<div class="mb-3"><h6 class="section-title-compact">Inno</h6><div class="text-section-compact">{{ lodi.inno }}</div></div>{% endif %}
+
+                    {% if lodi.salmodia %}
+                    <div class="mb-3">
+                        <h6 class="section-title-compact">Salmodia</h6>
+                        {% for salmo in lodi.salmodia %}
+                        <div class="salmo-card">
+                            <div class="salmo-header">Salmo {{ salmo.numero }}: {{ salmo.titolo }}</div>
+                            <div class="salmo-body">
+                                {% if salmo.antifona %}<div class="antifona-compact">{{ salmo.antifona }}</div>{% endif %}
+                                <div class="text-section-compact">{{ salmo.testo }}</div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+
+                    {% if lodi.lettura_breve %}<div class="mb-3"><h6 class="section-title-compact">Lettura Breve</h6><p class="biblia-ref">{{ lodi.lettura_breve.riferimento }}</p><div class="text-section-compact">{{ lodi.lettura_breve.testo }}</div></div>{% endif %}
+                    {% if lodi.responsorio_breve %}<div class="mb-3"><h6 class="section-title-compact">Responsorio</h6><div class="text-section-compact">{{ lodi.responsorio_breve }}</div></div>{% endif %}
+                    {% if lodi.cantico %}<div class="mb-3"><h6 class="section-title-compact">Cantico (Benedictus)</h6><div class="text-section-compact">{{ lodi.cantico.testo }}</div>{% if lodi.cantico.dossologia %}<div class="dossologia-compact">{{ lodi.cantico.dossologia }}</div>{% endif %}</div>{% endif %}
+                    {% if lodi.orazione %}<div class="mb-3"><h6 class="section-title-compact">Orazione</h6><div class="text-section-compact">{{ lodi.orazione }}</div></div>{% endif %}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- VESPRI -->
+        {% if vespri %}
+        <div class="tab-pane fade" id="vespri-content">
+            <div class="card card-compact">
+                <div class="card-header-compact">Vespri</div>
+                <div class="card-body" style="padding: 1.25rem;">
+                    {% if vespri.introduzione %}<div class="mb-3"><h6 class="section-title-compact">Introduzione</h6><div class="text-section-compact">{{ vespri.introduzione }}</div></div>{% endif %}
+                    {% if vespri.inno %}<div class="mb-3"><h6 class="section-title-compact">Inno</h6><div class="text-section-compact">{{ vespri.inno }}</div></div>{% endif %}
+
+                    {% if vespri.salmodia %}
+                    <div class="mb-3">
+                        <h6 class="section-title-compact">Salmodia</h6>
+                        {% for salmo in vespri.salmodia %}
+                        <div class="salmo-card">
+                            <div class="salmo-header">Salmo {{ salmo.numero }}: {{ salmo.titolo }}</div>
+                            <div class="salmo-body">
+                                {% if salmo.antifona %}<div class="antifona-compact">{{ salmo.antifona }}</div>{% endif %}
+                                <div class="text-section-compact">{{ salmo.testo }}</div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+
+                    {% if vespri.lettura_breve %}<div class="mb-3"><h6 class="section-title-compact">Lettura Breve</h6><p class="biblia-ref">{{ vespri.lettura_breve.riferimento }}</p><div class="text-section-compact">{{ vespri.lettura_breve.testo }}</div></div>{% endif %}
+                    {% if vespri.responsorio_breve %}<div class="mb-3"><h6 class="section-title-compact">Responsorio</h6><div class="text-section-compact">{{ vespri.responsorio_breve }}</div></div>{% endif %}
+
+                    {% if vespri.magnificat %}
+                    <div class="mb-3">
+                        <h6 class="section-title-compact">Magnificat</h6>
+                        <p class="biblia-ref">{{ vespri.magnificat.riferimento }}</p>
+                        <p style="font-style: italic; color: #2c3e50; margin-bottom: 0.75rem; font-size: 0.95rem;">{{ vespri.magnificat.sottotitolo }}</p>
+                        <div class="text-section-compact">{{ vespri.magnificat.testo }}</div>
+                        {% if vespri.magnificat.dossologia %}<div class="dossologia-compact">{{ vespri.magnificat.dossologia }}</div>{% endif %}
+                    </div>
+                    {% endif %}
+
+                    {% if vespri.orazione %}<div class="mb-3"><h6 class="section-title-compact">Orazione</h6><div class="text-section-compact">{{ vespri.orazione }}</div></div>{% endif %}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- LITURGIA -->
+        {% if liturgia %}
+        <div class="tab-pane fade" id="liturgia-content">
+            <div class="card card-compact">
+                <div class="card-header-compact">Liturgia del Giorno</div>
+                <div class="card-body" style="padding: 1.25rem;">
+                    {% for lettura in liturgia.letture %}
+                    <div class="mb-3">
+                        <h6 class="section-title-compact">{{ lettura.tipo }}</h6>
+                        {% if lettura.riferimento %}<p class="biblia-ref">{{ lettura.riferimento }}</p>{% endif %}
+                        <div class="text-section-compact">{{ lettura.testo }}</div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+    </div>
+</div>
+
+{% endblock %}

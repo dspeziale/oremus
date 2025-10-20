@@ -1,0 +1,228 @@
+{% extends "base.html" %}
+
+{% block title %}Calendario - Oremus{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="mb-4">
+        <i class="fas fa-calendar"></i> Calendario Liturgico
+    </h1>
+
+    <div class="row">
+        <!-- Pannello Navigazione -->
+        <div class="col-lg-3 col-md-4 mb-4">
+            <div class="card">
+                <div class="card-header" style="background-color: #2c3e50; color: white;">
+                    <i class="fas fa-search"></i> Ricerca Data
+                </div>
+                <div class="card-body">
+                    <!-- Input data -->
+                    <div class="mb-3">
+                        <label for="dateInput" class="form-label">Seleziona data:</label>
+                        <input type="date" id="dateInput" class="form-control">
+                    </div>
+
+                    <!-- Pulsante vai -->
+                    <button class="btn btn-primary w-100" id="gotoDateBtn">
+                        <i class="fas fa-arrow-right"></i> Vai
+                    </button>
+
+                    <hr>
+
+                    <!-- Scorciatoie -->
+                    <h6 class="mb-3">Scorciatoie</h6>
+                    <button class="btn btn-outline-secondary btn-sm w-100 mb-2" id="todayBtn">
+                        <i class="fas fa-calendar-day"></i> Oggi
+                    </button>
+                    <button class="btn btn-outline-secondary btn-sm w-100 mb-2" id="tomorrowBtn">
+                        <i class="fas fa-calendar"></i> Domani
+                    </button>
+                    <button class="btn btn-outline-secondary btn-sm w-100 mb-2" id="nextWeekBtn">
+                        <i class="fas fa-calendar"></i> Prossima settimana
+                    </button>
+                </div>
+            </div>
+
+            <!-- Statistiche -->
+            <div class="card mt-4">
+                <div class="card-header" style="background-color: #27ae60; color: white;">
+                    <i class="fas fa-chart-bar"></i> Statistiche
+                </div>
+                <div class="card-body">
+                    <div id="statsContainer">
+                        <div class="spinner-border spinner-border-sm text-primary" role="status">
+                            <span class="visually-hidden">Caricamento...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pannello Calendario -->
+        <div class="col-lg-9 col-md-8">
+            <div class="card">
+                <div class="card-header" style="background-color: #3498db; color: white;">
+                    <i class="fas fa-calendar-alt"></i> Date Disponibili
+                    <span id="monthDisplay" class="float-end"></span>
+                </div>
+                <div class="card-body">
+                    <!-- Selezione mese -->
+                    <div class="row mb-4">
+                        <div class="col">
+                            <button class="btn btn-outline-primary" id="prevMonthBtn">
+                                <i class="fas fa-chevron-left"></i> Mese Precedente
+                            </button>
+                        </div>
+                        <div class="col text-center">
+                            <h5 id="currentMonth"></h5>
+                        </div>
+                        <div class="col text-end">
+                            <button class="btn btn-outline-primary" id="nextMonthBtn">
+                                Mese Successivo <i class="fas fa-chevron-right"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Calendario -->
+                    <div id="datesContainer">
+                        <div class="text-center">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="visually-hidden">Caricamento...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    let currentMonth = new Date().toISOString().slice(0, 7);
+
+    function formatMonth(dateStr) {
+        const date = new Date(dateStr + '-01');
+        const options = { month: 'long', year: 'numeric' };
+        return date.toLocaleDateString('it-IT', options).charAt(0).toUpperCase() +
+               date.toLocaleDateString('it-IT', options).slice(1);
+    }
+
+    function loadDates(month) {
+        currentMonth = month;
+        document.getElementById('currentMonth').textContent = formatMonth(month);
+        document.getElementById('monthDisplay').textContent = formatMonth(month);
+
+        const container = document.getElementById('datesContainer');
+        container.innerHTML = '<div class="text-center"><div class="spinner-border text-primary" role="status"></div></div>';
+
+        fetch(`/api/dates/${month}`)
+            .then(res => res.json())
+            .then(data => {
+                let html = '<div class="row g-3">';
+
+                if (!data.dates || data.dates.length === 0) {
+                    html = '<div class="alert alert-info"><i class="fas fa-info-circle"></i> Nessuna data disponibile per questo mese. Estrai dati con: <code>python orchestrate.py 20251020</code></div>';
+                } else {
+                    data.dates.forEach(item => {
+                        const dayOfMonth = item.data.slice(6, 8);
+                        html += `
+                            <div class="col-md-6 col-lg-4">
+                                <a href="/day/${item.data}" class="text-decoration-none">
+                                    <div class="card h-100 cursor-pointer" style="transition: all 0.3s; border: 2px solid #ecf0f1;">
+                                        <div class="card-body text-center">
+                                            <h5 class="card-title" style="color: #3498db; margin-bottom: 0.5rem;">${dayOfMonth}</h5>
+                                            <p class="card-text small text-muted">${item.data_fmt}</p>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        `;
+                    });
+                }
+
+                html += '</div>';
+                container.innerHTML = html;
+
+                // Aggiungi hover effect
+                document.querySelectorAll('.card').forEach(card => {
+                    card.addEventListener('mouseenter', () => {
+                        card.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)';
+                        card.style.borderColor = '#3498db';
+                    });
+                    card.addEventListener('mouseleave', () => {
+                        card.style.boxShadow = '';
+                        card.style.borderColor = '#ecf0f1';
+                    });
+                });
+            })
+            .catch(err => {
+                console.error('Errore:', err);
+                container.innerHTML = '<div class="alert alert-danger">Errore nel caricamento delle date</div>';
+            });
+    }
+
+    function loadStats() {
+        // Placeholder - implementa con endpoint statistiche
+        document.getElementById('statsContainer').innerHTML = `
+            <p><strong>Date disponibili:</strong> <span id="statDates">-</span></p>
+            <p><strong>Lodi Mattutine:</strong> <span id="statLodi">-</span></p>
+            <p><strong>Vespri:</strong> <span id="statVespri">-</span></p>
+            <p><strong>Santi:</strong> <span id="statSanti">-</span></p>
+        `;
+    }
+
+    // Event listeners
+    document.getElementById('dateInput').valueAsDate = new Date();
+
+    document.getElementById('gotoDateBtn').addEventListener('click', () => {
+        const date = document.getElementById('dateInput').value;
+        if (date) {
+            window.location.href = `/day/${date.replace(/-/g, '')}`;
+        }
+    });
+
+    document.getElementById('todayBtn').addEventListener('click', () => {
+        const today = new Date().toISOString().slice(0, 10);
+        window.location.href = `/day/${today.replace(/-/g, '')}`;
+    });
+
+    document.getElementById('tomorrowBtn').addEventListener('click', () => {
+        const tomorrow = new Date(Date.now() + 86400000).toISOString().slice(0, 10);
+        window.location.href = `/day/${tomorrow.replace(/-/g, '')}`;
+    });
+
+    document.getElementById('nextWeekBtn').addEventListener('click', () => {
+        const nextWeek = new Date(Date.now() + 7 * 86400000).toISOString().slice(0, 10);
+        window.location.href = `/day/${nextWeek.replace(/-/g, '')}`;
+    });
+
+    document.getElementById('prevMonthBtn').addEventListener('click', () => {
+        const [year, month] = currentMonth.split('-');
+        let newMonth = parseInt(month) - 1;
+        let newYear = parseInt(year);
+        if (newMonth < 1) {
+            newMonth = 12;
+            newYear--;
+        }
+        loadDates(`${newYear}-${String(newMonth).padStart(2, '0')}`);
+    });
+
+    document.getElementById('nextMonthBtn').addEventListener('click', () => {
+        const [year, month] = currentMonth.split('-');
+        let newMonth = parseInt(month) + 1;
+        let newYear = parseInt(year);
+        if (newMonth > 12) {
+            newMonth = 1;
+            newYear++;
+        }
+        loadDates(`${newYear}-${String(newMonth).padStart(2, '0')}`);
+    });
+
+    // Inizializzazione
+    loadDates(currentMonth);
+    loadStats();
+</script>
+{% endblock %}

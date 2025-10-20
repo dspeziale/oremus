@@ -185,8 +185,8 @@ class OremusOrchestrator:
 
     def run(self, args):
         """Esegue orchestrazione"""
-        args.append("20251010")
         args.append("20251020")
+        args.append("20251104")
         if len(args) < 1:
             print("📖 OREMUS - Orchestratore Liturgico")
             print("────────────────────────────────────")

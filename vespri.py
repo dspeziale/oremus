@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 """
 Estrattore Vespri - Liturgia delle Ore
-Basato sulla stessa logica delle Lodi Mattutine
-VERSIONE CORRETTA CON FIX PER MAGNIFICAT
+Versione corretta con righe iniziali nei salmi
 """
 import requests
 import re
@@ -11,10 +11,6 @@ from datetime import datetime
 import sys
 import os
 
-
-# ============================================================================
-# UTILITÀ
-# ============================================================================
 
 def formato_data(date_string):
     """Formatta data da YYYYMMDD a italiano"""
@@ -58,10 +54,6 @@ def pulisci_testo(text):
     return '\n'.join(lines)
 
 
-# ============================================================================
-# ESTRAZIONE SALMODIA
-# ============================================================================
-
 def estrai_antifona(text):
     """Estrae prima antifona (prima di SALMO/CANTICO)"""
     lines = text.split('\n')
@@ -87,7 +79,7 @@ def estrai_titolo(text):
 
 
 def estrai_testo_salmo(text):
-    """Estrae testo salmo (dopo SALMO/CANTICO)"""
+    """Estrae testo salmo (dopo SALMO/CANTICO) - inizia dopo il secondo newline"""
     lines = text.split('\n')
 
     start_idx = -1
@@ -99,8 +91,17 @@ def estrai_testo_salmo(text):
     if start_idx == -1:
         return ""
 
-    testo = []
-    for i in range(start_idx, len(lines)):
+    # Mantieni la prima riga (numero/titolo salmo)
+    first_line = lines[start_idx].strip() if start_idx < len(lines) else ""
+
+    # Salta la seconda riga (sottotitolo/descrizione)
+    # E inizia da quella dopo (terza riga)
+    text_start_idx = start_idx + 2
+
+    # Raccogli le righe dal testo vero e proprio
+    testo = [first_line] if first_line else []
+
+    for i in range(text_start_idx, len(lines)):
         line = lines[i].strip()
 
         if ' ant.' in line or line.startswith('Gloria'):
@@ -112,176 +113,8 @@ def estrai_testo_salmo(text):
     return '\n'.join(testo)
 
 
-# ============================================================================
-# ESTRAZIONE CANTICO DELLA BEATA VERGINE (MAGNIFICAT) - VERSIONE CORRETTA
-# ============================================================================
-
-def estrai_cantico_magnificat(html):
-    """
-    Estrae CANTICO DELLA BEATA VERGINE con tutti i dettagli:
-    - Riferimento biblico (Lc, Mt, ecc.)
-    - Sottotitolo tematico
-    - Testo del cantico
-    - Dossologia finale
-    """
-
-    # Cattura da CANTICO DELLA BEATA VERGINE fino a INTERCESSIONI
-    cant_match = re.search(
-        r'CANTICO DELLA BEATA VERGINE(.*?)(?=INTERCESSIONI)',
-        html,
-        re.DOTALL
-    )
-
-    if not cant_match:
-        return {
-            "riferimento": "",
-            "sottotitolo": "",
-            "antifona": "",
-            "testo": "",
-            "dossologia": ""
-        }
-
-    cant_raw = cant_match.group(1)
-    cant = pulisci_testo(cant_raw)
-
-    lines = [l.strip() for l in cant.split('\n') if l.strip()]
-
-    result = {
-        "riferimento": "",
-        "sottotitolo": "",
-        "antifona": "",
-        "testo": "",
-        "dossologia": ""
-    }
-
-    if not lines:
-        return result
-
-    idx = 0
-
-    # 1. Riferimento biblico (es: "Lc 1, 46-55")
-    if idx < len(lines) and re.match(
-            r'^(Lc|Mt|Mc|Gv|At|Rm|1Cor|2Cor|Gal|Ef|Fil|Col|1Ts|2Ts|1Tm|2Tm|Tt|Fm|Eb|Gc|1Pt|2Pt|1Gv|2Gv|3Gv|Gd|Ap)',
-            lines[idx]):
-        result["riferimento"] = lines[idx]
-        idx += 1
-
-    # 2. Sottotitolo tematico (es: "Esultanza dell'anima nel Signore")
-    # Il sottotitolo non contiene * e non inizia con maiuscole tipo "L'anima"
-    if idx < len(lines) and '*' not in lines[idx] and not lines[idx].startswith("L'"):
-        result["sottotitolo"] = lines[idx]
-        idx += 1
-
-    # 3. Raccogli testo e dossologia
-    testo_lines = []
-    doss_lines = []
-    in_dossologia = False
-
-    for i in range(idx, len(lines)):
-        line = lines[i]
-
-        # Rileva inizio dossologia
-        if "Gloria al Padre" in line:
-            in_dossologia = True
-
-        # Separa testo e dossologia
-        if in_dossologia:
-            doss_lines.append(line)
-        else:
-            # Salta le ripetizioni di antifona
-            if "Ant. al Magn." not in line and "L'anima mia magnifica il Signore" not in line:
-                if line:  # Non aggiungere linee vuote
-                    testo_lines.append(line)
-            elif "L'anima mia magnifica il Signore" in line and '*' in line:
-                # Primo verso del cantico effettivo
-                testo_lines.append(line)
-
-    result["testo"] = '\n'.join(testo_lines)
-    result["dossologia"] = '\n'.join(doss_lines)
-
-    return result
-
-
-# ============================================================================
-# ESTRAZIONE INTERCESSIONI - VERSIONE MIGLIORATA
-# ============================================================================
-
-def estrai_intercessioni(html):
-    """
-    Estrae INTERCESSIONI con struttura corretta:
-    - introduzione
-    - lista di invocazioni con formato: titolo -- risposta
-    """
-
-    inv_match = re.search(r'INTERCESSIONI(.*?)(?=Padre nostro)', html, re.DOTALL)
-
-    if not inv_match:
-        return {"introduzione": "", "lista": []}
-
-    inv_raw = inv_match.group(1)
-    inv = pulisci_testo(inv_raw)
-
-    lines = [l.strip() for l in inv.split('\n') if l.strip()]
-
-    result = {"introduzione": "", "lista": []}
-
-    if not lines:
-        return result
-
-    # Trova dove finisce l'introduzione
-    intro_end = 0
-    for i, line in enumerate(lines):
-        if line.endswith(':'):
-            intro_end = i
-            break
-
-    # Salva introduzione
-    if intro_end > 0:
-        result["introduzione"] = '\n'.join(lines[:intro_end + 1])
-        lines = lines[intro_end + 1:]
-
-    # Parse invocazioni - ogni invocazione è: titolo -- risposta
-    current_inv = None
-    invocazioni = []
-
-    for line in lines:
-        # Se è un separatore – significa che è una risposta
-        if line.strip() == "–" or line.strip() == "-":
-            continue
-
-        # Se la linea contiene un'ipotesi di separatore interno
-        if ' – ' in line or ' - ' in line:
-            parts = re.split(r'\s+[–-]\s+', line)
-            if len(parts) == 2:
-                invocazioni.append({
-                    "titolo": parts[0].strip(),
-                    "risposta": parts[1].strip()
-                })
-            else:
-                # Altrimenti è solo un titolo
-                if current_inv is None:
-                    current_inv = {"titolo": line, "risposta": ""}
-        else:
-            # Se non c'è separatore, è un titolo nuovo
-            if current_inv is not None and current_inv["risposta"]:
-                invocazioni.append(current_inv)
-            current_inv = {"titolo": line, "risposta": ""}
-
-    # Aggiungi l'ultima invocazione
-    if current_inv is not None:
-        invocazioni.append(current_inv)
-
-    result["lista"] = invocazioni
-
-    return result
-
-
-# ============================================================================
-# ESTRAZIONE PRINCIPALI
-# ============================================================================
-
 def estrai_vespri(data_liturgia):
-    """Estrae tutti i Vespri - VERSIONE CORRETTA"""
+    """Estrae tutti i Vespri"""
     url = f"https://www.chiesacattolica.it/la-liturgia-delle-ore/?data-liturgia={data_liturgia}&ora=vespri"
 
     try:
@@ -289,7 +122,7 @@ def estrai_vespri(data_liturgia):
         response.encoding = 'utf-8'
         html = response.text
     except Exception as e:
-        print(f"❌ Errore fetch: {e}")
+        print(f"Errore fetch: {e}")
         return None
 
     vespri = {
@@ -322,7 +155,7 @@ def estrai_vespri(data_liturgia):
     if inno_match:
         vespri["inno"] = pulisci_testo(inno_match.group(1))
 
-    # === SALMODIA (3 salmi + 1 cantico per Vespri) ===
+    # === SALMODIA (3 salmi) ===
     for num in range(1, 4):
         next_marker = f"{num + 1} ant." if num < 3 else "LETTURA BREVE"
         salmo_match = re.search(rf'{num} ant\.(.*?)(?={next_marker})', html, re.DOTALL)
@@ -351,13 +184,56 @@ def estrai_vespri(data_liturgia):
         lines = [l for l in resp.split('\n') if l.strip() and l.strip() not in ['R.', 'V.']]
         vespri["responsorio_breve"] = '\n'.join(lines)
 
-    # === CANTICO DELLA BEATA VERGINE (Magnificat) - VERSIONE CORRETTA ===
-    cant_data = estrai_cantico_magnificat(html)
-    vespri["cantico_evangelico"] = cant_data
+    # === CANTICO DELLA BEATA VERGINE (Magnificat) ===
+    cant_match = re.search(r'CANTICO DELLA BEATA VERGINE(.*?)(?=INTERCESSIONI)', html, re.DOTALL)
+    if cant_match:
+        cant = pulisci_testo(cant_match.group(1))
 
-    # === INTERCESSIONI - VERSIONE CORRETTA ===
-    intercessioni_data = estrai_intercessioni(html)
-    vespri["invocazioni"] = intercessioni_data
+        gloria_idx = cant.find("Gloria al Padre")
+        if gloria_idx > 0:
+            testo = cant[:gloria_idx].strip()
+            doss = cant[gloria_idx:].strip()
+
+            lines = [l for l in testo.split('\n')
+                     if l and l not in ['Ant. al Magn.', "L'anima mia magnifica il Signore"]]
+            vespri["cantico_evangelico"]["testo"] = '\n'.join(lines)
+            vespri["cantico_evangelico"]["dossologia"] = doss
+
+    # === INTERCESSIONI ===
+    inv_match = re.search(r'INTERCESSIONI(.*?)(?=Padre nostro)', html, re.DOTALL)
+    if inv_match:
+        inv = pulisci_testo(inv_match.group(1))
+
+        lines = [l.strip() for l in inv.split('\n') if l.strip()]
+
+        if lines:
+            intro_end = 0
+            for i, line in enumerate(lines):
+                if line.endswith(':'):
+                    intro_end = i
+                    break
+
+            if intro_end > 0:
+                vespri["invocazioni"]["introduzione"] = '\n'.join(lines[:intro_end + 1])
+                lines = lines[intro_end + 1:]
+
+            invocazioni = []
+            for line in lines:
+                if ' – ' in line or ' - ' in line:
+                    parts = re.split(r'\s+[–-]\s+', line)
+                    if len(parts) == 2:
+                        invocazioni.append({
+                            "titolo": parts[0].strip(),
+                            "risposta": parts[1].strip()
+                        })
+                else:
+                    if line:
+                        invocazioni.append({
+                            "titolo": line,
+                            "risposta": ""
+                        })
+
+            vespri["invocazioni"]["lista"] = invocazioni
 
     # === ORAZIONE ===
     oraz_match = re.search(r'ORAZIONE(.*?)(?=Il Signore ci benedica)', html, re.DOTALL)
@@ -365,40 +241,23 @@ def estrai_vespri(data_liturgia):
         vespri["orazione"] = pulisci_testo(oraz_match.group(1)).strip()
 
     # === CONCLUSIONE ===
-    conc_match = re.search(r'(Il Signore ci benedica.*?)(?=R\.)', html, re.DOTALL)
+    conc_match = re.search(r'(Il Signore ci benedica.*?Amen\.)', html, re.DOTALL)
     if conc_match:
-        vespri["conclusione"] = pulisci_testo(conc_match.group(1)).strip()
+        vespri["conclusione"] = pulisci_testo(conc_match.group(1))
 
     return vespri
 
 
-# ============================================================================
-# MAIN
-# ============================================================================
-
 def main():
-    """Funzione principale"""
-    sys.argv.append("20251019")
-    sys.argv.append("20251020")
-
-    # Se lanciato senza argomenti, usa date di esempio
     if len(sys.argv) < 2:
-        sys.argv.extend(["20251019", "20251020"])
-
-    if len(sys.argv) < 2:
-        print("📖 Uso:")
-        print("  python vespri.py YYYYMMDD")
-        print("  python vespri.py YYYYMMDD YYYYMMDD")
+        print("Uso: python vespri.py YYYYMMDD [YYYYMMDD ...]")
         return
 
     os.makedirs("json", exist_ok=True)
 
-    dates_to_process = sys.argv[1:]
-
-    for data in dates_to_process:
-        print(f"\n{'=' * 60}")
-        print(f"ESTRAZIONE VESPRI: {formato_data(data)}")
-        print(f"{'=' * 60}")
+    for data in sys.argv[1:]:
+        print(f"\nESTRAZIONE: {formato_data(data)}")
+        print("-" * 60)
 
         vespri = estrai_vespri(data)
 
@@ -407,13 +266,12 @@ def main():
             with open(output_file, 'w', encoding='utf-8') as f:
                 json.dump(vespri, f, ensure_ascii=False, indent=2)
 
-            print(f"\n✅ Salvato: {output_file}")
-            print(f"📊 Salmodia: {len(vespri['salmodia'])} salmi")
-            print(f"📖 Lettura breve: {vespri['lettura_breve']['riferimento']}")
-            print(f"🎶 Cantico: {vespri['cantico_evangelico']['sottotitolo']}")
-            print(f"🙏 Intercessioni: {len(vespri['invocazioni']['lista'])} invocazioni")
+            print(f"Salvato: {output_file}")
+            print(f"Salmodia: {len(vespri['salmodia'])} salmi")
+            print(f"Lettura breve: {vespri['lettura_breve']['riferimento']}")
+            print(f"Magnificat: {vespri['cantico_evangelico']['sottotitolo']}")
         else:
-            print(f"\n❌ Errore nell'estrazione")
+            print("Errore nell'estrazione")
 
 
 if __name__ == "__main__":
