@@ -64,7 +64,7 @@
         <div class="card">
             <div class="card-header">
                 <i class="fas fa-calendar-alt"></i>
-                <h5>Date Disponibili</h5>
+                <h5>Date Disponibili con Santo</h5>
             </div>
             <div class="card-body">
                 <!-- Month Navigation -->
@@ -128,6 +128,22 @@
     .date-card-date {
         font-size: 0.85rem;
         opacity: 0.8;
+        margin-bottom: 0.75rem;
+    }
+
+    .date-card-santo {
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: #dc2626;
+        margin-top: 0.75rem;
+        padding-top: 0.75rem;
+        border-top: 1px solid rgba(0,0,0,0.1);
+        line-height: 1.4;
+    }
+
+    .date-card:hover .date-card-santo {
+        color: white;
+        border-top-color: rgba(255,255,255,0.3);
     }
 </style>
 
@@ -161,11 +177,27 @@
                 } else {
                     data.dates.forEach(item => {
                         const day = item.data.slice(6, 8);
+
+                        // Estrai il santo dalla data_fmt
+                        // Formato: "Lunedì 20 ottobre 2025: San Giorgio"
+                        let dataStr = item.data_fmt.split(':')[0]; // "Lunedì 20 ottobre 2025"
+                        let santo = '';
+
+                        if (item.data_fmt.includes(':')) {
+                            santo = item.data_fmt.split(':').slice(1).join(':').trim(); // "San Giorgio"
+                        }
+
+                        let santoHtml = '';
+                        if (santo) {
+                            santoHtml = `<div class="date-card-santo"><strong>:</strong> <i class="fas fa-cross me-1" style="color: #dc2626;"></i>${santo}</div>`;
+                        }
+
                         html += `
                             <div class="col-md-6 col-lg-4">
                                 <a href="/day/${item.data}" class="date-card">
                                     <div class="date-card-day">${day}</div>
-                                    <div class="date-card-date">${item.data_fmt}</div>
+                                    <div class="date-card-date">${dataStr}</div>
+                                    ${santoHtml}
                                 </a>
                             </div>
                         `;

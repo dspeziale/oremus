@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 """
-Estrattore completo del Santo del Giorno
-Legge tutti i dettagli da https://www.chiesacattolica.it/santo-del-giorno/
+Estrattore del Santo del Giorno
+Legge da https://www.chiesacattolica.it/santo-del-giorno/
 """
 import requests
 from bs4 import BeautifulSoup
@@ -36,6 +37,35 @@ def clean_text(text):
     return text.strip()
 
 
+def is_garbage_text(text):
+    """Verifica se il testo è spazzatura (pulsanti social, link, ecc)"""
+    garbage_keywords = [
+        'condividi', 'invia', 'stampa', 'facebook', 'twitter', 'whatsapp',
+        'telegram', 'linkedin', 'pinterest', 'reddit', 'condividere',
+        'stampa pagina', 'scarica', 'download', 'leggi anche', 'vedi anche',
+        'clicca qui', 'continua a leggere', 'approfondisci', 'per saperne',
+        'newsletter', 'iscriviti', 'seguici', 'social media', 'share',
+        'email', 'scritto da', 'autore:', 'fonte:', 'articolo correlato'
+    ]
+
+    text_lower = text.lower().strip()
+
+    # Se il testo è troppo breve, probabilmente è spam
+    if len(text_lower) < 10:
+        return True
+
+    # Se contiene parole chiave di spazzatura
+    for keyword in garbage_keywords:
+        if keyword in text_lower:
+            return True
+
+    # Se sembra un pulsante/link
+    if text_lower.startswith('http') or text_lower.startswith('www'):
+        return True
+
+    return False
+
+
 def extract_santo_giorno(data_liturgia):
     """Estrae tutti i dettagli dal Santo del Giorno"""
     url = f"https://www.chiesacattolica.it/santo-del-giorno/?data-liturgia={data_liturgia}"
@@ -58,12 +88,10 @@ def extract_santo_giorno(data_liturgia):
     title_tag = soup.find('title')
     title_text = title_tag.get_text() if title_tag else ""
 
-    # Formato: "Santo del giorno 19 Ottobre 2025 San Paolo della Croce, sacerdote"
     santo_principale = ""
     if " - Chiesacattolica.it" in title_text:
         parts = title_text.replace(" - Chiesacattolica.it", "").split(" ", 4)
         if len(parts) >= 5:
-            # Prendi tutto dopo la data
             santo_principale = " ".join(parts[4:]).strip()
 
     # Estrai il contenuto principale
@@ -81,7 +109,9 @@ def extract_santo_giorno(data_liturgia):
             continue
 
         if start_extracting and line and not line.startswith("http"):
-            content_lines.append(line)
+            # Escludere testi spazzatura
+            if not is_garbage_text(line):
+                content_lines.append(line)
 
     # Dividi per santi individuali (ogni santo inizia con una posizione geografica)
     santi = []
@@ -90,7 +120,7 @@ def extract_santo_giorno(data_liturgia):
     for line in content_lines:
         # Se la linea inizia con "A ", "Ad ", "Presso ", "Nel ", "Nella " etc - è un nuovo santo
         if re.match(r'^(A|Ad|Presso|Nel|Nella|Nell|Nell\'|Vicino|Nel|Nella)\s+', line):
-            if current_santo:
+            if current_santo and not is_garbage_text(current_santo):
                 santi.append(current_santo.strip())
             current_santo = line
         else:
@@ -98,8 +128,14 @@ def extract_santo_giorno(data_liturgia):
                 current_santo += " " + line
 
     # Aggiungi l'ultimo santo
-    if current_santo:
+    if current_santo and not is_garbage_text(current_santo):
         santi.append(current_santo.strip())
+
+    # Filtra santi che sono troppo corti o spam
+    santi_filtrati = []
+    for santo in santi:
+        if len(santo) > 20 and not is_garbage_text(santo):
+            santi_filtrati.append(santo)
 
     # Struttura dati
     santo = {
@@ -107,9 +143,9 @@ def extract_santo_giorno(data_liturgia):
         "data_formattata": formato_data(data_liturgia),
         "url": url,
         "santo_principale": santo_principale,
-        "santi_commemorati": santi,
-        "numero_santi": len(santi),
-        "testo_completo": " ".join(content_lines)
+        "santi_commemorati": santi_filtrati,
+        "numero_santi": len(santi_filtrati),
+        "testo_completo": " ".join(content_lines[:500])  # Primi 500 elementi
     }
 
     return santo
@@ -128,14 +164,13 @@ def formato_data(date_string):
 
 
 def main():
-
-    sys.argv.append('20251019')
+    sys.argv.append('20251020')
 
     if len(sys.argv) < 2:
-        print("📖 Uso: python script.py YYYYMMDD [YYYYMMDD ...]")
+        print("📖 Uso: python santo.py YYYYMMDD [YYYYMMDD ...]")
         print("Esempi:")
-        print("  python script.py 20251019")
-        print("  python script.py 20251019 20251020 20251101")
+        print("  python santo.py 20251020")
+        print("  python santo.py 20251020 20251021 20251022")
         return
 
     # Crea directory se non esiste

@@ -226,14 +226,20 @@ class OremusDB:
 
         self.conn.commit()
 
-    def get_or_create_date(self, data, data_formattata=""):
-        """Ottiene o crea record data"""
+    def get_or_create_date(self, data, data_formattata="", santo_principale=""):
+        """Ottiene o crea record data con santo principale incluso nella data_formattata"""
         cursor = self.conn.cursor()
 
         try:
             cursor.execute('SELECT id FROM date WHERE data = ?', (data,))
             row = cursor.fetchone()
             if row:
+                # Se già esiste e abbiamo un santo, aggiorna la data_formattata
+                if santo_principale:
+                    cursor.execute('''
+                        UPDATE date SET data_formattata = ? WHERE data = ?
+                    ''', (f"{data_formattata}: {santo_principale}", data))
+                    self.conn.commit()
                 return row[0]
 
             from datetime import datetime
@@ -241,10 +247,16 @@ class OremusDB:
             giorni = ["Lunedì", "Martedì", "Mercoledì", "Giovedì", "Venerdì", "Sabato", "Domenica"]
             giorno_settimana = giorni[dt.weekday()]
 
+            # Costruisci la data_formattata con il santo
+            if santo_principale:
+                data_fmt_completa = f"{data_formattata}: {santo_principale}"
+            else:
+                data_fmt_completa = data_formattata
+
             cursor.execute('''
                 INSERT INTO date (data, data_formattata, giorno_settimana)
                 VALUES (?, ?, ?)
-            ''', (data, data_formattata, giorno_settimana))
+            ''', (data, data_fmt_completa, giorno_settimana))
 
             self.conn.commit()
             return cursor.lastrowid
@@ -255,14 +267,20 @@ class OremusDB:
     def save_santo_giorno(self, data_dict):
         """Salva Santo del Giorno e santi commemorati con nome e martirologio separati"""
         try:
-            date_id = self.get_or_create_date(data_dict['data'], data_dict.get('data_formattata', ''))
+            # Ottieni data formattata
+            data = data_dict['data']
+            data_formattata = data_dict.get('data_formattata', '')
+            santo_principale = data_dict.get('santo_principale', '')
+
+            # Crea/aggiorna la data con il santo nel nome
+            date_id = self.get_or_create_date(data, data_formattata, santo_principale)
+
             if not date_id:
                 print(f"❌ Errore: impossibile creare/trovare data")
                 return False
 
             cursor = self.conn.cursor()
 
-            santo_principale = data_dict.get('santo_principale', '')
             santi_commemorati = data_dict.get('santi_commemorati', [])
 
             print(f"💾 Salvando santo: {santo_principale} con {len(santi_commemorati)} commemorati")
