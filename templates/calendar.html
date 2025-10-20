@@ -128,23 +128,13 @@
                 } else {
                     data.dates.forEach(item => {
                         const dayOfMonth = item.data.slice(6, 8);
-                        let santo = item.santo || '';
-
-                        // Prendi solo la parte DOPO i ":"
-                        if (santo.includes(':')) {
-                            santo = santo.split(':')[1].trim();
-                        }
-
-                        const santoPreview = santo.length > 30 ? santo.substring(0, 30) + '...' : santo;
-
                         html += `
                             <div class="col-md-6 col-lg-4">
                                 <a href="/day/${item.data}" class="text-decoration-none">
                                     <div class="card h-100 cursor-pointer" style="transition: all 0.3s; border: 2px solid #ecf0f1;">
                                         <div class="card-body text-center">
                                             <h5 class="card-title" style="color: #3498db; margin-bottom: 0.5rem;">${dayOfMonth}</h5>
-                                            <p class="card-text small text-muted" style="margin-bottom: 0.75rem;">${item.data_fmt}</p>
-                                            ${santo ? `<p class="card-text small" style="color: #f39c12; font-weight: 600; margin: 0;"><i class="fas fa-star"></i> ${santoPreview}</p>` : ''}
+                                            <p class="card-text small text-muted">${item.data_fmt}</p>
                                         </div>
                                     </div>
                                 </a>

@@ -67,14 +67,6 @@ class OremusOrchestrator:
                 errors='replace',
                 timeout=60
             )
-
-            # DEBUG
-            if 'liturgia' in script_name:
-                print(f"DEBUG {script_name}:")
-                print(f"  Return code: {result.returncode}")
-                print(f"  Stdout: {result.stdout[:200]}")
-                print(f"  Stderr: {result.stderr[:200]}")
-
             return result.returncode == 0, result.stdout, result.stderr
         except subprocess.TimeoutExpired:
             return False, "", "Timeout"
@@ -194,7 +186,7 @@ class OremusOrchestrator:
     def run(self, args):
         """Esegue orchestrazione"""
         args.append("20251020")
-        args.append("20251104")
+        args.append("20251130")
         if len(args) < 1:
             print("📖 OREMUS - Orchestratore Liturgico")
             print("────────────────────────────────────")

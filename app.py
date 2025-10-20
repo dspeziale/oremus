@@ -112,22 +112,8 @@ def get_lodi(data):
             ORDER BY numero
         ''', (lodi_id,))
 
-        salmodia = []
-        for r in cursor.fetchall():
-            numero, antifona, titolo, testo = r[0], r[1], r[2], r[3]
-
-            # Dividi il testo: prima riga è numero/titolo, resto è il testo
-            testo_lines = testo.split('\n') if testo else []
-
-            # Prima riga è numero/titolo del salmo, mantienila
-            testo_formattato = '\n'.join(testo_lines) if testo_lines else ""
-
-            salmodia.append({
-                'numero': numero,
-                'antifona': antifona,
-                'titolo': titolo,
-                'testo': testo_formattato
-            })
+        salmodia = [{'numero': r[0], 'antifona': r[1], 'titolo': r[2], 'testo': r[3]}
+                    for r in cursor.fetchall()]
 
         # Lettura breve
         cursor.execute('''
@@ -187,22 +173,8 @@ def get_vespri(data):
             ORDER BY numero
         ''', (vespri_id,))
 
-        salmodia = []
-        for r in cursor.fetchall():
-            numero, antifona, titolo, testo = r[0], r[1], r[2], r[3]
-
-            # Dividi il testo: prima riga è numero/titolo, resto è il testo
-            testo_lines = testo.split('\n') if testo else []
-
-            # Prima riga è numero/titolo del salmo, mantienila
-            testo_formattato = '\n'.join(testo_lines) if testo_lines else ""
-
-            salmodia.append({
-                'numero': numero,
-                'antifona': antifona,
-                'titolo': titolo,
-                'testo': testo_formattato
-            })
+        salmodia = [{'numero': r[0], 'antifona': r[1], 'titolo': r[2], 'testo': r[3]}
+                    for r in cursor.fetchall()]
 
         # Lettura breve
         cursor.execute('''
@@ -340,7 +312,7 @@ def calendar():
 
 @app.route('/api/dates/<month>')
 def api_dates(month):
-    """API: ottiene date disponibili per mese con santo"""
+    """API: ottiene date disponibili per mese"""
     try:
         db = get_db()
         cursor = db.conn.cursor()
@@ -348,21 +320,20 @@ def api_dates(month):
         # Converti da 2025-10 a 202510
         month_yyyymm = month.replace('-', '')
 
+        print(f"🔍 Query: SELECT FROM date WHERE data LIKE '{month_yyyymm}%'")
+
         cursor.execute('''
-            SELECT d.data, d.data_formattata, s.santo_principale
-            FROM date d
-            LEFT JOIN santo_giorno s ON d.id = s.data_id
-            WHERE d.data LIKE ?
-            ORDER BY d.data
+            SELECT data, data_formattata 
+            FROM date 
+            WHERE data LIKE ?
+            ORDER BY data
         ''', (month_yyyymm + '%',))
 
-        dates = []
-        for r in cursor.fetchall():
-            dates.append({
-                'data': r[0],
-                'data_fmt': r[1],
-                'santo': r[2] if r[2] else ''
-            })
+        dates = [{'data': r[0], 'data_fmt': r[1]} for r in cursor.fetchall()]
+
+        print(f"📊 Risultati: {len(dates)} date trovate")
+        for d in dates[:5]:
+            print(f"  - {d['data']}: {d['data_fmt']}")
 
         return jsonify({'dates': dates, 'count': len(dates)})
     except Exception as e:
@@ -438,4 +409,4 @@ def inject_now():
 
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=5000, threaded=True)
+    app.run(debug=True, host='0.0.0.0', port=59000, threaded=True)

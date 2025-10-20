@@ -4,7 +4,6 @@ Database SQLite per Oremus - Schema e gestione
 """
 import sqlite3
 import os
-import json
 from datetime import datetime
 from pathlib import Path
 
@@ -63,14 +62,13 @@ class OremusDB:
             )
         ''')
 
-        # Tabella Santi Commemorati - MODIFICATA
+        # Tabella Santi Commemorati
         cursor.execute('''
             CREATE TABLE IF NOT EXISTS santo_commemorato (
                 id INTEGER PRIMARY KEY,
                 santo_giorno_id INTEGER NOT NULL,
                 ordine INTEGER,
-                nome TEXT,
-                martirologio TEXT,
+                testo TEXT,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 FOREIGN KEY(santo_giorno_id) REFERENCES santo_giorno(id) ON DELETE CASCADE
             )
@@ -280,11 +278,11 @@ class OremusDB:
             self.conn.commit()
             return cursor.lastrowid
         except Exception as e:
-            print(f"Errore get_or_create_date: {e}")
+            print(f"❌ Errore get_or_create_date: {e}")
             return None
 
     def save_santo_giorno(self, data_dict):
-        """Salva Santo del Giorno e santi commemorati con nome e martirologio separati"""
+        """Salva Santo del Giorno e santi commemorati"""
         try:
             date_id = self.get_or_create_date(data_dict['data'], data_dict.get('data_formattata', ''))
             if not date_id:
@@ -309,74 +307,16 @@ class OremusDB:
 
             # Salva santi commemorati
             for i, santo in enumerate(data_dict.get('santi_commemorati', [])):
-                if isinstance(santo, dict):
-                    # Nuovo formato: dict con nome e martirologio
-                    nome = santo.get('nome', '').strip()
-                    martirologio = santo.get('martirologio', '').strip()
-                else:
-                    # Vecchio formato: stringa
-                    nome = ""
-                    martirologio = str(santo)
-
-                # Salva nome e martirologio in colonne separate
                 cursor.execute('''
-                    INSERT INTO santo_commemorato 
-                    (santo_giorno_id, ordine, nome, martirologio)
-                    VALUES (?, ?, ?, ?)
-                ''', (santo_id, i + 1, nome, martirologio))
+                    INSERT INTO santo_commemorato (santo_giorno_id, ordine, testo)
+                    VALUES (?, ?, ?)
+                ''', (santo_id, i + 1, santo))
 
             self.conn.commit()
             return True
         except Exception as e:
-            print(f"Errore save_santo_giorno: {e}")
+            print(f"❌ Errore save_santo_giorno: {e}")
             return False
-
-    def get_santo_giorno(self, data):
-        """Legge Santo del Giorno con commemorati"""
-        try:
-            cursor = self.conn.cursor()
-
-            # Leggi data_id
-            cursor.execute('SELECT id FROM date WHERE data = ?', (data,))
-            date_row = cursor.fetchone()
-            if not date_row:
-                return None
-
-            date_id = date_row[0]
-
-            # Leggi santo principale
-            cursor.execute('SELECT * FROM santo_giorno WHERE data_id = ?', (date_id,))
-            santo_row = cursor.fetchone()
-            if not santo_row:
-                return None
-
-            # Leggi commemorati
-            cursor.execute('''
-                SELECT ordine, nome, martirologio FROM santo_commemorato 
-                WHERE santo_giorno_id = ? 
-                ORDER BY ordine
-            ''', (santo_row['id'],))
-            commemorati_rows = cursor.fetchall()
-
-            # Costruisci risposta
-            santo_data = {
-                'data': data,
-                'santo_principale': santo_row['santo_principale'],
-                'numero_santi': santo_row['numero_santi'],
-                'url': santo_row['url'],
-                'santi_commemorati': []
-            }
-
-            for row in commemorati_rows:
-                santo_data['santi_commemorati'].append({
-                    'nome': row['nome'],
-                    'martirologio': row['martirologio']
-                })
-
-            return santo_data
-        except Exception as e:
-            print(f"Errore get_santo_giorno: {e}")
-            return None
 
     def save_liturgia_giorno(self, data_dict):
         """Salva Liturgia del Giorno e letture"""
@@ -408,7 +348,7 @@ class OremusDB:
             self.conn.commit()
             return True
         except Exception as e:
-            print(f"Errore save_liturgia_giorno: {e}")
+            print(f"❌ Errore save_liturgia_giorno: {e}")
             return False
 
     def save_lodi_mattutine(self, data_dict):
@@ -487,6 +427,7 @@ class OremusDB:
                     VALUES (?, ?, ?)
                 ''', (lodi_id, invocazioni.get('introduzione', ''), 0))
 
+                inv_id = cursor.lastrowid
                 for i, inv in enumerate(invocazioni.get('lista', [])):
                     cursor.execute('''
                         INSERT INTO invocazione_lodi
@@ -497,7 +438,7 @@ class OremusDB:
             self.conn.commit()
             return True
         except Exception as e:
-            print(f"Errore save_lodi_mattutine: {e}")
+            print(f"❌ Errore save_lodi_mattutine: {e}")
             return False
 
     def save_vespri(self, data_dict):
@@ -589,7 +530,7 @@ class OremusDB:
             self.conn.commit()
             return True
         except Exception as e:
-            print(f"Errore save_vespri: {e}")
+            print(f"❌ Errore save_vespri: {e}")
             return False
 
     def log_extraction(self, data, script, status, messaggio):
@@ -602,10 +543,10 @@ class OremusDB:
             ''', (data, script, status, messaggio))
             self.conn.commit()
         except Exception as e:
-            print(f"Errore log_extraction: {e}")
+            print(f"❌ Errore log_extraction: {e}")
 
 
 if __name__ == "__main__":
     db = OremusDB()
-    print("Database creato con successo!")
+    print("✅ Database creato con successo!")
     db.close()
