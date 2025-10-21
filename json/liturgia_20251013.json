@@ -1,0 +1,116 @@
+{
+  "data": "13/10/2025",
+  "data_iso": "20251013",
+  "giorno_settimana": "Monday",
+  "lodi_mattutine": {
+    "tipo": "lodi-mattutine",
+    "titolo": "",
+    "versicoli": [
+      {
+        "versicolo": "O Dio, vieni a salvarmi",
+        "risposta": "Signore, vieni presto in mio aiuto."
+      }
+    ],
+    "gloria_al_padre": "Gloria al Padre e al Figlio e allo Spirito Santo. Come era nel principio, e ora e sempre nei secoli dei secoli. Amen. Alleluia.",
+    "inno": "O sole di giustizia, Verbo del Dio vivente, irradia sulla Chiesa la tua luce immortale. Per te veniamo al Padre, fonte del primo amore, Padre d'immensa grazia e di perenne gloria. Lieto trascorra il giorno in umiltà e fervore; la luce della fede non conosca tramonto. Sia Cristo il nostro cibo, sia Cristo l'acqua viva: in lui gustiamo sobrii l'ebbrezza dello Spirito. Amen.",
+    "antifone_e_salmi": [
+      {
+        "antifona_numero": "1",
+        "antifona_testo": "Al mattino ci sazia il tuo amore, Signore nostro Dio.",
+        "tipo": "SALMO",
+        "numero": "89",
+        "titolo": "Su di noi sia la bontà del Signore",
+        "contenuto": "Signore, tu sei stato per noi un rifugio * di generazione in generazione. Prima che nascessero i monti † e la terra e il mondo fossero generati, * da sempre e per sempre tu sei, Dio. Tu fai ritornare l’uomo in polvere * e dici: «Ritornate, figli dell’uomo». Ai tuoi occhi, mille anni sono come il giorno di ieri che è passato, * come un turno di veglia nella notte. Li annienti: li sommergi nel sonno; * sono come l’erba che germoglia al mattino: al mattino fiorisce, germoglia, * alla sera è falciata e dissecca. Perché siamo distrutti dalla tua ira, * siamo atterriti dal tuo furore. Davanti a te poni le nostre colpe, * i nostri peccati occulti alla luce del tuo volto. Tutti i nostri giorni svaniscono per la tua ira, * finiamo i nostri anni come soffio. Gli anni della nostra vita sono settanta, * ottanta per i più robusti, ma quasi tutti sono fatica, dolore; * passano presto e noi ci dileguiamo. Chi conosce l’impeto della tua ira, * e il tuo sdegno, con il timore a te dovuto? Insegnaci a contare i nostri giorni * e giungeremo alla sapienza del cuore. Volgiti, Signore; fino a quando? * Muoviti a pietà dei tuoi servi. Saziaci al mattino con la tua grazia: * esulteremo e gioiremo per tutti i nostri giorni. Rendici la gioia per i giorni di afflizione, * per gli anni in cui abbiamo visto la sventura. Si manifesti ai tuoi servi la tua opera * e la tua gloria ai loro figli. Sia su di noi la bontà del Signore, nostro Dio:† rafforza per noi l’opera delle nostre mani, * l’opera delle nostre mani rafforza."
+      },
+      {
+        "antifona_numero": "2",
+        "antifona_testo": "Da ogni terra, lode al Signore.",
+        "tipo": "CANTICO",
+        "numero": "Is",
+        "titolo": "42, 10-16",
+        "contenuto": "Cantate al Signore un canto nuovo, * lode a lui fino all’estremità della terra; lo celebri il mare con quanto esso contiene, * le isole con i loro abitanti. Esulti con le sue città il deserto, * esultino i villaggi dove abitano quelli di Kedar; acclamino gli abitanti di Sela, * dalla cima dei monti alzino grida. Diano gloria al Signore * e il suo onore divulghino nelle isole. Il Signore avanza come un prode, * come un guerriero eccita il suo ardore; grida, lancia urla di guerra, * si mostra forte contro i suoi nemici. Per molto tempo ho taciuto, * ho fatto silenzio, mi sono contenuto; ora griderò come una partoriente, * mi affannerò e sbufferò insieme. Renderò aridi monti e colli, * farò seccare tutta la loro erba; trasformerò i fiumi in stagni * e gli stagni farò inaridire. Farò camminare i ciechi per vie che non conoscono, * li guiderò per sentieri sconosciuti; trasformerò davanti a loro le tenebre in luce, * i luoghi aspri in pianura."
+      },
+      {
+        "antifona_numero": "3",
+        "antifona_testo": "Lodate il nome del Signore, voi che state nella casa di Dio.",
+        "tipo": "SALMO",
+        "numero": "134,",
+        "titolo": "1-12",
+        "contenuto": "Lodate il nome del Signore, * lodatelo, servi del Signore, voi che state nella casa del Signore, * negli atri della casa del nostro Dio. Lodate il Signore: il Signore è buono; * cantate inni al suo nome, perché è amabile. Il Signore si è scelto Giacobbe, * Israele come suo possesso. Io so che grande è il Signore, * il nostro Dio sopra tutti gli dèi. Tutto ciò che vuole il Signore lo compie, † in cielo e sulla terra, * nei mari e in tutti gli abissi. Fa salire le nubi dall’estremità della terra, † produce le folgori per la pioggia, * dalle sue riserve libera i venti. Egli percosse i primogeniti d’Egitto, * dagli uomini fino al bestiame. Mandò segni e prodigi in mezzo a te, Egitto, * contro il faraone e tutti i suoi ministri. Colpì numerose nazioni * e uccise re potenti: Seon, re degli Amorrèi, Og, re di Basan, * e tutti i regni di Cànaan. Diede la loro terra in eredità a Israele, * in eredità a Israele suo popolo."
+      }
+    ],
+    "lettura_breve": {},
+    "responsorio_breve": {
+      "contenuto": "R.\nEsultate, giusti, nel Signore,\nai santi si addice la\nlode.\nEsultate, giusti, nel Signore, ai santi si addice la lode.\nV.\nCantate al Signore un canto nuovo,\nai santi si addice la lode.\nGloria al Padre e al Figlio e allo Spirito Santo.\nEsultate, giusti, nel Signore, ai santi si addice la lode."
+    },
+    "antifona_cantico_finale": "Benedetto il Signore! Ha visitato e redento il suo popolo.",
+    "cantico_finale": {
+      "riferimento": "Lc 1, 68-79",
+      "contenuto": "Benedetto il Signore Dio d’Israele, *\nperché ha visitato e redento il suo popolo,\ne ha suscitato per noi una salvezza potente *\nnella casa di Davide, suo servo,\ncome aveva promesso *\nper bocca dei suoi santi profeti d’un tempo:\nsalvezza dai nostri nemici, *\ne dalle mani di quanti ci odiano.\nCosì egli ha concesso misericordia ai nostri padri *\ne si è ricordato della sua santa alleanza,\ndel giuramento fatto ad Abramo, nostro padre, *\ndi concederci, liberàti dalle mani dei nemici,\ndi servirlo senza timore, in santità e giustizia *\nal suo cospetto, per tutti i nostri giorni.\nE tu, bambino, sarai chiamato profeta dell’Altissimo *\nperché andrai innanzi al Signore\na preparargli le strade,\nper dare al suo popolo la conoscenza della salvezza *\nnella remissione dei suoi peccati,\ngrazie alla bontà misericordiosa del nostro Dio, *\nper cui verrà a visitarci dall’alto un sole che sorge,\nper rischiarare quelli che stanno nelle tenebre *\ne nell’ombra della morte\ne dirigere i nostri passi *\nsulla via della pace."
+    },
+    "invocazioni": [
+      "Il Cristo ascolta la voce degli umili che confidano in lui e li salva. Confortati da questa certezza, invochiamo il suo nome: Tu sei la nostra speranza, Signore. O Dio, ricco di misericordia, noi ti ringraziamo per il tuo immenso amore. Tu, che agisci sempre nella storia dell'umanità insieme al Padre, rinnova gli uomini e le cose con la forza del tuo Spirito. Dona a noi e ai nostri fratelli uno sguardo di fede, perché possiamo contemplare sempre le tue meraviglie. Redentore di tutti, che in questo giorno ci chiami a cooperare alla tua opera di salvezza, rendici segno della tua grazia verso il nostro prossimo."
+    ],
+    "orazione": "O Dio, che hai affidato all’uomo l’opera della creazione e hai posto al suo servizio le immense energie del cosmo, fa’ che oggi collaboriamo a un mondo più giusto e fraterno a lode della tua gloria. Per il nostro Signore.\nIl Signore ci benedica, ci preservi da ogni male e ci conduca alla vita eterna.\nR.\nAmen."
+  },
+  "vespri": {
+    "tipo": "vespri",
+    "titolo": "LUNEDI' - XXVIII SETTIMANA DEL TEMPO ORDINARIO - IV SETTIMANA DEL SALTERIO",
+    "versicoli": [
+      {
+        "versicolo": "O Dio, vieni a salvarmi",
+        "risposta": "Signore, vieni presto in mio aiuto."
+      }
+    ],
+    "gloria_al_padre": "Gloria al Padre e al Figlio e allo Spirito Santo. Come era nel principio, e ora e sempre nei secoli dei secoli. Amen. Alleluia.",
+    "inno": "O immenso creatore, che all'impeto dei flutti segnasti il corso e il limite nell'armonia del cosmo, tu all'aspre solitudini della terra assetata donasti il refrigerio dei torrenti e dei mari. Irriga, o Padre buono, i deserti dell'anima coi fiumi d'acqua viva che sgorgano dal Cristo. Ascolta, o Padre altissimo, tu che regni nei secoli con il Cristo tuo Figlio e lo Spirito Santo. Amen.",
+    "antifone_e_salmi": [
+      {
+        "antifona_numero": "1",
+        "antifona_testo": "Lodiamo il Signore nostro Dio: eterna è la sua misericordia.",
+        "tipo": "SALMO",
+        "numero": "135,",
+        "titolo": "1-9 (I) Inno pasquale",
+        "contenuto": "Lodate il Signore perché è buono: * eterna è la sua misericordia. Lodate il Dio degli dèi: * Lodate il Signore dei signori: * Egli solo ha compiuto meraviglie: * Ha creato i cieli con sapienza: * Ha stabilito la terra sulle acque: * Ha fatto i grandi luminari: * Il sole per regolare il giorno: * eterna è la sua misericordia; la luna e le stelle per regolare la notte: *"
+      },
+      {
+        "antifona_numero": "2",
+        "antifona_testo": "Grandi, meravigliose le tue opere, Signore onnipotente!",
+        "tipo": "SALMO",
+        "numero": "135,",
+        "titolo": "10-26 (II)",
+        "contenuto": "Percosse l’Egitto nei suoi primogeniti: * eterna è la sua misericordia. Da loro liberò Israele: * eterna è la sua misericordia; con mano potente e braccio teso: * Divise il Mar Rosso in due parti: * In mezzo fece passare Israele: * Travolse il faraone e il suo esercito nel Mar Rosso: * Guidò il suo popolo nel deserto: * ​Percosse grandi sovrani: * ​uccise re potenti: * Seon, re degli Amorrèi: * Og, re di Basan: * Diede in eredità il loro paese: * in eredità a Israele suo servo: * ​Nella nostra umiliazione si è ricordato di noi: * ci ha liberati dai nostri nemici: * Egli dà il cibo ad ogni vivente: * Lodate il Dio del cielo: *"
+      },
+      {
+        "antifona_numero": "3",
+        "antifona_testo": "Ora si compie il disegno del Padre: fare di Cristo il cuore del mondo.",
+        "tipo": "CANTICO",
+        "numero": "Cfr.",
+        "titolo": "Ef 1, 3-10 Dio salvatore",
+        "contenuto": "Benedetto sia Dio, Padre del Signore nostro Gesù Cristo, * che ci ha benedetti con ogni benedizione spirituale nei cieli, in Cristo. In lui ci ha scelti * prima della creazione del mondo, per trovarci, al suo cospetto, * santi e immacolati nell’amore. Ci ha predestinati * a essere suoi figli adottivi per opera di Gesù Cristo, * secondo il beneplacito del suo volere, a lode e gloria della sua grazia, * che ci ha dato nel suo Figlio diletto. In lui abbiamo la redenzione mediante il suo sangue, * la remissione dei peccati secondo la ricchezza della sua grazia. Dio l’ha abbondantemente riversata su di noi con ogni sapienza e intelligenza, * poiché egli ci ha fatto conoscere il mistero del suo volere, il disegno di ricapitolare in Cristo tutte le cose, * quelle del cielo come quelle della terra. Nella sua benevolenza lo aveva in lui prestabilito * per realizzarlo nella pienezza dei tempi."
+      }
+    ],
+    "lettura_breve": {},
+    "responsorio_breve": {
+      "contenuto": "R.\nSalga a te, Signore,\nla mia preghiera.\nSalga a te, Signore, la mia preghiera.\nV.\nCome profumo d’incenso\nla mia preghiera.\nGloria al Padre e al Figlio e allo Spirito Santo.\nSalga a te, Signore, la mia preghiera."
+    },
+    "antifona_cantico_finale": "Senza fine ti esalto, mio Dio!",
+    "cantico_finale": {
+      "riferimento": "Lc 1, 46-55",
+      "contenuto": "L’anima mia magnifica il Signore *\ne il mio spirito esulta in Dio, mio salvatore,\nperché ha guardato l’umiltà della sua serva. *\nD’ora in poi tutte le generazioni\nmi chiameranno beata.\nGrandi cose ha fatto in me l’Onnipotente *\ne Santo è il suo nome:\ndi generazione in generazione la sua misericordia *\nsi stende su quelli che lo temono.\nHa spiegato la potenza del suo braccio, *\nha disperso i superbi nei pensieri del loro cuore;\nha rovesciato i potenti dai troni, *\nha innalzato gli umili;\nha ricolmato di beni gli affamati, *\nha rimandato i ricchi a mani vuote.\nHa soccorso Israele, suo servo, *\nricordandosi della sua misericordia,\ncome aveva promesso ai nostri padri, *\nad Abramo e alla sua discendenza, per sempre."
+    },
+    "intercessioni": [
+      "Lo Spirito rende testimonianza al nostro cuore che il Cristo intercede sempre per noi. Sorretti da questa fede diciamo: O Dio nostro, ascoltaci. Cristo, sole di giustizia, illumina la tua Chiesa, perché annunzi alle genti il grande mistero del Dio fatto uomo per la nostra liberazione. Veglia sui sacerdoti e su tutti i ministri della tua Chiesa, la loro vita non sia mai in dissonanza con il vangelo che proclamano ai fratelli. Tu, che ci hai acquistato la pace a prezzo del tuo sangue, tieni lontano da noi il male della discordia e il flagello della guerra. Aiuta con l'abbondanza delle tue benedizioni gli sposi cristiani, perché esprimano nella loro unione il mistero della tua Chiesa. Libera da ogni peccato i nostri defunti, siano eternamente felici nella gloria dei santi."
+    ],
+    "orazione": "Confortaci, o Dio, con la presenza del Figlio tuo, e ravviva la nostra fede, perché sappiamo riconoscerlo, come i discepoli a Emmaus, alla mensa della parola e del pane. Egli è Dio, e vive e regna con te, nell’unità dello Spirito Santo, per tutti i secoli dei secoli.\nIl Signore ci benedica, ci preservi da ogni male e ci conduca alla vita eterna.\nR.\nAmen."
+  },
+  "santo_del_giorno": {
+    "giorno": "13 Ottobre",
+    "santo_principale": {
+      "nome": "San Fiorenzo",
+      "martirologio": "martire"
+    },
+    "altri_santi": [],
+    "numero_santi_celebrati": 1
+  }
+}

@@ -1,0 +1,123 @@
+{
+  "data": "12/10/2025",
+  "data_iso": "20251012",
+  "giorno_settimana": "Sunday",
+  "lodi_mattutine": {
+    "tipo": "lodi-mattutine",
+    "titolo": "",
+    "versicoli": [
+      {
+        "versicolo": "O Dio, vieni a salvarmi",
+        "risposta": "Signore, vieni presto in mio aiuto."
+      }
+    ],
+    "gloria_al_padre": "Gloria al Padre e al Figlio e allo Spirito Santo. Come era nel principio, e ora e sempre nei secoli dei secoli. Amen. Alleluia.",
+    "inno": "O giorno primo ed ultimo, giorno radioso e splendido del trionfo di Cristo! Il Signore risorto promulga per i secoli l'editto della pace. Pace fra cielo e terra, pace fra tutti i popoli, pace nei nostri cuori. L'alleluia pasquale risuoni nella Chiesa pellegrina nel mondo; e si unisca alla lode, armoniosa e perenne, dell'assemblea dei santi. A te la gloria, o Cristo, la potenza e l'onore, nei secoli dei secoli. Amen.",
+    "antifone_e_salmi": [
+      {
+        "antifona_numero": "1",
+        "antifona_testo": "Rendete grazie al Signore: eterna è la sua misericordia, alleluia.",
+        "tipo": "SALMO",
+        "numero": "117",
+        "titolo": "Canto di gioia e di vittoria",
+        "contenuto": "Celebrate il Signore, perché è buono; * eterna è la sua misericordia. Dica Israele che egli è buono: * Lo dica la casa di Aronne: * Lo dica chi teme Dio: * Nell’angoscia ho gridato al Signore, * mi ha risposto, il Signore, e mi ha tratto in salvo. Il Signore è con me, non ho timore; * che cosa può farmi l’uomo? Il Signore è con me, è mio aiuto, * sfiderò i miei nemici. È meglio rifugiarsi nel Signore * che confidare nell’uomo. che confidare nei potenti. Tutti i popoli mi hanno circondato, * ma nel nome del Signore li ho sconfitti. Mi hanno circondato, mi hanno accerchiato, * Mi hanno circondato come api, † come fuoco che divampa tra le spine, * Mi avevano spinto con forza per farmi cadere, * ma il Signore è stato mio aiuto. Mia forza e mio canto è il Signore, * egli è stato la mia salvezza. Grida di giubilo e di vittoria, * nelle tende dei giusti: la destra del Signore ha fatto meraviglie, † la destra del Signore si è alzata, * la destra del Signore ha fatto meraviglie. Non morirò, resterò in vita * e annunzierò le opere del Signore. Il Signore mi ha provato duramente, * ma non mi ha consegnato alla morte. Apritemi le porte della giustizia: * entrerò a rendere grazie al Signore. È questa la porta del Signore, * per essa entrano i giusti. Ti rendo grazie, perché mi hai esaudito, * perché sei stato la mia salvezza. La pietra scartata dai costruttori * è divenuta testata d’angolo; ecco l’opera del Signore: * una meraviglia ai nostri occhi. Questo è il giorno fatto dal Signore: * rallegriamoci ed esultiamo in esso. Dona, Signore, la tua salvezza, * dona, Signore, la tua vittoria! Benedetto colui che viene nel nome del Signore. * Vi benediciamo dalla casa del Signore; Dio, il Signore, è nostra luce. † Ordinate il corteo con rami frondosi * fino ai lati dell’altare. Sei tu il mio Dio e ti rendo grazie, * sei il mio Dio e ti esalto. Celebrate il Signore, perché è buono: *"
+      },
+      {
+        "antifona_numero": "2",
+        "antifona_testo": "Alleluia, opere del Signore, benedite il Signore, alleluia.",
+        "tipo": "CANTICO",
+        "numero": "Dn",
+        "titolo": "3, 52-57 Ogni creatura lodi il Signore",
+        "contenuto": "Benedetto sei tu, Signore, Dio dei padri nostri, * degno di lode e di gloria nei secoli. Benedetto il tuo nome glorioso e santo, * ​Benedetto sei tu nel tuo tempio santo glorioso, * ​Benedetto sei tu sul trono del tuo regno, * Benedetto sei tu che penetri con lo sguardo gli abissi † e siedi sui cherubini, * Benedetto sei tu nel firmamento del cielo, * ​Benedite, opere tutte del Signore, il Signore, * lodatelo ed esaltatelo nei secoli."
+      },
+      {
+        "antifona_numero": "3",
+        "antifona_testo": "Ogni vivente dia lode al Signore, alleluia.",
+        "tipo": "SALMO",
+        "numero": "150",
+        "titolo": "Ogni vivente dia lode al Signore",
+        "contenuto": "Lodate il Signore nel suo santuario, * lodatelo nel firmamento della sua potenza. Lodatelo per i suoi prodigi, * lodatelo per la sua immensa grandezza. Lodatelo con squilli di tromba, * lodatelo con arpa e cetra; lodatelo con timpani e danze, * lodatelo sulle corde e sui flauti. Lodatelo con cembali sonori, † lodatelo con cembali squillanti; * ogni vivente dia lode al Signore."
+      }
+    ],
+    "lettura_breve": {
+      "riferimento": "2 Tm 2, 8. 11-13",
+      "contenuto": "Ricòrdati che Gesù Cristo, della stirpe di Davide, è risuscitato dai morti. Certa è questa parola: Se moriamo con lui, vivremo anche con lui; se con lui perseveriamo, con lui anche regneremo; se lo rinneghiamo, anch'egli ci rinnegherà; se noi manchiamo di fede, egli però rimane fedele, perché non può rinnegare se stesso."
+    },
+    "responsorio_breve": {
+      "contenuto": "R.\nTi rendiamo grazie, Signore,\ninvochiamo il tuo\nnome.\nTi rendiamo grazie, Signore, invochiamo il tuo nome.\nV.\nRaccontiamo i tuoi prodigi,\ninvochiamo il tuo nome.\nGloria al Padre e al Figlio e allo Spirito Santo.\nTi rendiamo grazie, Signore, invochiamo il tuo nome."
+    },
+    "antifona_cantico_finale": "Se perseveriamo con Cristo, con lui regneremo; se manchiamo di fede, egli rimane fedele.",
+    "cantico_finale": {
+      "riferimento": "Lc 1, 68-79",
+      "contenuto": "Benedetto il Signore Dio d’Israele, *\nperché ha visitato e redento il suo popolo,\ne ha suscitato per noi una salvezza potente *\nnella casa di Davide, suo servo,\ncome aveva promesso *\nper bocca dei suoi santi profeti d’un tempo:\nsalvezza dai nostri nemici, *\ne dalle mani di quanti ci odiano.\nCosì egli ha concesso misericordia ai nostri padri *\ne si è ricordato della sua santa alleanza,\ndel giuramento fatto ad Abramo, nostro padre, *\ndi concederci, liberàti dalle mani dei nemici,\ndi servirlo senza timore, in santità e giustizia *\nal suo cospetto, per tutti i nostri giorni.\nE tu, bambino, sarai chiamato profeta dell’Altissimo *\nperché andrai innanzi al Signore\na preparargli le strade,\nper dare al suo popolo la conoscenza della salvezza *\nnella remissione dei suoi peccati,\ngrazie alla bontà misericordiosa del nostro Dio, *\nper cui verrà a visitarci dall’alto un sole che sorge,\nper rischiarare quelli che stanno nelle tenebre *\ne nell’ombra della morte\ne dirigere i nostri passi *\nsulla via della pace."
+    },
+    "invocazioni": [
+      "Apriamo con fiducia il nostro cuore al Dio della potenza e della misericordia, che ci ama e conosce le nostre necessità. A lui rivolgiamo la nostra lode e la nostra preghiera: Noi ti glorifichiamo, Signore, e confidiamo in te. Benedetto sii tu, Re dell'universo, che ci hai tratto dalle tenebre dell'errore e del peccato alla splendida luce del tuo regno, e ci hai chiamati a servirti nella santa Chiesa. Tu che ci hai aperto le braccia della tua misericordia, non permettere che deviamo mai dal sentiero della vita.",
+      "Concedici di trascorrere in letizia questo giorno, in cui celebriamo la risurrezione del tuo Figlio. Dona ai tuoi fedeli lo spirito di orazione e di lode, perché tutta la nostra vita sia un rendimento di grazie a te."
+    ],
+    "orazione": "Ci preceda e ci accompagni sempre la tua grazia, Signore, perché, sorretti dal tuo paterno aiuto, non ci stanchiamo mai di operare il bene. Per il nostro Signore.\nIl Signore ci benedica, ci preservi da ogni male e ci conduca alla vita eterna.\nR.\nAmen."
+  },
+  "vespri": {
+    "tipo": "vespri",
+    "titolo": "",
+    "versicoli": [
+      {
+        "versicolo": "O Dio, vieni a salvarmi",
+        "risposta": "Signore, vieni presto in mio aiuto."
+      }
+    ],
+    "gloria_al_padre": "Gloria al Padre e al Figlio e allo Spirito Santo. Come era nel principio, e ora e sempre nei secoli dei secoli. Amen. Alleluia.",
+    "inno": "Dio, che all'alba dei tempi creasti la luce nuova, accogli il nostro canto, mentre scende la sera. Veglia sopra i tuoi figli pellegrini nel mondo; la morte non ci colga prigionieri del male. La tua luce risplenda nell'intimo dei cuori, e sia pegno e primizia della gloria dei cieli. Te la voce proclami, o Dio trino e unico, te canti il nostro cuore, te adori il nostro spirito. Amen.",
+    "antifone_e_salmi": [
+      {
+        "antifona_numero": "1",
+        "antifona_testo": "\u0001La pace sia con te, Gerusalemme!",
+        "tipo": "SALMO",
+        "numero": "121",
+        "titolo": "Saluto alla città santa di Gerusalemme",
+        "contenuto": "Quale gioia, quando mi dissero: * «Andremo alla casa del Signore». E ora i nostri piedi si fermano * alle tue porte, Gerusalemme! Gerusalemme è costruita* come città salda e compatta. ​Là salgono insieme le tribù, le tribù del Signore, † secondo la legge di Israele, * per lodare il nome del Signore. ​Là sono posti i seggi del giudizio, * i seggi della casa di Davide. ​Domandate pace per Gerusalemme: * sia pace a coloro che ti amano, sia pace sulle tue mura, * sicurezza nei tuoi baluardi. Per i miei fratelli e i miei amici * io dirò: «Su di te sia pace!». Per la casa del Signore nostro Dio, * chiederò per te il bene."
+      },
+      {
+        "antifona_numero": "2",
+        "antifona_testo": "Più che la sentinella il mattino, l'anima mia attende il Signore.",
+        "tipo": "SALMO",
+        "numero": "129",
+        "titolo": "Dal profondo a te grido",
+        "contenuto": "Dal profondo a te grido, o Signore; * Signore, ascolta la mia voce. Siano i tuoi orecchi attenti * alla voce della mia preghiera. Se consideri le colpe, Signore, * Signore, chi potrà sussistere? Ma presso di te è il perdono, * perciò avremo il tuo timore. Io spero nel Signore, * l'anima mia spera nella sua parola. L'anima mia attende il Signore * più che le sentinelle l'aurora. Israele attenda il Signore, * perché presso il Signore è la misericordia, grande è presso di lui la redenzione; * egli redimerà Israele da tutte le sue colpe."
+      },
+      {
+        "antifona_numero": "3",
+        "antifona_testo": "Cielo e terra si pieghino al nome di Cristo Signore, alleluia.",
+        "tipo": "CANTICO",
+        "numero": "Fil",
+        "titolo": "2, 6-11 Cristo, servo di Dio",
+        "contenuto": "Cristo Gesù, pur essendo di natura divina, * non considerò un tesoro geloso la sua uguaglianza con Dio; ma spogliò se stesso, † assumendo la condizione di servo * e divenendo simile agli uomini; apparso in forma umana, umiliò se stesso † facendosi obbediente fino alla morte * e alla morte di croce. Per questo Dio l'ha esaltato * e gli ha dato il nome che è al di sopra di ogni altro nome; perché nel nome di Gesù ogni ginocchio si pieghi † \u0001nei cieli, sulla terra * \u0001e sotto terra; \u0001e ogni lingua proclami che Gesù Cristo è il Signore, * \u0001a gloria di Dio Padre."
+      }
+    ],
+    "lettura_breve": {
+      "riferimento": "2 Pt 1, 19-20",
+      "contenuto": "Abbiamo conferma migliore della parola dei profeti, alla quale fate bene a volgere l'attenzione, come a lampada che brilla in un luogo oscuro, finché non spunti il giorno e la stella del mattino si levi nei vostri cuori. Sappiate anzitutto questo: nessuna scrittura profetica va soggetta a privata spiegazione, poiché non da volontà umana fu recata mai una profezia, ma mossi da Spirito Santo parlarono quegli uomini da parte di Dio."
+    },
+    "responsorio_breve": {
+      "contenuto": "R.\nDal sorgere del sole fino al tramonto\nlodate il\nnome del Signore.\nDal sorgere del sole fino al tramonto lodate il nome\ndel Signore.\nV.\nL’immensa sua gloria supera i cieli:\nlodate il nome del Signore.\nGloria al Padre e al Figlio e allo Spirito Santo.\nDal sorgere del sole fino al tramonto lodate il nome\ndel Signore."
+    },
+    "antifona_cantico_finale": "Soltanto uno straniero è tornato a rendere gloria a Dio? Alzati e va': la tua fede ti ha salvato.",
+    "cantico_finale": {
+      "riferimento": "Lc 1, 46-55",
+      "contenuto": "L’anima mia magnifica il Signore *\ne il mio spirito esulta in Dio, mio salvatore,\nperché ha guardato l’umiltà della sua serva. *\nD’ora in poi tutte le generazioni\nmi chiameranno beata.\nGrandi cose ha fatto in me l’Onnipotente *\ne Santo è il suo nome:\ndi generazione in generazione la sua misericordia *\nsi stende su quelli che lo temono.\nHa spiegato la potenza del suo braccio, *\nha disperso i superbi nei pensieri del loro cuore;\nha rovesciato i potenti dai troni, *\nha innalzato gli umili;\nha ricolmato di beni gli affamati, *\nha rimandato i ricchi a mani vuote.\nHa soccorso Israele, suo servo, *\nricordandosi della sua misericordia,\ncome aveva promesso ai nostri padri, *\nad Abramo e alla sua discendenza, per sempre."
+    },
+    "intercessioni": [
+      "Il Cristo è la gioia di quanti sperano in lui. Per godere di questo dono invochiamolo con fede: Guarda il tuo popolo e ascolta la nostra preghiera. Testimone fedele, primogenito dei morti, che hai lavato nel tuo sangue le nostre anime, donaci di celebrare sempre con gratitudine le meraviglie del tuo amore. Illumina e sostieni i missionari del vangelo, perché siano fedeli e coraggiosi ministri del tuo regno. Re della pace, dona il tuo Spirito ai legislatori e ai governanti, perché promuovano il bene dei poveri e dei diseredati. Soccorri quelli che sono discriminati a causa della nazionalità, del colore, della condizione sociale, della lingua o della religione, fa' che ottengano il riconoscimento dei loro diritti. Accogli nella tua pace i fedeli che si sono addormentati credendo e sperando in te, rendili partecipi della tua beatitudine insieme a Maria e a tutti i santi."
+    ],
+    "orazione": "Ci preceda e ci accompagni sempre la tua grazia, Signore, perché, sorretti dal tuo paterno aiuto, non ci stanchiamo mai di operare il bene. Per il nostro Signore.\nIl Signore ci benedica, ci preservi da ogni male e ci conduca alla vita eterna.\nR.\nAmen."
+  },
+  "santo_del_giorno": {
+    "giorno": "12 Ottobre",
+    "santo_principale": {
+      "nome": "",
+      "martirologio": ""
+    },
+    "altri_santi": [],
+    "numero_santi_celebrati": 1
+  }
+}

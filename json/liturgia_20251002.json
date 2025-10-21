@@ -1,0 +1,114 @@
+{
+  "data": "02/10/2025",
+  "data_iso": "20251002",
+  "giorno_settimana": "Thursday",
+  "lodi_mattutine": {
+    "tipo": "lodi-mattutine",
+    "titolo": "",
+    "versicoli": [
+      {
+        "versicolo": "O Dio, vieni a salvarmi",
+        "risposta": "Signore, vieni presto in mio aiuto."
+      }
+    ],
+    "gloria_al_padre": "Gloria al Padre e al Figlio e allo Spirito Santo. Come era nel principio, e ora e sempre nei secoli dei secoli. Amen. Alleluia.",
+    "inno": "O Cristo, Verbo del Padre, re glorioso fra gli angeli, luce e salvezza del mondo, in te crediamo. Cibo e bevanda di vita, balsamo, veste, dimora, forza, rifugio, conforto, in te speriamo. Illumina col tuo Spirito l'oscura notte del male, orienta il nostro cammino incontro al Padre. Amen. Oppure: Orbis patrátor óptime, quæcúmque sunt qui déxtera magna creásti, nec regis minóre providéntia, Adésto supplicántium tibi reórum c tui, lucísque sub crepúsculum lucem novam da méntibus. Tuúsque nobis ángelus, signátus ad custódiam, hic adsit, a contágio qui críminum nos prótegat. Nobis dracónis æmuli calúmnias extérminet, ne rete frauduléntiæ incáuta nectat péctora. Metum repéllat hóstium nostris procul de fínibus; pacem secúndet cívium fugétque pestiléntiam. Deo Patri sit glória, qui, quos redémit Fílius et Sanctus unxit Spíritus, per ángelos custódiat. Amen.",
+    "antifone_e_salmi": [
+      {
+        "antifona_numero": "1",
+        "antifona_testo": "Il Signore ti manderà il suo angelo, e custodirà il tuo cammino.",
+        "tipo": "SALMO",
+        "numero": "62,",
+        "titolo": "2-9 L'anima assetata del Signore",
+        "contenuto": "O Dio, tu sei il mio Dio, all’aurora ti cerco, * di te ha sete l’anima mia, a te anela la mia carne, * come terra deserta, arida, senz’acqua. Così nel santuario ti ho cercato, * per contemplare la tua potenza e la tua gloria. Poiché la tua grazia vale più della vita, * le mie labbra diranno la tua lode. Così ti benedirò finché io viva, * nel tuo nome alzerò le mie mani. Mi sazierò come a lauto convito, * e con voci di gioia ti loderà la mia bocca. Nel mio giaciglio di te mi ricordo, * penso a te nelle veglie notturne, tu sei stato il mio aiuto; * esulto di gioia all’ombra delle tue ali. A te si stringe * l’anima mia. La forza della tua destra * mi sostiene."
+      },
+      {
+        "antifona_numero": "2",
+        "antifona_testo": "Benedetto il Signore! Egli manda il suo angelo e libera i suoi fedeli.",
+        "tipo": "CANTICO",
+        "numero": "Dn",
+        "titolo": "3, 57-88. 56 Ogni creatura lodi il Signore",
+        "contenuto": "Benedite, opere tutte del Signore, il Signore, * lodatelo ed esaltatelo nei secoli. Benedite, angeli del Signore, il Signore, * benedite, cieli, il Signore. Benedite, acque tutte, che siete sopra i cieli, il Signore, * benedite, potenze tutte del Signore, il Signore. Benedite, sole e luna, il Signore, * benedite, stelle del cielo, il Signore. Benedite, piogge e rugiade, il Signore, * benedite, o venti tutti, il Signore. Benedite, fuoco e calore, il Signore, * benedite, freddo e caldo, il Signore. Benedite, rugiada e brina, il Signore, * benedite, gelo e freddo, il Signore. Benedite, ghiacci e nevi, il Signore, * benedite, notti e giorni, il Signore. Benedite, luce e tenebre, il Signore, * benedite, folgori e nubi, il Signore. Benedica la terra il Signore, * lo lodi e lo esalti nei secoli. Benedite, monti e colline, il Signore, * benedite, creature tutte che germinate sulla terra, il Signore. Benedite, sorgenti, il Signore, * benedite, mari e fiumi, il Signore. Benedite, mostri marini e quanto si muove nell’acqua, il Signore, * benedite, uccelli tutti dell’aria, il Signore. Benedite, animali tutti, selvaggi e domestici, benedite, figli dell’uomo, il Signore. Benedica Israele il Signore, * Benedite, sacerdoti del Signore, il Signore, * benedite, o servi del Signore, il Signore. Benedite, spiriti e anime dei giusti, il Signore, * benedite, pii e umili di cuore, il Signore. Benedite, Anania, Azaria e Misaele, il Signore, * Benediciamo il Padre e il Figlio con lo Spirito Santo, * lodiamolo ed esaltiamolo nei secoli. Benedetto sei tu, Signore, nel firmamento del cielo, * degno di lode e di gloria nei secoli. Alla fine di questo cantico non si dice il Gloria al Padre"
+      },
+      {
+        "antifona_numero": "3",
+        "antifona_testo": "Voi tutti, angeli e forze del cielo, lodate il Signore.",
+        "tipo": "SALMO",
+        "numero": "149",
+        "titolo": "Festa degli amici di Dio",
+        "contenuto": "Cantate al Signore un canto nuovo; * la sua lode nell’assemblea dei fedeli. Gioisca Israele nel suo Creatore, * esultino nel loro Re i figli di Sion. Lodino il suo nome con danze, * con timpani e cetre gli cantino inni. Il Signore ama il suo popolo, * incorona gli umili di vittoria. Esultino i fedeli nella gloria, * sorgano lieti dai loro giacigli. Le lodi di Dio sulla loro bocca * e la spada a due tagli nelle loro mani, per compiere la vendetta tra i popoli * e punire le genti; per stringere in catene i loro capi, * i loro nobili in ceppi di ferro; per eseguire su di essi * il giudizio già scritto: questa è la gloria * per tutti i suoi fedeli."
+      }
+    ],
+    "lettura_breve": {
+      "riferimento": "Cfr. Es 23, 20-22",
+      "contenuto": "Ecco, io mando un angelo davanti a te per custodirti sul cammino e per farti entrare nel luogo che ti ho preparato. Abbi rispetto della sua presenza, ascolta la sua voce e non ribellarti a lui; egli infatti non perdonerebbe la tua trasgressione perché il mio nome è in lui. Se tu ascolti la sua voce e fai quanto ti dirò, io sarò il nemico dei tuoi nemici e l'avversario dei tuoi avversari."
+    },
+    "responsorio_breve": {
+      "contenuto": "R.\nDavanti agli angeli\ncanto per te, mio Dio.\nDavanti agli angeli canto per te, mio Dio.\nV.\nRendo grazie al tuo nome,\ncanto per te, mio Dio.\nGloria al Padre e al Figlio e allo Spirito Santo.\nDavanti agli angeli canto per te, mio Dio."
+    },
+    "antifona_cantico_finale": "Benedetto il Signore! Egli manda i suoi ministri a servire ogni uomo chiamato alla salvezza.",
+    "cantico_finale": {
+      "riferimento": "Lc 1, 68-79",
+      "contenuto": "Benedetto il Signore Dio d’Israele, *\nperché ha visitato e redento il suo popolo,\ne ha suscitato per noi una salvezza potente *\nnella casa di Davide, suo servo,\ncome aveva promesso *\nper bocca dei suoi santi profeti d’un tempo:\nsalvezza dai nostri nemici, *\ne dalle mani di quanti ci odiano.\nCosì egli ha concesso misericordia ai nostri padri *\ne si è ricordato della sua santa alleanza,\ndel giuramento fatto ad Abramo, nostro padre, *\ndi concederci, liberàti dalle mani dei nemici,\ndi servirlo senza timore, in santità e giustizia *\nal suo cospetto, per tutti i nostri giorni.\nE tu, bambino, sarai chiamato profeta dell’Altissimo *\nperché andrai innanzi al Signore\na preparargli le strade,\nper dare al suo popolo la conoscenza della salvezza *\nnella remissione dei suoi peccati,\ngrazie alla bontà misericordiosa del nostro Dio, *\nper cui verrà a visitarci dall’alto un sole che sorge,\nper rischiarare quelli che stanno nelle tenebre *\ne nell’ombra della morte\ne dirigere i nostri passi *\nsulla via della pace."
+    },
+    "invocazioni": [
+      "Glorifichiamo il Signore, adorato da infinite schiere di angeli e alla loro voce uniamo la nostra, acclamando: Con gli angeli e gli arcangeli ti benediciamo, Signore. O Dio, che hai ordinato agli angeli di custodirci nel nostro cammino, salvaci dalle insidie e dai pericoli. Tu che riveli agli angeli la gloria del tuo volto, fa' che viviamo sempre alla luce della tua presenza. Tu che un giorno renderai i tuoi figli simili agli angeli, donaci la castità del corpo e del cuore. O Dio, fa' che il glorioso principe san Michele venga in aiuto al tuo popolo, e lo difenda contro Satana e i suoi alleati."
+    ],
+    "orazione": "O Dio, che nella tua misteriosa provvidenza mandi dal cielo i tuoi angeli a nostra custodia e protezione, fa’ che nel cammino della vita siamo sempre sorretti dal loro aiuto per essere uniti con loro nella gioia eterna. Per il nostro Signore.\nIl Signore ci benedica, ci preservi da ogni male e ci conduca alla vita eterna.\nR.\nAmen."
+  },
+  "vespri": {
+    "tipo": "vespri",
+    "titolo": "",
+    "versicoli": [
+      {
+        "versicolo": "O Dio, vieni a salvarmi",
+        "risposta": "Signore, vieni presto in mio aiuto."
+      }
+    ],
+    "gloria_al_padre": "Gloria al Padre e al Figlio e allo Spirito Santo. Come era nel principio, e ora e sempre nei secoli dei secoli. Amen. Alleluia.",
+    "inno": "O Cristo, Verbo del Padre, re glorioso fra gli angeli, luce e salvezza del mondo, in te crediamo. Cibo e bevanda di vita, balsamo, veste, dimora, forza, rifugio, conforto, in te speriamo. Illumina col tuo Spirito l'oscura notte del male, orienta il nostro cammino incontro al Padre. Amen. Oppure: Orbis patrátor óptime, quæcúmque sunt qui déxtera magna creásti, nec regis minóre providéntia, Adésto supplicántium tibi reórum c tui, lucísque sub crepúsculum lucem novam da méntibus. Tuúsque nobis ángelus, signátus ad custódiam, hic adsit, a contágio qui críminum nos prótegat. Nobis dracónis æmuli calúmnias extérminet, ne rete frauduléntiæ incáuta nectat péctora. Metum repéllat hóstium nostris procul de fínibus; pacem secúndet cívium fugétque pestiléntiam. Deo Patri sit glória, qui, quos redémit Fílius et Sanctus unxit Spíritus, per ángelos custódiat. Amen.",
+    "antifone_e_salmi": [
+      {
+        "antifona_numero": "1",
+        "antifona_testo": "Attorno a quelli che temono Dio l'angelo si accampa, e li salva.",
+        "tipo": "SALMO",
+        "numero": "33",
+        "titolo": "I (1-11)",
+        "contenuto": "Benedirò il Signore in ogni tempo, * sulla mia bocca sempre la sua lode. Io mi glorio nel Signore, * ascoltino gli umili e si rallegrino. Celebrate con me il Signore, * esaltiamo insieme il suo nome. Ho cercato il Signore e mi ha risposto * e da ogni timore mi ha liberato. Guardate a lui e sarete raggianti, * non saranno confusi i vostri volti. Questo povero grida e il Signore lo ascolta, * lo libera da tutte le sue angosce. L’angelo del Signore si accampa * attorno a quelli che lo temono e li salva. Gustate e vedete quanto è buono il Signore; * beato l’uomo che in lui si rifugia. Temete il Signore, suoi santi, * nulla manca a coloro che lo temono. I ricchi impoveriscono e hanno fame, * ma chi cerca il Signore non manca di nulla."
+      },
+      {
+        "antifona_numero": "3",
+        "antifona_testo": "Benedite Dio nei cieli, rendete grazie davanti ai viventi: ha rivelato a voi la sua misericordia.",
+        "tipo": "CANTICO",
+        "numero": "Cfr.",
+        "titolo": "Ap 11, 17-18; 12, 10b-12a",
+        "contenuto": "Noi ti rendiamo grazie, Signore Dio onnipotente, * che sei e che eri, perché hai messo mano alla tua grande potenza, * e hai instaurato il tuo regno. Le genti fremettero, † ma è giunta l’ora della tua ira, * il tempo di giudicare i morti, di dare la ricompensa ai tuoi servi, † ai profeti e ai santi * e a quanti temono il tuo nome, piccoli e grandi. Ora si è compiuta la salvezza, la forza e il regno del nostro Dio * e la potenza del suo Cristo, poiché è stato precipitato l’Accusatore; † colui che accusava i nostri fratelli, * davanti al nostro Dio giorno e notte. Essi lo hanno vinto per il sangue dell’Agnello † e la testimonianza del loro martirio, * perché hanno disprezzato la vita fino a morire. Esultate, dunque, o cieli, * rallegratevi e gioite, voi che abitate in essi."
+      }
+    ],
+    "lettura_breve": {
+      "riferimento": "Ap 8, 3-4",
+      "contenuto": "Venne un angelo e si fermò all'altare, reggendo un incensiere d'oro. Gli furono dati molti profumi perché li offrisse insieme con le preghiere di tutti i santi bruciandoli sull'altare d'oro, posto davanti al trono. E dalla mano dell'angelo il fumo degli aromi salì davanti a Dio, insieme con le preghiere dei santi."
+    },
+    "responsorio_breve": {
+      "contenuto": "R.\nAi suoi angeli ti ha affidato:\ncustodiranno la tua\nvia.\nAi suoi angeli ti ha affidato: custodiranno la tua via.\nV.\nTi porteranno sulle loro mani,\ncustodiranno la tua via.\nGloria al Padre e al Figlio e allo Spirito Santo.\nAi suoi angeli ti ha affidato: custodiranno la tua via."
+    },
+    "antifona_cantico_finale": "I loro angeli vedono sempre il volto del Padre mio che è nei cieli.",
+    "cantico_finale": {
+      "riferimento": "Lc 1, 46-55",
+      "contenuto": "L’anima mia magnifica il Signore *\ne il mio spirito esulta in Dio, mio salvatore,\nperché ha guardato l’umiltà della sua serva. *\nD’ora in poi tutte le generazioni\nmi chiameranno beata.\nGrandi cose ha fatto in me l’Onnipotente *\ne Santo è il suo nome:\ndi generazione in generazione la sua misericordia *\nsi stende su quelli che lo temono.\nHa spiegato la potenza del suo braccio, *\nha disperso i superbi nei pensieri del loro cuore;\nha rovesciato i potenti dai troni, *\nha innalzato gli umili;\nha ricolmato di beni gli affamati, *\nha rimandato i ricchi a mani vuote.\nHa soccorso Israele, suo servo, *\nricordandosi della sua misericordia,\ncome aveva promesso ai nostri padri, *\nad Abramo e alla sua discendenza, per sempre."
+    },
+    "intercessioni": [
+      "Sia benedetto Dio, che nella sua provvidenza ci ha affidati ai suoi angeli, perché ci custodiscano nel nostro cammino. Uniti nella lode della sera, diciamo con fede: Re degli angeli, ascoltaci. O Dio, che hai costituito gli angeli annunziatori delle tue opere meravigliose, fa' che ci aiutino a proclamare con le parole e la vita le tue grandezze. O Signore Altissimo, che gli angeli acclamano e lodano senza posa, fa' che tutti si uniscano alla lode perenne che ti innalza la Chiesa. Tu che comandi agli angeli di custodire i tuoi fedeli, fa' che i viaggiatori e gli esuli tornino felicemente alle loro case. Tu che hai affidato agli angeli l'annunzio di pace, fa' che portino la pace su tutta la terra. Quando manderai gli angeli a riunire gli uomini dai quattro angoli della terra, fa' che tutti i tuoi figli siano introdotti nell'assemblea degli eletti."
+    ],
+    "orazione": "O Dio, che nella tua misteriosa provvidenza mandi dal cielo i tuoi angeli a nostra custodia e protezione, fa’ che nel cammino della vita siamo sempre sorretti dal loro aiuto per essere uniti con loro nella gioia eterna. Per il nostro Signore.\nIl Signore ci benedica, ci preservi da ogni male e ci conduca alla vita eterna.\nR.\nAmen."
+  },
+  "santo_del_giorno": {
+    "giorno": "2 Ottobre",
+    "santo_principale": {
+      "nome": "",
+      "martirologio": ""
+    },
+    "altri_santi": [],
+    "numero_santi_celebrati": 1
+  }
+}

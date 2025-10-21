@@ -1,0 +1,188 @@
+{
+  "data": "19/10/2025",
+  "data_iso": "20251019",
+  "giorno_settimana": "Sunday",
+  "lodi_mattutine": {
+    "tipo": "lodi-mattutine",
+    "titolo": "",
+    "versicoli": [
+      {
+        "versicolo": "O Dio, vieni a salvarmi",
+        "risposta": "Signore, vieni presto in mio aiuto."
+      }
+    ],
+    "gloria_al_padre": "Gloria al Padre e al Figlio e allo Spirito Santo. Come era nel principio, e ora e sempre nei secoli dei secoli. Amen. Alleluia.",
+    "inno": "O giorno primo ed ultimo, giorno radioso e splendido del trionfo di Cristo! Il Signore risorto promulga per i secoli l'editto della pace. Pace fra cielo e terra, pace fra tutti i popoli, pace nei nostri cuori. L'alleluia pasquale risuoni nella Chiesa pellegrina nel mondo; e si unisca alla lode, armoniosa e perenne, dell'assemblea dei santi. A te la gloria, o Cristo, la potenza e l'onore, nei secoli dei secoli. Amen.",
+    "antifone_e_salmi": [
+      {
+        "antifona_numero": "1",
+        "antifona_testo": "Dall'aurora io ti cerco, o Dio: che io veda la tua potenza e la tua gloria, alleluia.",
+        "tipo": "SALMO",
+        "numero": "62,",
+        "titolo": "2-9 L'anima assetata del Signore",
+        "contenuto": "O Dio, tu sei il mio Dio, all’aurora ti cerco, * di te ha sete l’anima mia, a te anela la mia carne, * come terra deserta, arida, senz’acqua. Così nel santuario ti ho cercato, * per contemplare la tua potenza e la tua gloria. Poiché la tua grazia vale più della vita, * le mie labbra diranno la tua lode. Così ti benedirò finché io viva, * nel tuo nome alzerò le mie mani. Mi sazierò come a lauto convito, * e con voci di gioia ti loderà la mia bocca. Nel mio giaciglio di te mi ricordo, * penso a te nelle veglie notturne, tu sei stato il mio aiuto; * esulto di gioia all’ombra delle tue ali. A te si stringe * l’anima mia. La forza della tua destra * mi sostiene."
+      },
+      {
+        "antifona_numero": "2",
+        "antifona_testo": "Nel fuoco, con voce unanime, i tre giovani cantavano: Benedetto Dio, alleluia.",
+        "tipo": "CANTICO",
+        "numero": "Dn",
+        "titolo": "3, 57-88. 56 Ogni creatura lodi il Signore",
+        "contenuto": "Benedite, opere tutte del Signore, il Signore, * lodatelo ed esaltatelo nei secoli. Benedite, angeli del Signore, il Signore, * benedite, cieli, il Signore. Benedite, acque tutte, che siete sopra i cieli, il Signore, * benedite, potenze tutte del Signore, il Signore. Benedite, sole e luna, il Signore, * benedite, stelle del cielo, il Signore. Benedite, piogge e rugiade, il Signore, * benedite, o venti tutti, il Signore. Benedite, fuoco e calore, il Signore, * benedite, freddo e caldo, il Signore. Benedite, rugiada e brina, il Signore, * benedite, gelo e freddo, il Signore. Benedite, ghiacci e nevi, il Signore, * benedite, notti e giorni, il Signore. Benedite, luce e tenebre, il Signore, * benedite, folgori e nubi, il Signore. Benedica la terra il Signore, * lo lodi e lo esalti nei secoli. Benedite, monti e colline, il Signore, * benedite, creature tutte che germinate sulla terra, il Signore. Benedite, sorgenti, il Signore, * benedite, mari e fiumi, il Signore. Benedite, mostri marini e quanto si muove nell’acqua, il Signore, * benedite, uccelli tutti dell’aria, il Signore. Benedite, animali tutti, selvaggi e domestici, benedite, figli dell’uomo, il Signore. Benedica Israele il Signore, * Benedite, sacerdoti del Signore, il Signore, * benedite, o servi del Signore, il Signore. Benedite, spiriti e anime dei giusti, il Signore, * benedite, pii e umili di cuore, il Signore. Benedite, Anania, Azaria e Misaele, il Signore, * Benediciamo il Padre e il Figlio con lo Spirito Santo, * lodiamolo ed esaltiamolo nei secoli. Benedetto sei tu, Signore, nel firmamento del cielo, * degno di lode e di gloria nei secoli. Alla fine di questo cantico non si dice il Gloria al Padre"
+      },
+      {
+        "antifona_numero": "3",
+        "antifona_testo": "I figli della Chiesa esultino nel loro Re, alleluia.",
+        "tipo": "SALMO",
+        "numero": "149",
+        "titolo": "Festa degli amici di Dio",
+        "contenuto": "Cantate al Signore un canto nuovo; * la sua lode nell’assemblea dei fedeli. Gioisca Israele nel suo Creatore, * esultino nel loro Re i figli di Sion. Lodino il suo nome con danze, * con timpani e cetre gli cantino inni. Il Signore ama il suo popolo, * incorona gli umili di vittoria. Esultino i fedeli nella gloria, * sorgano lieti dai loro giacigli. Le lodi di Dio sulla loro bocca * e la spada a due tagli nelle loro mani, per compiere la vendetta tra i popoli * e punire le genti; per stringere in catene i loro capi, * i loro nobili in ceppi di ferro; per eseguire su di essi * il giudizio già scritto: questa è la gloria * per tutti i suoi fedeli."
+      }
+    ],
+    "lettura_breve": {
+      "riferimento": "Ap 7, 10. 12",
+      "contenuto": "La salvezza appartiene al nostro Dio seduto sul trono e all'Agnello. Amen! Lode, gloria, sapienza, azione di grazie, onore, potenza e forza al nostro Dio nei secoli dei secoli. Amen."
+    },
+    "responsorio_breve": {
+      "contenuto": "R.\nCristo, Figlio del Dio vivo,\nabbi pietà di noi.\nCristo, Figlio del Dio vivo, abbi pietà di noi.\nV.\nTu che siedi alla destra del Padre,\nabbi pietà di noi.\nGloria al Padre e al Figlio e allo Spirito Santo.\nCristo, Figlio del Dio vivo, abbi pietà di noi."
+    },
+    "antifona_cantico_finale": "Dio farà giustizia ai suoi eletti che giorno e notte gridano a lui.",
+    "cantico_finale": {
+      "riferimento": "Lc 1, 68-79",
+      "contenuto": "Benedetto il Signore Dio d’Israele, *\nperché ha visitato e redento il suo popolo,\ne ha suscitato per noi una salvezza potente *\nnella casa di Davide, suo servo,\ncome aveva promesso *\nper bocca dei suoi santi profeti d’un tempo:\nsalvezza dai nostri nemici, *\ne dalle mani di quanti ci odiano.\nCosì egli ha concesso misericordia ai nostri padri *\ne si è ricordato della sua santa alleanza,\ndel giuramento fatto ad Abramo, nostro padre, *\ndi concederci, liberàti dalle mani dei nemici,\ndi servirlo senza timore, in santità e giustizia *\nal suo cospetto, per tutti i nostri giorni.\nE tu, bambino, sarai chiamato profeta dell’Altissimo *\nperché andrai innanzi al Signore\na preparargli le strade,\nper dare al suo popolo la conoscenza della salvezza *\nnella remissione dei suoi peccati,\ngrazie alla bontà misericordiosa del nostro Dio, *\nper cui verrà a visitarci dall’alto un sole che sorge,\nper rischiarare quelli che stanno nelle tenebre *\ne nell’ombra della morte\ne dirigere i nostri passi *\nsulla via della pace."
+    },
+    "invocazioni": [
+      "Acclamiamo Cristo, sole di giustizia apparso all'orizzonte dell'umanità:",
+      "Signore, tu sei la vita e la salvezza nostra. Creatore degli astri, noi ti consacriamo le primizie di questo giorno, nel ricordo della tua gloriosa risurrezione. Il tuo Spirito ci insegni a compiere la tua volontà, e la tua sapienza ci guidi oggi e sempre. Donaci di partecipare con vera fede all'assemblea del tuo popolo, intorno alla mensa della tua parola e del tuo corpo. La tua Chiesa ti renda grazie, Signore, per i tuoi innumerevoli benefici."
+    ],
+    "orazione": "Dio onnipotente ed eterno, crea in noi un cuore generoso e fedele, perché possiamo sempre servirti con lealtà e purezza di spirito. Per il nostro Signore.\nIl Signore ci benedica, ci preservi da ogni male e ci conduca alla vita eterna.\nR.\nAmen."
+  },
+  "vespri": {
+    "tipo": "vespri",
+    "titolo": "",
+    "versicoli": [
+      {
+        "versicolo": "O Dio, vieni a salvarmi",
+        "risposta": "Signore, vieni presto in mio aiuto."
+      }
+    ],
+    "gloria_al_padre": "Gloria al Padre e al Figlio e allo Spirito Santo. Come era nel principio, e ora e sempre nei secoli dei secoli. Amen. Alleluia.",
+    "inno": "Dio, che all'alba dei tempi creasti la luce nuova, accogli il nostro canto, mentre scende la sera. Veglia sopra i tuoi figli pellegrini nel mondo; la morte non ci colga prigionieri del male. La tua luce risplenda nell'intimo dei cuori, e sia pegno e primizia della gloria dei cieli. Te la voce proclami, o Dio trino e unico, te canti il nostro cuore, te adori il nostro spirito. Amen.",
+    "antifone_e_salmi": [
+      {
+        "antifona_numero": "1",
+        "antifona_testo": "Come incenso, o Dio, salga a te la mia preghiera.",
+        "tipo": "SALMO",
+        "numero": "140,",
+        "titolo": "1-9 Preghiera nel pericolo",
+        "contenuto": "Signore, a te grido, accorri in mio aiuto; * ascolta la mia voce quando t'invoco. Come incenso salga a te la mia preghiera, * le mie mani alzate come sacrificio della sera. Poni, Signore, una custodia alla mia bocca, * sorveglia la porta delle mie labbra. Non lasciare che il mio cuore si pieghi al male † e compia azioni inique con i peccatori: * che io non gusti i loro cibi deliziosi. Mi percuota il giusto e il fedele mi rimproveri, † ma l'olio dell'empio non profumi il mio capo; * tra le loro malvagità continui la mia preghiera. Dalla rupe furono gettati i loro capi, * che da me avevano udito dolci parole. Come si fende e si apre la terra, * le loro ossa furono disperse alla bocca degli inferi. A te, Signore mio Dio, sono rivolti i miei occhi; * in te mi rifugio, proteggi la mia vita. Preservami dal laccio che mi tendono, * dagli agguati dei malfattori."
+      },
+      {
+        "antifona_numero": "2",
+        "antifona_testo": "Mio rifugio sei tu, Signore, mio bene sulla terra dei vivi.",
+        "tipo": "SALMO",
+        "numero": "141",
+        "titolo": "Sei tu il mio rifugio",
+        "contenuto": "e domanda la risurrezione sulla quale la Chiesa dei santi fonda la sua fede (cfr. Cassiodoro). Con la mia voce al Signore grido aiuto, * con la mia voce supplico il Signore; davanti a lui effondo il mio lamento, * al tuo cospetto sfogo la mia angoscia. Mentre il mio spirito vien meno, * tu conosci la mia via. Nel sentiero dove cammino * mi hanno teso un laccio. Guarda a destra e vedi: * nessuno mi riconosce. Non c'è per me via di scampo, * nessuno ha cura della mia vita. Io grido a te, Signore; † dico: Sei tu il mio rifugio, * sei tu la mia sorte nella terra dei viventi. Ascolta la mia supplica: * ho toccato il fondo dell'angoscia. Salvami dai miei persecutori * perché sono di me più forti. Strappa dal carcere la mia vita, * perché io renda grazie al tuo nome: i giusti mi faranno corona * quando mi concederai la tua grazia."
+      },
+      {
+        "antifona_numero": "3",
+        "antifona_testo": "\u0001Il Signore Gesù si è umiliato nella morte; e Dio lo ha innalzato nella gloria.",
+        "tipo": "CANTICO",
+        "numero": "Fil",
+        "titolo": "2, 6-11 Cristo, servo di Dio",
+        "contenuto": "Cristo Gesù, pur essendo di natura divina, * non considerò un tesoro geloso la sua uguaglianza con Dio; ma spogliò se stesso, † assumendo la condizione di servo * e divenendo simile agli uomini; apparso in forma umana, umiliò se stesso † facendosi obbediente fino alla morte * e alla morte di croce. Per questo Dio l'ha esaltato * e gli ha dato il nome che è al di sopra di ogni altro nome; perché nel nome di Gesù ogni ginocchio si pieghi † \u0001nei cieli, sulla terra * \u0001e sotto terra; \u0001e ogni lingua proclami che Gesù Cristo è il Signore, * \u0001a gloria di Dio Padre."
+      }
+    ],
+    "lettura_breve": {
+      "riferimento": "Rm 11, 33-36",
+      "contenuto": "O profondità della ricchezza, della sapienza e della scienza di Dio! Quanto sono imperscrutabili i suoi giudizi e inaccessibili le sue vie! Infatti, chi mai ha potuto conoscere il pensiero del Signore? O chi mai è stato suo consigliere? O chi gli ha dato qualcosa per primo, sì che abbia a riceverne il contraccambio? (Is 40, 13; Ger 23, 18; Gb 41, 3). Poiché da lui, grazie a lui e per lui sono tutte le cose. A lui la gloria nei secoli. Amen."
+    },
+    "responsorio_breve": {
+      "contenuto": "R.\nQuanto sono grandi\nle tue opere, Signore!\nQuanto sono grandi le tue opere, Signore!\nV.\nLe hai fatte con bontà e sapienza\nle tue opere, Signore!\nGloria al Padre e al Figlio e allo Spirito Santo.\nQuanto sono grandi le tue opere, Signore!"
+    },
+    "antifona_cantico_finale": "Le mani di Mosè rimasero alzate in preghiera fino al tramonto del sole.",
+    "cantico_finale": {
+      "riferimento": "Lc 1, 46-55",
+      "contenuto": "L’anima mia magnifica il Signore *\ne il mio spirito esulta in Dio, mio salvatore,\nperché ha guardato l’umiltà della sua serva. *\nD’ora in poi tutte le generazioni\nmi chiameranno beata.\nGrandi cose ha fatto in me l’Onnipotente *\ne Santo è il suo nome:\ndi generazione in generazione la sua misericordia *\nsi stende su quelli che lo temono.\nHa spiegato la potenza del suo braccio, *\nha disperso i superbi nei pensieri del loro cuore;\nha rovesciato i potenti dai troni, *\nha innalzato gli umili;\nha ricolmato di beni gli affamati, *\nha rimandato i ricchi a mani vuote.\nHa soccorso Israele, suo servo, *\nricordandosi della sua misericordia,\ncome aveva promesso ai nostri padri, *\nad Abramo e alla sua discendenza, per sempre."
+    },
+    "intercessioni": [
+      "Eleviamo al Dio uno e trino, Padre e Figlio e Spirito Santo, la nostra lode e la nostra preghiera: Assisti il tuo popolo, o Signore. Dio grande e misericordioso, sorga la tua giustizia sulla terra, e il tuo popolo vedrà un'era di fraternità e di pace. Venga il tuo regno fra tutte le nazioni, e si compia il tuo disegno di salvezza anche per l'antico popolo dell'alleanza. Fa' che le nostre famiglie vivano in serena adesione ai tuoi voleri e in santa armonia, per essere il riflesso della tua unità d'amore nel Verbo e nello Spirito. Ricompensa tutti coloro che ci hanno fatto del bene: dona loro il cento per uno e la vita eterna. Guarda con bontà quanti sono morti a causa dell'odio, della violenza e della guerra, accogli tutti nel riposo eterno."
+    ],
+    "orazione": "Dio onnipotente ed eterno, crea in noi un cuore generoso e fedele, perché possiamo sempre servirti con lealtà e purezza di spirito. Per il nostro Signore.\nIl Signore ci benedica, ci preservi da ogni male e ci conduca alla vita eterna.\nR.\nAmen."
+  },
+  "santo_del_giorno": {
+    "giorno": "19 Ottobre",
+    "santo_principale": {
+      "nome": "San Paolo della Croce",
+      "martirologio": "sacerdote Dal Martirologio"
+    },
+    "altri_santi": [
+      {
+        "nome": "san Giovanni de la Lande",
+        "martirologio": "Memoria facoltativa Santi Giovanni de Brébeuf, Isacco Jogues e compagni, martiri Dal Martirologio Santi Giovanni de Brébeuf, Isacco Jogues, sacerdoti, e compagni, martiri, della Compagnia di Gesù: in questo giorno san Giovanni de la Lande, religioso, fu ucciso da alcuni pagani del luogo nel villaggio di Ossernenon, oggi in Canada, dove, pochi anni prima, anche san Renato Goupil aveva conseguito la palma del martirio. In un'unica commemorazione si celebrano in questo giorno anche i loro confratel"
+      },
+      {
+        "nome": "San Gioele",
+        "martirologio": "profeta Dal Martirologio Commemorazione di san Gioele, profeta, che annunciò il grande giorno del Signore e il mistero dell'effusione del suo Spirito su ogni uomo, che la maestà divina si degnò di compiere mirabilmente in Cristo nel giorno di Pentecoste. Santi Tolomeo, Lucio e un altro compagno Dal Martirologio"
+      },
+      {
+        "nome": "san Giustino",
+        "martirologio": "A Roma, commemorazione dei santi Tolomeo, Lucio e un altro compagno, che, come riferisce san Giustino, riconosciuti come cristiani per aver biasimato la licenziosità dei costumi e l'ingiustizia delle sentenze, furono condannati sotto l'imperatore Antonino Pio dal prefetto Lollo Urbico. Sant'Asterio, martire Dal Martirologio"
+      },
+      {
+        "nome": "San Varo",
+        "martirologio": "soldato e martire Dal Martirologio In Egitto, san Varo, soldato, che, sotto l'imperatore Massimiano, mentre visitava e confortava sei santi eremiti tenuti in carcere, volle prendere il posto di un settimo che era morto nell'eremo e, così, patiti insieme a loro crudeli supplizi, conseguì la palma del martirio."
+      },
+      {
+        "nome": "San Grato",
+        "martirologio": "vescovo Dal Martirologio"
+      },
+      {
+        "nome": "san Grato",
+        "martirologio": "A Oléron sul versante francese dei Pirenei in Aquitania, ora in Francia, commemorazione di san Grato, vescovo, che, al tempo di Alarico, re ariano dei Goti, partecipò al Concilio di Agde per riformare la Chiesa in questa regione della Francia. Sant'Etbino, monaco Dal Martirologio In Bretagna, sant'Etbino, monaco, che fece vita solitaria."
+      },
+      {
+        "nome": "San Verano",
+        "martirologio": "vescovo Dal Martirologio"
+      },
+      {
+        "nome": "san Verano",
+        "martirologio": "A Cavaillon nella Provenza in Francia, san Verano, vescovo, colmo di grandi virtù, soprattutto nell'assistenza ai malati. Sant'Aquilino, vescovo Dal Martirologio"
+      },
+      {
+        "nome": "Santa Fridesvida",
+        "martirologio": "vergine Dal Martirologio"
+      },
+      {
+        "nome": "santa Fridesvida",
+        "martirologio": "A Oxford in Inghilterra, santa Fridesvida, vergine, che, nata da stirpe regale e divenuta badessa, resse due cenobi, l'uno di monaci, l'altro di vergini consacrate."
+      },
+      {
+        "nome": "Beato Tommaso Hélye",
+        "martirologio": "sacerdote Dal Martirologio"
+      },
+      {
+        "nome": "beato Tommaso Hélye",
+        "martirologio": "A Biville vicino a Cherbourg in Normandia, beato Tommaso Hélye, sacerdote, che impegnava i giorni nell'esercizio del sacro ministero, le notti nella preghiera e nella penitenza."
+      },
+      {
+        "nome": "San Filippo Howard",
+        "martirologio": "martire Dal Martirologio"
+      },
+      {
+        "nome": "san Filippo Howard",
+        "martirologio": "A Londra in Inghilterra, san Filippo Howard, martire, che, conte di Arundel e padre di famiglia, caduto in disgrazia presso la regina Elisabetta per avere abbracciato la fede cattolica, fu gettato in carcere, dove, mirabilmente dedito alla preghiera e alla penitenza, meritò di ricevere la corona del martirio consunto dagli stenti e dalle torture. Santi martiri Luca Alfonso Gorda e Matteo Kohioye, religioso Dal Martirologio"
+      },
+      {
+        "nome": "Beata Agnese di Gesù Galand",
+        "martirologio": "vergine Dal Martirologio"
+      },
+      {
+        "nome": "beata Agnese di Gesù Galand",
+        "martirologio": "A Langeac lungo il fiume Allier in Francia, beata Agnese di Gesù Galand, vergine dell'Ordine dei Predicatori, che, priora del convento, rifulse nell'ardente amore per Gesù Cristo e nella dedizione alla Chiesa, offrendo continue preghiere e penitenze per i suoi pastori."
+      }
+    ],
+    "numero_santi_celebrati": 17
+  }
+}

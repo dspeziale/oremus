@@ -1,0 +1,181 @@
+{
+  "data": "11/10/2025",
+  "data_iso": "20251011",
+  "giorno_settimana": "Saturday",
+  "lodi_mattutine": {
+    "tipo": "lodi-mattutine",
+    "titolo": "",
+    "versicoli": [
+      {
+        "versicolo": "O Dio, vieni a salvarmi",
+        "risposta": "Signore, vieni presto in mio aiuto."
+      }
+    ],
+    "gloria_al_padre": "Gloria al Padre e al Figlio e allo Spirito Santo. Come era nel principio, e ora e sempre nei secoli dei secoli. Amen. Alleluia.",
+    "inno": "L'aurora inonda il cielo di una festa di luce, e riveste la terra di meraviglia nuova. Fugge l'ansia dai cuori, s'accende la speranza: emerge sopra il caos un'iride di pace. Così nel giorno ultimo l'umanità in attesa alzi il capo e contempli l'avvento del Signore. Sia gloria al Padre altissimo e a Cristo l'unigenito, sia lode al Santo Spirito nei secoli dei secoli. Amen.",
+    "antifone_e_salmi": [
+      {
+        "antifona_numero": "1",
+        "antifona_testo": "Vicino sei tu, Signore, e vere tutte le tue vie.",
+        "tipo": "SALMO",
+        "numero": "118,",
+        "titolo": "145-152 XIX (Cof)",
+        "contenuto": "T'invoco con tutto il cuore, Signore, rispondimi; * custodirò i tuoi precetti. Io ti chiamo, salvami, * e seguirò i tuoi insegnamenti. Precedo l'aurora e grido aiuto, * spero sulla tua parola. I miei occhi prevengono le veglie della notte * per meditare sulle tue promesse. Ascolta la mia voce, secondo la tua grazia; * Signore, fammi vivere secondo il tuo giudizio. A tradimento mi assediano i miei persecutori, * sono lontani dalla tua legge. Ma tu, Signore, sei vicino, * tutti i tuoi precetti sono veri. Da tempo conosco le tue testimonianze * che hai stabilite per sempre."
+      },
+      {
+        "antifona_numero": "2",
+        "antifona_testo": "Mi assista, Signore, la tua sapienza: sia con me nella fatica.",
+        "tipo": "CANTICO",
+        "numero": "Sap",
+        "titolo": "9, 1-6. 9-11 Signore, dammi la sapienza",
+        "contenuto": "Dio dei padri e Signore di misericordia, * che tutto hai creato con la tua parola, che con la tua sapienza hai formato l’uomo, * perché domini sulle creature che tu hai fatto, e governi il mondo con santità e giustizia * e pronunzi giudizi con animo retto, dammi la sapienza, che siede accanto a te in trono * e non mi escludere dal numero dei tuoi figli, perché io sono tuo servo e figlio della tua ancella, † uomo debole e di vita breve, * incapace di comprendere la giustizia e le leggi. Anche il più perfetto tra gli uomini, † privo della tua sapienza, * sarebbe stimato un nulla. Con te è la sapienza che conosce le tue opere, * che era presente quando creavi il mondo; essa conosce che cosa è gradito ai tuoi occhi * e ciò che è conforme ai tuoi decreti. Mandala dai cieli santi, * dal tuo trono glorioso, perché mi assista e mi affianchi nella mia fatica * e io sappia che cosa ti è gradito. Essa tutto conosce e tutto comprende: † mi guiderà con prudenza nelle mie azioni * e mi proteggerà con la sua gloria."
+      },
+      {
+        "antifona_numero": "3",
+        "antifona_testo": "La fedeltà del Signore rimane per sempre.",
+        "tipo": "SALMO",
+        "numero": "116",
+        "titolo": "Invito a lodare Dio per il suo amore",
+        "contenuto": "Lodate il Signore, popoli tutti, * voi tutte, nazioni, dategli gloria; perché forte è il suo amore per noi * e la fedeltà del Signore dura in eterno."
+      }
+    ],
+    "lettura_breve": {
+      "riferimento": "Fil 2, 14-15",
+      "contenuto": "Fate tutto senza mormorazioni e senza critiche, perché siate irreprensibili e semplici, figli di Dio immacolati in mezzo a una generazione perversa e degenere, nella quale dovete splendere come astri nel mondo."
+    },
+    "responsorio_breve": {
+      "contenuto": "R.\nIo grido al Signore:\nSei tu il mio rifugio.\nIo grido al Signore: Sei tu il mio rifugio.\nV.\nMio bene nella terra dei vivi,\nsei tu il mio rifugio.\nGloria al Padre e al Figlio e allo Spirito Santo.\nIo grido al Signore: Sei tu il mio rifugio."
+    },
+    "antifona_cantico_finale": "Illumina, Signore, chi sta nelle tenebre e nell'ombra di morte.",
+    "cantico_finale": {
+      "riferimento": "Lc 1, 68-79",
+      "contenuto": "Benedetto il Signore Dio d’Israele, *\nperché ha visitato e redento il suo popolo,\ne ha suscitato per noi una salvezza potente *\nnella casa di Davide, suo servo,\ncome aveva promesso *\nper bocca dei suoi santi profeti d’un tempo:\nsalvezza dai nostri nemici, *\ne dalle mani di quanti ci odiano.\nCosì egli ha concesso misericordia ai nostri padri *\ne si è ricordato della sua santa alleanza,\ndel giuramento fatto ad Abramo, nostro padre, *\ndi concederci, liberàti dalle mani dei nemici,\ndi servirlo senza timore, in santità e giustizia *\nal suo cospetto, per tutti i nostri giorni.\nE tu, bambino, sarai chiamato profeta dell’Altissimo *\nperché andrai innanzi al Signore\na preparargli le strade,\nper dare al suo popolo la conoscenza della salvezza *\nnella remissione dei suoi peccati,\ngrazie alla bontà misericordiosa del nostro Dio, *\nper cui verrà a visitarci dall’alto un sole che sorge,\nper rischiarare quelli che stanno nelle tenebre *\ne nell’ombra della morte\ne dirigere i nostri passi *\nsulla via della pace."
+    },
+    "invocazioni": [
+      "Dio Padre ha voluto innalzare Maria, Madre di",
+      "Cristo, al di sopra di tutte le creature angeliche e terrestri. Fiduciosi nella sua intercessione, preghiamo: Guarda la Madre del tuo Figlio e ascoltaci. Ti rendiamo grazie, Padre immensamente buono, che ci hai dato Maria come madre e modello di vita cristiana, per sua intercessione guidaci sulla via della santità. Tu che hai reso Maria attenta alla tua parola e l'hai fatta tua fedele ancella, per sua intercessione rendici discepoli e servitori del Figlio tuo. Tu che hai dato a Maria il privilegio di essere madre per opera dello Spirito Santo, per sua intercessione concedi a noi i frutti del tuo Spirito. Tu che hai reso intrepida la Vergine Maria presso la croce del tuo Figlio e l'hai rallegrata con l'immensa gioia della risurrezione, per sua intercessione consola le nostre pene e ravviva la nostra speranza."
+    ],
+    "orazione": "O Dio nostro, principio e sorgente della salvezza, fa’ che tutta la nostra vita sia una testimonianza del tuo amore, perché possiamo un giorno cantare la tua lode nell’assemblea festosa dei santi. Per il nostro Signore.\nIl Signore ci benedica, ci preservi da ogni male e ci conduca alla vita eterna.\nR.\nAmen."
+  },
+  "vespri": {
+    "tipo": "vespri",
+    "titolo": "",
+    "versicoli": [
+      {
+        "versicolo": "Signore, apri le mie labbra",
+        "risposta": "e la mia bocca proclami la tua lode"
+      }
+    ],
+    "gloria_al_padre": "Gloria al Padre e al Figlio * e allo Spirito Santo. Come era nel principio, e ora e sempre * nei secoli dei secoli. Amen",
+    "inno": "",
+    "antifone_e_salmi": [],
+    "lettura_breve": {},
+    "responsorio_breve": {},
+    "antifona_cantico_finale": "",
+    "cantico_finale": {},
+    "intercessioni": [],
+    "orazione": ""
+  },
+  "santo_del_giorno": {
+    "giorno": "11 Ottobre",
+    "santo_principale": {
+      "nome": "San Giovanni XXIII",
+      "martirologio": "papa Dal Martirologio"
+    },
+    "altri_santi": [
+      {
+        "nome": "San Filippo",
+        "martirologio": "diacono Dal Martirologio Commemorazione di san Filippo, che fu uno dei sette diaconi eletti dagli Apostoli: convertì la Samaria alla fede di Cristo, battezzò l'eunuco di Candace regina d'Etiopia ed evangelizzò tutte le città che attraversava, fino a Cesarea, dove si ritiene che abbia terminato i suoi giorni. Santi Táraco, Probo e Androníco, martiri Dal Martirologio Ad Ainvarza in Cilicia, nell'odierna Turchia, santi Táraco, Probo e Androníco, martiri, che durante la persecuzione dell'imperatore "
+      },
+      {
+        "nome": "San Santino",
+        "martirologio": "vescovo Dal Martirologio"
+      },
+      {
+        "nome": "san Santino",
+        "martirologio": "A Verdun sempre in Francia, san Santino, vescovo, che si ritiene abbia per primo predicato il Vangelo in questo territorio."
+      },
+      {
+        "nome": "San Sármata",
+        "martirologio": "abate Dal Martirologio Commemorazione di san Sármata, abate nella Tebaide, in Egitto, che, discepolo di sant'Antonio, fu ucciso dai Saraceni."
+      },
+      {
+        "nome": "San Firmino",
+        "martirologio": "vescovo Dal Martirologio"
+      },
+      {
+        "nome": "san Firmino",
+        "martirologio": "A Uzès nella Gallia narbonense, nell'odierna Francia, san Firmino, vescovo, che, discepolo di san Cesario di Arles, insegnò al suo popolo la via della verità."
+      },
+      {
+        "nome": "San Cánico",
+        "martirologio": "abate Dal Martirologio Nella regione di Ossory in Irlanda, san Cánico, abate del monastero di Achad-Bó, tra i tanti da lui fondati. Sant'Anastasio, sacerdote Dal Martirologio Vicino alla fortezza di Tzager sui monti del Caucaso, anniversario della morte di sant'Anastasio, sacerdote, apocrisario della Chiesa di Roma, che, compagno di san Massimo il Confessore nella testimonianza della fede cattolica e nell'esilio, rese l'anima a Dio, mentre nella santa Sinassi recitava le parole «Le cose sante ai"
+      },
+      {
+        "nome": "San Gummario",
+        "martirologio": "Dal Martirologio"
+      },
+      {
+        "nome": "san Gummario",
+        "martirologio": "Presso Lier in Brabante, nell'odierno Belgio, san Gummario, che, soldato devoto a Dio, costruì in questo luogo con i suoi beni un oratorio, dove fu poi deposto."
+      },
+      {
+        "nome": "San Bruno",
+        "martirologio": "vescovo Dal Martirologio"
+      },
+      {
+        "nome": "san Bruno",
+        "martirologio": "A Colonia nella Lotaringia in Germania, san Bruno, vescovo, che, fratello dell'imperatore Ottone I, ricevette insieme l'episcopato e il governo della Lotaringia ed esercitò il ministero sacerdotale con grande premura e le funzioni di governante con magnanimità secondo le esigenze dei suoi tempi."
+      },
+      {
+        "nome": "San Gaudenzio o Radzim",
+        "martirologio": "vescovo Dal Martirologio"
+      },
+      {
+        "nome": "san Gaudenzio o Radzim",
+        "martirologio": "A Gniezno in Polonia, san Gaudenzio o Radzim, vescovo, che, fratello secondo la carne e secondo lo spirito, nonché fedele compagno di sant'Adalberto vescovo di Praga, assistette al suo martirio e fu poi gettato egli stesso in carcere."
+      },
+      {
+        "nome": "San Meinardo",
+        "martirologio": "vescovo Dal Martirologio"
+      },
+      {
+        "nome": "san Meinardo",
+        "martirologio": "A Riga sul mar Baltico, commemorazione di san Meinardo, vescovo, che, dapprima monaco in Germania, ormai già avanti negli anni si mise in cammino per evangelizzare il popolo léttone; costruì la chiesa di Üksküll e, ordinato vescovo, pose efficacemente le fondamenta della fede cristiana in questa regione."
+      },
+      {
+        "nome": "Beato Giacomo da Ulm Griesinger",
+        "martirologio": "religioso Dal Martirologio"
+      },
+      {
+        "nome": "beato Giacomo da Ulm Griesinger",
+        "martirologio": "A Bologna, beato Giacomo da Ulm Griesinger, religioso dell'Ordine dei Predicatori, che, sebbene analfabeta, fu un valente decoratore di vetrate e offrì a tutti per cinquant'anni un esempio di dedizione al lavoro e alla preghiera. Sant'Alessandro Sauli, vescovo Dal Martirologio"
+      },
+      {
+        "nome": "San Paolo",
+        "martirologio": "A Calosso d'Asti in Piemonte, transito di sant'Alessandro Sauli, vescovo dapprima di Aleria in Corsica e poi di Pavia, che, membro della Congregazione dei Chierici regolari di San Paolo, diede sollievo ai poveri con mirabile carità."
+      },
+      {
+        "nome": "San Pietro Lê Tùy",
+        "martirologio": "sacerdote e martire Dal Martirologio Ad Hanoi nel Tonchino, ora Viet Nam, san Pietro Lê Tùy, sacerdote e martire, che fu decapitato per Cristo sotto l'imperatore Minh Mang."
+      },
+      {
+        "nome": "Santa Maria Desolata (Emanuela) Torres Acosta",
+        "martirologio": "vergine Dal Martirologio"
+      },
+      {
+        "nome": "santa Maria Desolata (Emanuela) Torres Acosta",
+        "martirologio": "A Madrid in Spagna, santa Maria Desolata (Emanuela) Torres Acosta, vergine, che fin dall'età giovanile mostrò straordinaria attenzione per i malati bisognosi, che assistette con instancabile abnegazione, in special modo nella Congregazione delle Serve di Maria Ministre degli Infermi da lei stessa fondata."
+      },
+      {
+        "nome": "Beato Angelo Ramos Velázquez",
+        "martirologio": "religioso Dal Martirologio"
+      },
+      {
+        "nome": "beato Angelo Ramos Velázquez",
+        "martirologio": "A Barcellona sempre in Spagna, beato Angelo Ramos Velázquez, religioso della Società Salesiana e martire, che portò a compimento la sua battaglia per la fede in tempo di persecuzione contro la Chiesa."
+      }
+    ],
+    "numero_santi_celebrati": 24
+  }
+}

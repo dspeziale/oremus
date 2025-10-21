@@ -1,0 +1,87 @@
+{
+  "data": "31/10/2025",
+  "data_iso": "20251031",
+  "giorno_settimana": "Friday",
+  "lodi_mattutine": {
+    "tipo": "lodi-mattutine",
+    "titolo": "",
+    "versicoli": [
+      {
+        "versicolo": "O Dio, vieni a salvarmi",
+        "risposta": "Signore, vieni presto in mio aiuto."
+      }
+    ],
+    "gloria_al_padre": "Gloria al Padre e al Figlio e allo Spirito Santo. Come era nel principio, e ora e sempre nei secoli dei secoli. Amen. Alleluia.",
+    "inno": "O Gesù salvatore, luce vera del mondo, accogli le primizie della nostra preghiera. Risveglia in noi la fede, la speranza, l'amore; dona pace e concordia e letizia perfetta. Lenisci con le lacrime la durezza dei cuori, accendi il desiderio della patria beata. A te sia gloria, o Cristo, speranza delle genti, al Padre e al Santo Spirito nei secoli dei secoli. Amen.",
+    "antifone_e_salmi": [
+      {
+        "antifona_numero": "1",
+        "antifona_testo": "Un cuore affranto e umiliato non disprezzarlo, Signore.",
+        "tipo": "SALMO",
+        "numero": "50",
+        "titolo": "Pietà di me, o Signore",
+        "contenuto": "Pietà di me, o Dio, secondo la tua misericordia; * nel tuo grande amore cancella il mio peccato. Lavami da tutte le mie colpe, * mondami dal mio peccato. Riconosco la mia colpa, * il mio peccato mi sta sempre dinanzi. Contro di te, contro te solo ho peccato, * quello che è male ai tuoi occhi, io l’ho fatto; perciò sei giusto quando parli, * retto nel tuo giudizio. Ecco, nella colpa sono stato generato, * nel peccato mi ha concepito mia madre. Ma tu vuoi la sincerità del cuore * e nell’intimo m’insegni la sapienza. Purificami con issopo e sarò mondato; * lavami e sarò più bianco della neve. Fammi sentire gioia e letizia, * esulteranno le ossa che hai spezzato. Distogli lo sguardo dai miei peccati, * cancella tutte le mie colpe. Crea in me, o Dio, un cuore puro, * rinnova in me uno spirito saldo. Non respingermi dalla tua presenza * e non privarmi del tuo santo spirito. Rendimi la gioia di essere salvato, * sostieni in me un animo generoso. Insegnerò agli erranti le tue vie * e i peccatori a te ritorneranno. Liberami dal sangue, Dio, Dio mia salvezza, * la mia lingua esalterà la tua giustizia. Signore, apri le mie labbra * e la mia bocca proclami la tua lode; poiché non gradisci il sacrificio * e se offro olocausti, non li accetti. Uno spirito contrito * è sacrificio a Dio, un cuore affranto e umiliato * tu, o Dio, non disprezzi. Nel tuo amore fa’ grazia a Sion, * rialza le mura di Gerusalemme. Allora gradirai i sacrifici prescritti, * l’olocausto e l’intera oblazione, allora immoleranno vittime * sopra il tuo altare."
+      },
+      {
+        "antifona_numero": "2",
+        "antifona_testo": "Nel tuo sdegno, Signore, ricordati della tua misericordia.",
+        "tipo": "CANTICO",
+        "numero": "Ab",
+        "titolo": "3, 2-4. 13a. 15-19",
+        "contenuto": "Signore, ho ascoltato il tuo annunzio, * Signore, ho avuto timore della tua opera. Nel corso degli anni manifestala, † falla conoscere nel corso degli anni. * Nello sdegno ricordati di avere clemenza. Dio viene da Teman, * il Santo dal monte Paran. La sua maestà ricopre i cieli, * delle sue lodi è piena la terra. Il suo splendore è come la luce, † bagliori di folgore escono dalle sue mani: * là si cela la sua potenza. Sei uscito per salvare il tuo popolo, * per salvare il tuo consacrato. Hai affogato nel mare i cavalli dell’empio, * nella melma di grandi acque. Ho udito e fremette il mio cuore, * a tal voce tremò il mio labbro, la carie entra nelle mie ossa * e sotto di me tremano i miei passi. Sospiro nel giorno dell’angoscia * che verrà contro il popolo che ci opprime. Il fico infatti non metterà germogli, † nessun prodotto daranno le viti, * cesserà il raccolto dell’olivo, i campi non daranno più cibo, † i greggi spariranno dagli ovili * e le stalle rimarranno senza buoi. Ma io gioirò nel Signore, * esulterò in Dio mio salvatore. Il Signore Dio è la mia forza, † egli rende i miei piedi come quelli delle cerve * e sulle alture mi fa camminare."
+      },
+      {
+        "antifona_numero": "3",
+        "antifona_testo": "Glorifica il Signore, Gerusalemme, loda, Sion, il tuo Dio.",
+        "tipo": "SALMO",
+        "numero": "147",
+        "titolo": "La Gerusalemme riedificata",
+        "contenuto": "Glorifica il Signore, Gerusalemme, * loda, Sion, il tuo Dio. Perché ha rinforzato le sbarre delle tue porte, * in mezzo a te ha benedetto i tuoi figli. Egli ha messo pace nei tuoi confini * e ti sazia con fior di frumento. Manda sulla terra la sua parola, * il suo messaggio corre veloce. Fa scendere la neve come lana, * come polvere sparge la brina. Getta come briciole la grandine, * di fronte al suo gelo chi resiste? Manda una sua parola ed ecco si scioglie, * fa soffiare il vento e scorrono le acque. Annunzia a Giacobbe la sua parola, * le sue leggi e i suoi decreti a Israele. Così non ha fatto con nessun altro popolo, * non ha manifestato ad altri i suoi precetti."
+      }
+    ],
+    "lettura_breve": {
+      "riferimento": "Ef 2,13-16",
+      "contenuto": "Ora, in Cristo Gesù, voi che un tempo eravate i lontani siete diventati i vicini grazie al sangue di Cristo. Egli infatti è la nostra pace, colui che ha fatto dei due un popolo solo, abbattendo il muro di separazione che era frammezzo, cioè l'inimicizia, annullando, per mezzo della sua carne, la legge fatta di prescrizioni e di decreti, per creare in se stesso, dei due, un solo uomo nuovo, facendo"
+    },
+    "responsorio_breve": {
+      "contenuto": "R.\nInvocherò l’Altissimo:\nda lui ogni mio bene.\nInvocherò l’Altissimo: da lui ogni mio bene.\nV.\nDal cielo manderà la sua salvezza:\nda lui ogni mio bene.\nGloria al Padre e al Figlio e allo Spirito Santo.\nInvocherò l’Altissimo: da lui ogni mio bene."
+    },
+    "antifona_cantico_finale": "Nella sua misericordia il nostro Dio ci ha visitati dall'alto come sole che sorge.",
+    "cantico_finale": {
+      "riferimento": "Lc 1, 68-79",
+      "contenuto": "Benedetto il Signore Dio d’Israele, *\nperché ha visitato e redento il suo popolo,\ne ha suscitato per noi una salvezza potente *\nnella casa di Davide, suo servo,\ncome aveva promesso *\nper bocca dei suoi santi profeti d’un tempo:\nsalvezza dai nostri nemici, *\ne dalle mani di quanti ci odiano.\nCosì egli ha concesso misericordia ai nostri padri *\ne si è ricordato della sua santa alleanza,\ndel giuramento fatto ad Abramo, nostro padre, *\ndi concederci, liberàti dalle mani dei nemici,\ndi servirlo senza timore, in santità e giustizia *\nal suo cospetto, per tutti i nostri giorni.\nE tu, bambino, sarai chiamato profeta dell’Altissimo *\nperché andrai innanzi al Signore\na preparargli le strade,\nper dare al suo popolo la conoscenza della salvezza *\nnella remissione dei suoi peccati,\ngrazie alla bontà misericordiosa del nostro Dio, *\nper cui verrà a visitarci dall’alto un sole che sorge,\nper rischiarare quelli che stanno nelle tenebre *\ne nell’ombra della morte\ne dirigere i nostri passi *\nsulla via della pace."
+    },
+    "invocazioni": [
+      "Cristo, Agnello senza macchia, si è offerto al Padre per purificare le nostre coscienze dalle opere del male. A lui diciamo umilmente: Nella tua volontà è la nostra pace, o Signore. Dalla tua bontà abbiamo ricevuto questo nuovo giorno, fa' che segni l'inizio di una vita nuova. Hai creato il mondo e lo conservi con la tua provvidenza, donaci uno sguardo di fede, perché vediamo la tua presenza in ogni creatura. Nel tuo sangue, versato per noi, hai costituito la nuova ed eterna alleanza, fa' che, osservando la legge dell'amore, restiamo fedeli al nuovo patto. Sulla croce hai fatto sgorgare dal tuo costato sangue ed acqua, in questo fiume di grazia lava le nostre colpe e allieta la città di Dio."
+    ],
+    "orazione": "Accogli, Dio onnipotente, la nostra lode del mattino, e fa’ che ci uniamo un giorno al coro dei tuoi santi per cantare in eterno la tua gloria. Per il nostro Signore.\nIl Signore ci benedica, ci preservi da ogni male e ci conduca alla vita eterna.\nR.\nAmen."
+  },
+  "vespri": {
+    "tipo": "vespri",
+    "titolo": "",
+    "versicoli": [
+      {
+        "versicolo": "Signore, apri le mie labbra",
+        "risposta": "e la mia bocca proclami la tua lode"
+      }
+    ],
+    "gloria_al_padre": "Gloria al Padre e al Figlio * e allo Spirito Santo. Come era nel principio, e ora e sempre * nei secoli dei secoli. Amen",
+    "inno": "",
+    "antifone_e_salmi": [],
+    "lettura_breve": {},
+    "responsorio_breve": {},
+    "antifona_cantico_finale": "",
+    "cantico_finale": {},
+    "intercessioni": [],
+    "orazione": ""
+  },
+  "santo_del_giorno": {
+    "giorno": "31 Ottobre",
+    "santo_principale": {
+      "nome": "San Quintino",
+      "martirologio": "martire"
+    },
+    "altri_santi": [],
+    "numero_santi_celebrati": 1
+  }
+}

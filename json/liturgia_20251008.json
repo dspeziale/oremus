@@ -1,0 +1,119 @@
+{
+  "data": "08/10/2025",
+  "data_iso": "20251008",
+  "giorno_settimana": "Wednesday",
+  "lodi_mattutine": {
+    "tipo": "lodi-mattutine",
+    "titolo": "",
+    "versicoli": [
+      {
+        "versicolo": "O Dio, vieni a salvarmi",
+        "risposta": "Signore, vieni presto in mio aiuto."
+      }
+    ],
+    "gloria_al_padre": "Gloria al Padre e al Figlio e allo Spirito Santo. Come era nel principio, e ora e sempre nei secoli dei secoli. Amen. Alleluia.",
+    "inno": "Notte, tenebre e nebbia, fuggite: entra la luce, viene Cristo Signore. Il sole di giustizia trasfigura ed accende l'universo in attesa. Con gioia pura ed umile, fra i canti e le preghiere, accogliamo il Signore. Salvatore dei poveri, la gloria del tuo volto splenda su un mondo nuovo! A te sia lode, o Cristo, al Padre e al Santo Spirito, oggi e sempre nei secoli. Amen.",
+    "antifone_e_salmi": [
+      {
+        "antifona_numero": "1",
+        "antifona_testo": "Rallegra l'anima del tuo servo, Signore: a te innalzo l'anima mia.",
+        "tipo": "SALMO",
+        "numero": "85",
+        "titolo": "Preghiera a Dio nell'afflizione",
+        "contenuto": "Signore, tendi l’orecchio, rispondimi, * perché io sono povero e infelice. Custodiscimi perché sono fedele; * tu, Dio mio, salva il tuo servo, che in te spera. Pietà di me, Signore, * a te grido tutto il giorno. Rallegra la vita del tuo servo, * perché a te, Signore, innalzo l’anima mia. Tu sei buono, Signore, e perdoni, * sei pieno di misericordia con chi ti invoca. Porgi l’orecchio, Signore, alla mia preghiera * e sii attento alla voce della mia supplica. Nel giorno dell’angoscia alzo a te il mio grido * e tu mi esaudirai. Fra gli dèi nessuno è come te, Signore, * e non c’è nulla che uguagli le tue opere. Tutti i popoli che hai creato verranno † e si prostreranno davanti a te, o Signore, * per dare gloria al tuo nome; grande tu sei e compi meraviglie: * tu solo sei Dio. Mostrami, Signore, la tua via, * perché nella tua verità io cammini; donami un cuore semplice * che tema il tuo nome. Ti loderò, Signore, Dio mio, con tutto il cuore * e darò gloria al tuo nome sempre, perché grande con me è la tua misericordia: * dal profondo degli inferi mi hai strappato. Mio Dio, mi assalgono gli arroganti, † una schiera di violenti attenta alla mia vita, * non pongono te davanti ai loro occhi. Ma tu, Signore, Dio di pietà, compassionevole, * lento all’ira e pieno di amore, Dio fedele, volgiti a me e abbi misericordia: † dona al tuo servo la tua forza, * salva il figlio della tua ancella. Dammi un segno di benevolenza; † vedano e siano confusi i miei nemici, * perché tu, Signore, mi hai soccorso e consolato."
+      },
+      {
+        "antifona_numero": "2",
+        "antifona_testo": "Beato chi cammina nella giustizia e parla con lealtà.",
+        "tipo": "CANTICO",
+        "numero": "Is",
+        "titolo": "33, 13-16 ​Dio giudicherà con giustizia",
+        "contenuto": "«Sentiranno i lontani quanto ho fatto, * sapranno i vicini qual è la mia forza». Hanno paura in Sion i peccatori, * lo spavento si è impadronito degli empi. «Chi di noi può abitare presso un fuoco divorante? * Chi di noi può abitare tra fiamme perenni?». Chi cammina nella giustizia * ed è leale nel parlare, chi rigetta un guadagno frutto di angherie, * scuote le mani per non accettare regali, si tura gli orecchi per non udire fatti di sangue, * chiude gli occhi per non vedere il male: costui abiterà in alto, † fortezze sulle rocce saranno il suo rifugio, * gli sarà dato il pane, avrà l’acqua assicurata."
+      },
+      {
+        "antifona_numero": "3",
+        "antifona_testo": "Acclamate al Signore, nostro Dio!",
+        "tipo": "SALMO",
+        "numero": "97",
+        "titolo": "Il trionfo del Signore alla sua venuta finale",
+        "contenuto": "Cantate al Signore un canto nuovo, * perché ha compiuto prodigi. Gli ha dato vittoria la sua destra * e il suo braccio santo. Il Signore ha manifestato la sua salvezza, * agli occhi dei popoli ha rivelato la sua giustizia. Egli si è ricordato del suo amore, * della sua fedeltà alla casa di Israele. Tutti i confini della terra hanno veduto * la salvezza del nostro Dio. Acclami al Signore tutta la terra, * gridate, esultate con canti di gioia. Cantate inni al Signore con l’arpa, * con l’arpa e con suono melodioso; con la tromba e al suono del corno * acclamate davanti al re, il Signore. Frema il mare e quanto racchiude, * il mondo e i suoi abitanti. I fiumi battano le mani, * esultino insieme le montagne davanti al Signore che viene, * che viene a giudicare la terra. Giudicherà il mondo con giustizia * e i popoli con rettitudine."
+      }
+    ],
+    "lettura_breve": {},
+    "responsorio_breve": {
+      "contenuto": "R.\nVerso la tua parola\nguida il mio cuore.\nVerso la tua parola guida il mio cuore.\nV.\nFammi vivere nella tua via,\nguida il mio cuore.\nGloria al Padre e al Figlio e allo Spirito Santo.\nVerso la tua parola guida il mio cuore."
+    },
+    "antifona_cantico_finale": "Dimostraci, o Dio, la tua misericordia, e ricorda il tuo patto santo.",
+    "cantico_finale": {
+      "riferimento": "Lc 1, 68-79",
+      "contenuto": "Benedetto il Signore Dio d’Israele, *\nperché ha visitato e redento il suo popolo,\ne ha suscitato per noi una salvezza potente *\nnella casa di Davide, suo servo,\ncome aveva promesso *\nper bocca dei suoi santi profeti d’un tempo:\nsalvezza dai nostri nemici, *\ne dalle mani di quanti ci odiano.\nCosì egli ha concesso misericordia ai nostri padri *\ne si è ricordato della sua santa alleanza,\ndel giuramento fatto ad Abramo, nostro padre, *\ndi concederci, liberàti dalle mani dei nemici,\ndi servirlo senza timore, in santità e giustizia *\nal suo cospetto, per tutti i nostri giorni.\nE tu, bambino, sarai chiamato profeta dell’Altissimo *\nperché andrai innanzi al Signore\na preparargli le strade,\nper dare al suo popolo la conoscenza della salvezza *\nnella remissione dei suoi peccati,\ngrazie alla bontà misericordiosa del nostro Dio, *\nper cui verrà a visitarci dall’alto un sole che sorge,\nper rischiarare quelli che stanno nelle tenebre *\ne nell’ombra della morte\ne dirigere i nostri passi *\nsulla via della pace."
+    },
+    "invocazioni": [
+      "Riuniti nella lode del mattino, preghiamo il Cristo, che ha dato la vita per la sua Chiesa. Diciamo con fede: Custodisci la tua Chiesa, o Signore. Benedetto sii tu, pastore della Chiesa, per la luce e la vita che ci doni in questo giorno, concedici di accogliere con gioia e riconoscenza i tuoi benefici. Guarda con bontà il popolo che hai riunito nel tuo nome, nessuno perisca di coloro che il Padre ti ha affidati. Guida la tua Chiesa nella via dei tuoi comandamenti, il tuo Spirito la renda sempre docile alla tua volontà. Nutri il tuo popolo alla mensa della parola e del pane di vita eterna, perché con la forza di questo cibo proceda sicuro verso il monte della tua gloria."
+    ],
+    "orazione": "Illumina, Signore, i nostri sensi con la luce del tuo Spirito, perché possiamo essere sempre fedeli a te, che con la tua sapienza ci hai creati e con la tua provvidenza ci guidi. Per il nostro Signore.\nIl Signore ci benedica, ci preservi da ogni male e ci conduca alla vita eterna.\nR.\nAmen."
+  },
+  "vespri": {
+    "tipo": "vespri",
+    "titolo": "",
+    "versicoli": [
+      {
+        "versicolo": "O Dio, vieni a salvarmi",
+        "risposta": "Signore, vieni presto in mio aiuto."
+      }
+    ],
+    "gloria_al_padre": "Gloria al Padre e al Figlio e allo Spirito Santo. Come era nel principio, e ora e sempre nei secoli dei secoli. Amen. Alleluia.",
+    "inno": "Artefice e Signore della terra e del cielo, aurora inestinguibile, giorno senza tramonto, dona alle stanche membra la gioia del riposo, e nel sonno rimargina le ferite dell'anima. Se le tenebre scendono sulla città degli uomini, non si spenga la fede nel cuore dei credenti. Te la voce proclami, o Dio trino ed unico, te canti il nostro cuore, te adori il nostro spirito. Amen.",
+    "antifone_e_salmi": [
+      {
+        "antifona_numero": "1",
+        "antifona_testo": "Chi semina nelle lacrime, mieterà con giubilo.",
+        "tipo": "SALMO",
+        "numero": "125",
+        "titolo": "Dio nostra gioia e nostra speranza",
+        "contenuto": "Quando il Signore ricondusse i prigionieri di Sion, * ci sembrava di sognare. Allora la nostra bocca si aprì al sorriso, * la nostra lingua si sciolse in canti di gioia. Allora si diceva tra i popoli: * «Il Signore ha fatto grandi cose per loro». Grandi cose ha fatto il Signore per noi, * ci ha colmati di gioia. Riconduci, Signore, i nostri prigionieri, * come i torrenti del Negheb. Chi semina nelle lacrime * mieterà con giubilo. Nell’andare, se ne va e piange, * portando la semente da gettare, ma nel tornare, viene con giubilo, * portando i suoi covoni."
+      },
+      {
+        "antifona_numero": "2",
+        "antifona_testo": "Costruisci, o Dio, la nostra casa, custodisci la tua città.",
+        "tipo": "SALMO",
+        "numero": "126",
+        "titolo": "Ogni fatica è vana senza il Signore",
+        "contenuto": "Se il Signore non costruisce la casa, * invano vi faticano i costruttori. Se la città non è custodita dal Signore, * invano veglia il custode. Invano vi alzate di buon mattino, † tardi andate a riposare e mangiate pane di sudore: * il Signore ne darà ai suoi amici nel sonno. Ecco, dono del Signore sono i figli, * è sua grazia il frutto del grembo. Come frecce in mano a un eroe * sono i figli della giovinezza. Beato l’uomo * che piena ne ha la farètra: non resterà confuso quando verrà alla porta * a trattare con i propri nemici."
+      },
+      {
+        "antifona_numero": "3",
+        "antifona_testo": "Generato prima di ogni creatura, Cristo è il re dell'universo.",
+        "tipo": "CANTICO",
+        "numero": "Cfr.",
+        "titolo": "Col 1, 3. 12-20",
+        "contenuto": "Cristo fu generato prima di ogni creatura, è il primogenito di coloro che risuscitano dai morti Ringraziamo con gioia Dio, * Padre del Signore nostro Gesù Cristo, perché ci ha messi in grado di partecipare * alla sorte dei santi nella luce, ci ha liberati dal potere delle tenebre, * ci ha trasferiti nel regno del suo Figlio diletto, per opera del quale abbiamo la redenzione, * la remissione dei peccati. Cristo è immagine del Dio invisibile, * generato prima di ogni creatura; è prima di tutte le cose * e tutte in lui sussistono. Tutte le cose sono state create per mezzo di lui * e in vista di lui: quelle nei cieli e quelle sulla terra, * quelle visibili e quelle invisibili. Egli è il capo del corpo, che è la Chiesa; * è il principio di tutto, il primogenito di coloro che risuscitano dai morti, * per ottenere il primato su tutte le cose. Piacque a Dio di far abitare in lui ogni pienezza, * per mezzo di lui riconciliare a sé tutte le cose, rappacificare con il sangue della sua croce * gli esseri della terra e quelli del cielo."
+      }
+    ],
+    "lettura_breve": {
+      "riferimento": "Ef 3, 20-21",
+      "contenuto": "A colui che in tutto ha potere di fare molto più di quanto possiamo domandare o pensare, secondo la potenza che già opera in noi, a lui la gloria nella Chiesa e in Cristo Gesù per tutte le generazioni, nei secoli dei secoli! Amen."
+    },
+    "responsorio_breve": {
+      "contenuto": "R.\nSignore, mia salvezza,\nabbi pietà di me.\nSignore, mia salvezza, abbi pietà di me.\nV.\nNon abbandonarmi con i peccatori,\nabbi pietà di me.\nGloria al Padre e al Figlio e allo Spirito Santo.\nSignore, mia salvezza, abbi pietà di me."
+    },
+    "antifona_cantico_finale": "Ha fatto in me cose grandi colui che è potente: e Santo è il suo nome.",
+    "cantico_finale": {
+      "riferimento": "Lc 1, 46-55",
+      "contenuto": "L’anima mia magnifica il Signore *\ne il mio spirito esulta in Dio, mio salvatore,\nperché ha guardato l’umiltà della sua serva. *\nD’ora in poi tutte le generazioni\nmi chiameranno beata.\nGrandi cose ha fatto in me l’Onnipotente *\ne Santo è il suo nome:\ndi generazione in generazione la sua misericordia *\nsi stende su quelli che lo temono.\nHa spiegato la potenza del suo braccio, *\nha disperso i superbi nei pensieri del loro cuore;\nha rovesciato i potenti dai troni, *\nha innalzato gli umili;\nha ricolmato di beni gli affamati, *\nha rimandato i ricchi a mani vuote.\nHa soccorso Israele, suo servo, *\nricordandosi della sua misericordia,\ncome aveva promesso ai nostri padri, *\nad Abramo e alla sua discendenza, per sempre."
+    },
+    "intercessioni": [
+      "Innalziamo la nostra preghiera a Dio Padre, che ci ha mandato il proprio Figlio, modello e salvatore del suo popolo: Continua i benefici della tua bontà, o Signore. Ti rendiamo grazie, o Padre, perché ci hai eletti dall'eternità a far parte del tuo regno, e ci hai chiamati a possedere la gloria di Gesù Cristo, nostra primizia. Concedi a coloro che confessano il tuo santo nome la concordia nella verità, e la solidarietà nel tuo amore. Creatore dell'universo, il tuo Figlio ha voluto lavorare come artigiano nella casa di Nazaret, benedici chi si guadagna il pane con il sudore della fronte. Ricordati di coloro che sono consacrati al servizio dei fratelli, perché l'insuccesso o l'incomprensione non li distolgano mai dal loro proposito. Ti preghiamo, o Signore, per i nostri fratelli defunti, apri loro le braccia della tua misericordia."
+    ],
+    "orazione": "Salga a te, o Dio misericordioso, la voce della tua Chiesa e fa’ che il tuo popolo, libero dalla schiavitù del peccato, ti serva con amore e viva sicuro nella tua protezione. Per il nostro Signore.\nIl Signore ci benedica, ci preservi da ogni male e ci conduca alla vita eterna.\nR.\nAmen."
+  },
+  "santo_del_giorno": {
+    "giorno": "8 Ottobre",
+    "santo_principale": {
+      "nome": "Santa Reparata",
+      "martirologio": "vergine e martire"
+    },
+    "altri_santi": [],
+    "numero_santi_celebrati": 1
+  }
+}

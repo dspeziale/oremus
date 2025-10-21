@@ -1,0 +1,217 @@
+{
+  "data": "16/10/2025",
+  "data_iso": "20251016",
+  "giorno_settimana": "Thursday",
+  "lodi_mattutine": {
+    "tipo": "lodi-mattutine",
+    "titolo": "",
+    "versicoli": [
+      {
+        "versicolo": "O Dio, vieni a salvarmi",
+        "risposta": "Signore, vieni presto in mio aiuto."
+      }
+    ],
+    "gloria_al_padre": "Gloria al Padre e al Figlio e allo Spirito Santo. Come era nel principio, e ora e sempre nei secoli dei secoli. Amen. Alleluia.",
+    "inno": "Al sorger della luce, ascolta, o Padre santo, la preghiera degli umili. Dona un linguaggio mite, che non conosca i frèmiti dell'orgoglio e dell'ira. Donaci occhi limpidi, che vincano le torbide suggestioni del male. Donaci un cuore puro, fedele nel servizio, ardente nella lode. A te sia gloria, o Padre, al Figlio e al Santo Spirito nei secoli dei secoli. Amen.",
+    "antifone_e_salmi": [
+      {
+        "antifona_numero": "1",
+        "antifona_testo": "Fin dal mattino, o Dio, fa' sentire il tuo amore per noi.",
+        "tipo": "SALMO",
+        "numero": "142,",
+        "titolo": "1-11 Preghiera nella tribolazione",
+        "contenuto": "Signore, ascolta la mia preghiera, † porgi l’orecchio alla mia supplica, tu che sei fedele, * e per la tua giustizia rispondimi. Non chiamare in giudizio il tuo servo: * nessun vivente davanti a te è giusto. Il nemico mi perseguita, † calpesta a terra la mia vita, * mi ha relegato nelle tenebre come i morti da gran tempo. In me languisce il mio spirito, * si agghiaccia il mio cuore. Ricordo i giorni antichi, † ripenso a tutte le tue opere, * medito sui tuoi prodigi. A te protendo le mie mani, * sono davanti a te come terra riarsa. Rispondimi presto, Signore, * viene meno il mio spirito. Non nascondermi il tuo volto, * perché non sia come chi scende nella fossa. Al mattino fammi sentire la tua grazia, * poiché in te confido. Fammi conoscere la strada da percorrere, * perché a te si innalza l’anima mia. Salvami dai miei nemici, Signore, * a te mi affido. Insegnami a compiere il tuo volere, † perché sei tu il mio Dio. * Il tuo spirito buono mi guidi in terra piana. Per il tuo nome, Signore, fammi vivere, * liberami dall’angoscia, per la tua giustizia."
+      },
+      {
+        "antifona_numero": "2",
+        "antifona_testo": "Il Signore farà scorrere su Gerusalemme un fiume di pace e di salvezza.",
+        "tipo": "CANTICO",
+        "numero": "Is",
+        "titolo": "66, 10-14a",
+        "contenuto": "Rallegratevi con Gerusalemme, * esultate per essa quanti l’amate. Sfavillate di gioia con essa * voi tutti che avete partecipato al suo lutto. Così succhierete al suo petto † e vi sazierete delle sue consolazioni; * succhierete con delizia all’abbondanza del suo seno. Poiché così dice il Signore: † «Ecco io farò scorrere verso di essa la prosperità come un fiume; * come un torrente in piena la ricchezza dei popoli; i suoi bimbi saranno portati in braccio, * sulle ginocchia saranno accarezzati. Come una madre consola un figlio, † cosi io vi darò consolazione; * in Gerusalemme sarete consolati. Voi lo vedrete e gioirà il vostro cuore, * le vostre ossa saranno rigogliose come erba fresca»."
+      },
+      {
+        "antifona_numero": "3",
+        "antifona_testo": "È bello cantare al nostro Dio, dolce è lodarlo.",
+        "tipo": "SALMO",
+        "numero": "146",
+        "titolo": "Potenza e bontà del Signore",
+        "contenuto": "Lodate il Signore: † è bello cantare al nostro Dio, * dolce è lodarlo come a lui conviene. Il Signore ricostruisce Gerusalemme, * raduna i dispersi d’Israele. Risana i cuori affranti * e fascia le loro ferite; egli conta il numero delle stelle * e chiama ciascuna per nome. Grande è il Signore, onnipotente, * la sua sapienza non ha confini. Il Signore sostiene gli umili, * ma abbassa fino a terra gli empi. Cantate al Signore un canto di grazie, * intonate sulla cetra inni al nostro Dio. Egli copre il cielo di nubi, † prepara la pioggia per la terra, * fa germogliare l’erba sui monti. Provvede il cibo al bestiame, * ai piccoli del corvo che gridano a lui. Non fa conto del vigore del cavallo, * non apprezza l’agile corsa dell’uomo. Il Signore si compiace di chi lo teme, * di chi spera nella sua grazia."
+      }
+    ],
+    "lettura_breve": {
+      "riferimento": "Rm 8, 18-21",
+      "contenuto": "Io ritengo che le sofferenze del momento presente non sono paragonabili alla gloria futura che dovrà esser rivelata in noi. La creazione stessa attende con impazienza la rivelazione dei figli di Dio; essa infatti è stata sottomessa alla caducità - non per suo volere, ma per volere di colui che l'ha sottomessa - e nutre la speranza di essere lei pure liberata dalla schiavitù della corruzione, per e"
+    },
+    "responsorio_breve": {
+      "contenuto": "R.\nAl sorgere del giorno\nmi ricordo di te, Signore.\nAl sorgere del giorno mi ricordo di te, Signore.\nV.\nTu sei il mio aiuto:\nmi ricordo di te, Signore.\nGloria al Padre e al Figlio e allo Spirito Santo.\nAl sorgere del giorno mi ricordo di te, Signore."
+    },
+    "antifona_cantico_finale": "Da' al tuo popolo, Signore, la conoscenza della salvezza e il perdono dei peccati.",
+    "cantico_finale": {
+      "riferimento": "Lc 1, 68-79",
+      "contenuto": "Benedetto il Signore Dio d’Israele, *\nperché ha visitato e redento il suo popolo,\ne ha suscitato per noi una salvezza potente *\nnella casa di Davide, suo servo,\ncome aveva promesso *\nper bocca dei suoi santi profeti d’un tempo:\nsalvezza dai nostri nemici, *\ne dalle mani di quanti ci odiano.\nCosì egli ha concesso misericordia ai nostri padri *\ne si è ricordato della sua santa alleanza,\ndel giuramento fatto ad Abramo, nostro padre, *\ndi concederci, liberàti dalle mani dei nemici,\ndi servirlo senza timore, in santità e giustizia *\nal suo cospetto, per tutti i nostri giorni.\nE tu, bambino, sarai chiamato profeta dell’Altissimo *\nperché andrai innanzi al Signore\na preparargli le strade,\nper dare al suo popolo la conoscenza della salvezza *\nnella remissione dei suoi peccati,\ngrazie alla bontà misericordiosa del nostro Dio, *\nper cui verrà a visitarci dall’alto un sole che sorge,\nper rischiarare quelli che stanno nelle tenebre *\ne nell’ombra della morte\ne dirigere i nostri passi *\nsulla via della pace."
+    },
+    "invocazioni": [
+      "Uniti nella lode divina ringraziamo Dio nostro Padre, che ha salvato il suo popolo, e diciamo con fede: Tu sei la nostra vita, Signore. Benedetto sii tu, o Padre del Signore nostro Gesù",
+      "Cristo, che ci hai rigenerato a una speranza viva mediante la risurrezione del tuo Figlio. Nel Cristo hai rinnovato l'uomo, creato a tua immagine, rendici conformi all'immagine del tuo Figlio. Guarisci l'umanità ferita dall'invidia e dall'odio, trasformaci con la carità che è dono dello Spirito. Da' il lavoro agli operai, il pane agli affamati, agli afflitti la gioia, a tutti gli uomini la grazia e la salvezza."
+    ],
+    "orazione": "Donaci, o Dio, una profonda conoscenza del tuo mistero di salvezza, perché senza timore, liberati dall’oppressione dei nostri nemici, ti serviamo in santità e giustizia tutti i nostri giorni. Per il nostro Signore.\nIl Signore ci benedica, ci preservi da ogni male e ci conduca alla vita eterna.\nR.\nAmen."
+  },
+  "vespri": {
+    "tipo": "vespri",
+    "titolo": "",
+    "versicoli": [
+      {
+        "versicolo": "O Dio, vieni a salvarmi",
+        "risposta": "Signore, vieni presto in mio aiuto."
+      }
+    ],
+    "gloria_al_padre": "Gloria al Padre e al Figlio e allo Spirito Santo. Come era nel principio, e ora e sempre nei secoli dei secoli. Amen. Alleluia.",
+    "inno": "Dio, che di chiara luce tessi la trama al giorno, accogli il nostro canto nella quiete del vespro. Ecco, il sole scompare all'estremo orizzonte; scende l'ombra e il silenzio sulle fatiche umane. Non si offuschi la mente nella notte del male, ma rispecchi serena la luce del tuo volto. Te la voce proclami, o Dio trino ed unico, te canti il nostro cuore, te adori il nostro spirito. Amen.",
+    "antifone_e_salmi": [
+      {
+        "antifona_numero": "1",
+        "antifona_testo": "Dio, mio amore, mio rifugio, in te io confido.",
+        "tipo": "SALMO",
+        "numero": "143,",
+        "titolo": "1-8 (I)",
+        "contenuto": "(sant’Ilario). Benedetto il Signore, mia roccia, † che addestra le mie mani alla guerra, * le mie dita alla battaglia. Mia grazia e mia fortezza, * mio rifugio e mia liberazione, mio scudo in cui confido, * colui che mi assoggetta i popoli. Signore, che cos’è un uomo perché te ne curi? * Un figlio d’uomo perché te ne dia pensiero? L’uomo è come un soffio, * i suoi giorni come ombra che passa. Signore, piega il tuo cielo e scendi, * tocca i monti ed essi fumeranno. Le tue folgori disperdano i nemici, * lancia frecce, sconvolgili. Stendi dall’alto la tua mano, † scampami e salvami dalle grandi acque, * dalla mano degli stranieri. La loro bocca dice menzogne * e alzando la destra giurano il falso."
+      },
+      {
+        "antifona_numero": "2",
+        "antifona_testo": "Beato il popolo, che ha Dio per Signore.",
+        "tipo": "SALMO",
+        "numero": "143,",
+        "titolo": "9-15 (II) Preghiera del Re",
+        "contenuto": "Mio Dio, ti canterò un canto nuovo, * suonerò per te sull’arpa a dieci corde; a te, che dai vittoria al tuo consacrato, * che liberi Davide tuo servo. Salvami dalla spada iniqua, * liberami dalla mano degli stranieri; la loro bocca dice menzogne * e la loro destra giura il falso. I nostri figli siano come piante * cresciute nella loro giovinezza; le nostre figlie come colonne d’angolo * nella costruzione del tempio. I nostri granai siano pieni, * trabocchino di frutti d’ogni specie; siano migliaia i nostri greggi, † a mirìadi nelle nostre campagne; * siano carichi i nostri buoi. Nessuna breccia, nessuna incursione, * nessun gemito nelle nostre piazze. Beato il popolo che possiede questi beni: * beato il popolo il cui Dio è il Signore."
+      },
+      {
+        "antifona_numero": "3",
+        "antifona_testo": "Ora si è compiuta la salvezza e il regno del nostro Dio.",
+        "tipo": "CANTICO",
+        "numero": "Cfr.",
+        "titolo": "Ap 11, 17-18; 12, 10b-12a Il giudizio di Dio",
+        "contenuto": "Noi ti rendiamo grazie, Signore Dio onnipotente, * che sei e che eri, perché hai messo mano alla tua grande potenza, * e hai instaurato il tuo regno. Le genti fremettero, † ma è giunta l’ora della tua ira, * il tempo di giudicare i morti, di dare la ricompensa ai tuoi servi, † ai profeti e ai santi * e a quanti temono il tuo nome, piccoli e grandi. Ora si è compiuta la salvezza, la forza e il regno del nostro Dio * e la potenza del suo Cristo, poiché è stato precipitato l’Accusatore; † colui che accusava i nostri fratelli, * davanti al nostro Dio giorno e notte. Essi lo hanno vinto per il sangue dell’Agnello † e la testimonianza del loro martirio, * perché hanno disprezzato la vita fino a morire. Esultate, dunque, o cieli, * rallegratevi e gioite, voi che abitate in essi."
+      }
+    ],
+    "lettura_breve": {
+      "riferimento": "Cfr. Col 1,23",
+      "contenuto": "Rimanete fondati e fermi nella fede e non vi lasciate allontanare dalla speranza promessa nel Vangelo che avete ascoltato, il quale è stato annunziato ad ogni creatura sotto il cielo."
+    },
+    "responsorio_breve": {
+      "contenuto": "R.\nIl Signore è il mio pastore:\nnon manco di nulla.\nIl Signore è il mio pastore: non manco di nulla.\nV.\nIn pascoli erbosi mi fa riposare:\nnon manco di nulla.\nGloria al Padre e al Figlio e allo Spirito Santo.\nIl Signore è il mio pastore: non manco di nulla."
+    },
+    "antifona_cantico_finale": "Chi ha fame di giustizia, il Signore lo colma di beni.",
+    "cantico_finale": {
+      "riferimento": "Lc 1, 46-55",
+      "contenuto": "L’anima mia magnifica il Signore *\ne il mio spirito esulta in Dio, mio salvatore,\nperché ha guardato l’umiltà della sua serva. *\nD’ora in poi tutte le generazioni\nmi chiameranno beata.\nGrandi cose ha fatto in me l’Onnipotente *\ne Santo è il suo nome:\ndi generazione in generazione la sua misericordia *\nsi stende su quelli che lo temono.\nHa spiegato la potenza del suo braccio, *\nha disperso i superbi nei pensieri del loro cuore;\nha rovesciato i potenti dai troni, *\nha innalzato gli umili;\nha ricolmato di beni gli affamati, *\nha rimandato i ricchi a mani vuote.\nHa soccorso Israele, suo servo, *\nricordandosi della sua misericordia,\ncome aveva promesso ai nostri padri, *\nad Abramo e alla sua discendenza, per sempre."
+    },
+    "intercessioni": [
+      "Glorifichiamo il Cristo, luce dei popoli e gioia di tutti i viventi, e acclamiamo: Tu sei la nostra vita, Signore. Luce che non conosce tramonto, Verbo eterno del Padre,",
+      "Salvatore del mondo, illumina i passi dei catecumeni sulla via della verità. Sei l'amore che perdona, dimentica le nostre iniquità. Hai dato all'uomo l'intelligenza per esplorare i segreti della natura e per utilizzare le energie del cosmo, guida la scienza e la tecnica sulle vie del vero bene dell'umanità per la gloria del tuo nome. Proteggi quanti si sono consacrati al servizio dei fratelli, fa' che compiano la loro missione nella libertà e nella pace. Signore, che hai le chiavi della vita e della morte, prendi con te nella luce della tua dimora i nostri fratelli defunti."
+    ],
+    "orazione": "Accogli, o Dio, la nostra preghiera al tramonto di questo giorno e fa’ che, seguendo con perseveranza l’esempio del tuo Figlio, raccogliamo frutti di giustizia e di pace. Egli è Dio, e vive e regna con te, nell’unità dello Spirito Santo, per tutti i secoli dei secoli.\nIl Signore ci benedica, ci preservi da ogni male e ci conduca alla vita eterna.\nR.\nAmen."
+  },
+  "santo_del_giorno": {
+    "giorno": "16 Ottobre",
+    "santo_principale": {
+      "nome": "Santa Edvige",
+      "martirologio": "religiosa Dal Martirologio"
+    },
+    "altri_santi": [
+      {
+        "nome": "Santa Margherita Maria Alacoque",
+        "martirologio": "vergine Dal Martirologio"
+      },
+      {
+        "nome": "Santa Margherita Maria Alacoque",
+        "martirologio": "vergine, che entrata tra le monache dell'Ordine della Visitazione della beata Maria, corse in modo mirabile lungo la via della perfezione; dotata di mistici doni e particolarmente devota al Sacratissimo Cuore di Gesù, fece molto per promuoverne il culto nella Chiesa."
+      },
+      {
+        "nome": "San Longino",
+        "martirologio": "soldato Dal Martirologio"
+      },
+      {
+        "nome": "san Longino",
+        "martirologio": "A Gerusalemme, commemorazione di san Longino, venerato come il soldato che aprì con la lancia il costato del Signore crocifisso. Sant'Elifio, martire Dal Martirologio"
+      },
+      {
+        "nome": "santa Massima",
+        "martirologio": "Nel territorio di Toul in Francia, sant'Elifio, che si tramanda abbia ricevuto la corona del martirio. Santi Martiniano e Saturiano e due fratelli, martiri Dal Martirologio Commemorazione dei santi Martiniano e Saturiano, martiri in Africa, insieme a due loro fratelli, che, al tempo della persecuzione vandalica perpetrata sotto il re ariano Genserico, schiavi di un vandalo, erano stati convertiti alla fede in Cristo da santa Massima, vergine, loro compagna di schiavitù, e, dopo essere stati perc"
+      },
+      {
+        "nome": "San Gallo",
+        "martirologio": "sacerdote e monaco Dal Martirologio"
+      },
+      {
+        "nome": "san Gallo",
+        "martirologio": "Presso Arbon nell'odierna Svizzera, san Gallo, sacerdote e monaco, che, accolto ancora fanciullo da san Colombano nel monastero di Bangor in Irlanda, propagò con dedizione il Vangelo in questa regione e insegnò ai suoi confratelli l'osservanza della regola, finché riposò quasi centenario nel Signore."
+      },
+      {
+        "nome": "San Mummolino",
+        "martirologio": "vescovo Dal Martirologio"
+      },
+      {
+        "nome": "san Mummolino",
+        "martirologio": "A Noyon in Neustria, ora in Francia, san Mummolino, vescovo, che dapprima da monaco aiutò sant'Audomaro nel lavoro missionario e succedette poi a sant'Eligio nella sede episcopale."
+      },
+      {
+        "nome": "San Lullo",
+        "martirologio": "vescovo Dal Martirologio"
+      },
+      {
+        "nome": "san Lullo",
+        "martirologio": "Nel monastero di Heresfeld nella Franconia in Germania, san Lullo, vescovo di Magonza, che, compagno e collaboratore di san Bonifacio nella predicazione, fu da lui ordinato vescovo, perché fosse per i sacerdoti una guida, per i monaci un maestro della regola e per il popolo cristiano un predicatore e pastore fedele."
+      },
+      {
+        "nome": "San Vitale",
+        "martirologio": "eremita Dal Martirologio"
+      },
+      {
+        "nome": "san Vitale",
+        "martirologio": "Nel territorio di Retz vicino a Nantes in Bretagna, san Vitale, eremita."
+      },
+      {
+        "nome": "San Gauderíco",
+        "martirologio": "contadino Dal Martirologio"
+      },
+      {
+        "nome": "san Gauderíco",
+        "martirologio": "Nel territorio di Mirepoix presso i Pirenei in Francia, san Gauderíco, contadino, insigne per la pietà verso la Madre di Dio."
+      },
+      {
+        "nome": "Santa Bonita",
+        "martirologio": "vergine Dal Martirologio"
+      },
+      {
+        "nome": "santa Bonita",
+        "martirologio": "A Brioude presso Clermont-Ferrand in Aquitania, sempre in Francia, santa Bonita, vergine. Sant'Anastasio, monaco Dal Martirologio"
+      },
+      {
+        "nome": "San Bertrando",
+        "martirologio": "vescovo Dal Martirologio"
+      },
+      {
+        "nome": "san Bertrando",
+        "martirologio": "A Cominges sempre sul versante francese dei Pirenei, san Bertrando, vescovo, che, su indicazione del papa san Gregorio VII, si adoperò strenuamente per la riforma della Chiesa, restaurò la sua città rovinata dall'incuria del tempo e ricostruì interamente la cattedrale, dove istituì i canonici regolari sotto la disciplina di sant'Agostino."
+      },
+      {
+        "nome": "Beato Gerardo da Chiaravalle",
+        "martirologio": "abate Dal Martirologio"
+      },
+      {
+        "nome": "beato Gerardo da Chiaravalle",
+        "martirologio": "Nel monastero di Igny nel territorio di Reims in Francia, transito del beato Gerardo da Chiaravalle, abate, ucciso da un monaco malvagio mentre era in visita in questo cenobio."
+      },
+      {
+        "nome": "San Gerardo Majella",
+        "martirologio": "religioso Dal Martirologio"
+      },
+      {
+        "nome": "san Gerardo Majella",
+        "martirologio": "A Materdomini in Campania, san Gerardo Majella, religioso della Congregazione del Santissimo Redentore, che, rapito da un intenso amore per Dio, abbracciò ovunque si trovasse un austero tenore di vita e, consumato dal suo fervore per Dio e per le anime, si addormentò piamente ancora in giovane età. Beati Aniceto Koplinski e Giuseppe Jankowski, sacerdoti e martiri Dal Martirologio Vicino a Cracovia in Polonia, nel campo di sterminio di Auschwitz, beati Aniceto Koplinski, dell'Ordine dei Frati Min"
+      }
+    ],
+    "numero_santi_celebrati": 24
+  }
+}
