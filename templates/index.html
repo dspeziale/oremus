@@ -1,75 +1,211 @@
 {% extends "base.html" %}
 
-{% block title %}Dashboard - Atlantis Admin{% endblock %}
-
-{% block page_title %}Dashboard{% endblock %}
-
-{% block breadcrumbs %}
-<li class="separator">
-    <i class="flaticon-right-arrow"></i>
-</li>
-<li class="nav-item">
-    <a href="#">Dashboard</a>
-</li>
-<li class="separator">
-    <i class="flaticon-right-arrow"></i>
-</li>
-<li class="nav-item">
-    <a href="#">Home</a>
-</li>
-{% endblock %}
+{% block title %}Oggi - Oremus{% endblock %}
+{% block page_title %}Oggi{% endblock %}
+{% block page_subtitle %}{{ giorno.data if giorno else 'Caricamento...' }}{% endblock %}
 
 {% block content %}
-<div class="row mt--2">
-    <div class="col-md-6">
-        <div class="card full-height">
-            <div class="card-body">
-                <div class="card-title">Overall statistics</div>
-                <div class="card-category">Daily information about statistics in system</div>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div class="card full-height">
-            <div class="card-body">
-                <div class="card-title">Total income & spend statistics</div>
-                <div class="card-category">descrizioni statistics in system</div>
-            </div>
-        </div>
-    </div>
+<div class="row">
+	<!-- Card Santo del Giorno -->
+	<div class="col-md-12 mb-4">
+		<div class="card card-saint" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+			<div class="card-body text-white">
+				{% if santi %}
+					{% for santo in santi %}
+						{% if santo.tipo == 'principale' %}
+						<div class="saint-main">
+							<i class="fas fa-cross fa-3x mb-3"></i>
+							<h2>{{ santo.nome_santo }}</h2>
+							<p class="lead">Santo del Giorno</p>
+							{% if santo.martirologio %}
+							<p class="small mt-3">{{ santo.martirologio }}</p>
+							{% endif %}
+						</div>
+						{% endif %}
+					{% endfor %}
+				{% else %}
+				<p>Nessun santo disponibile</p>
+				{% endif %}
+			</div>
+		</div>
+	</div>
 </div>
-{% endblock %}
 
-{% block extra_css %}
+<div class="row">
+	<!-- Lodi Mattutine -->
+	<div class="col-md-6 mb-4">
+		<div class="card">
+			<div class="card-header bg-info">
+				<h4 class="card-title text-white mb-0">
+					<i class="fas fa-sun mr-2"></i>Lodi Mattutine
+				</h4>
+			</div>
+			<div class="card-body">
+				{% if lodi %}
+					<div class="liturgy-section">
+						{% if lodi.titolo %}
+						<h5>{{ lodi.titolo }}</h5>
+						{% endif %}
+
+						{% if lodi.inno %}
+						<div class="mb-3">
+							<small class="text-muted">Inno</small>
+							<p class="text-justify">{{ lodi.inno }}</p>
+						</div>
+						{% endif %}
+
+						{% if lodi.salmi %}
+						<div class="mb-3">
+							<small class="text-muted d-block mb-2">Salmi</small>
+							{% for salmo in lodi.salmi[:2] %}
+							<div class="psalm-item mb-2">
+								<strong>{{ salmo.titolo }}</strong>
+								<p class="text-muted small">{{ salmo.antifona_testo[:100] }}...</p>
+							</div>
+							{% endfor %}
+						</div>
+						{% endif %}
+
+						<a href="{{ url_for('lodi') }}" class="btn btn-sm btn-info btn-rounded">
+							<i class="fas fa-book-open mr-1"></i>Leggi Completo
+						</a>
+					</div>
+				{% else %}
+				<p class="text-muted">Lodi non disponibili per oggi</p>
+				{% endif %}
+			</div>
+		</div>
+	</div>
+
+	<!-- Vespri -->
+	<div class="col-md-6 mb-4">
+		<div class="card">
+			<div class="card-header bg-warning">
+				<h4 class="card-title text-white mb-0">
+					<i class="fas fa-moon mr-2"></i>Vespri
+				</h4>
+			</div>
+			<div class="card-body">
+				{% if vespri %}
+					<div class="liturgy-section">
+						{% if vespri.titolo %}
+						<h5>{{ vespri.titolo }}</h5>
+						{% endif %}
+
+						{% if vespri.inno %}
+						<div class="mb-3">
+							<small class="text-muted">Inno</small>
+							<p class="text-justify">{{ vespri.inno }}</p>
+						</div>
+						{% endif %}
+
+						{% if vespri.salmi %}
+						<div class="mb-3">
+							<small class="text-muted d-block mb-2">Salmi</small>
+							{% for salmo in vespri.salmi[:2] %}
+							<div class="psalm-item mb-2">
+								<strong>{{ salmo.titolo }}</strong>
+								<p class="text-muted small">{{ salmo.antifona_testo[:100] }}...</p>
+							</div>
+							{% endfor %}
+						</div>
+						{% endif %}
+
+						<a href="{{ url_for('vespri') }}" class="btn btn-sm btn-warning btn-rounded">
+							<i class="fas fa-book-open mr-1"></i>Leggi Completo
+						</a>
+					</div>
+				{% else %}
+				<p class="text-muted">Vespri non disponibili per oggi</p>
+				{% endif %}
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Altri Santi del Giorno -->
+{% if santi|length > 1 %}
+<div class="row">
+	<div class="col-md-12">
+		<div class="card">
+			<div class="card-header">
+				<h4 class="card-title">
+					<i class="fas fa-users mr-2"></i>Altri Santi
+				</h4>
+			</div>
+			<div class="card-body">
+				<div class="row">
+					{% for santo in santi %}
+						{% if santo.tipo != 'principale' %}
+						<div class="col-md-6 mb-3">
+							<div class="saint-card p-3 border rounded">
+								<h6>{{ santo.nome_santo }}</h6>
+								{% if santo.martirologio %}
+								<p class="text-muted small">{{ santo.martirologio[:150] }}</p>
+								{% endif %}
+							</div>
+						</div>
+						{% endif %}
+					{% endfor %}
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endif %}
+
 <style>
-    .card-stats-with-icon {
-        padding: 20px;
-    }
+	.card-saint {
+		text-align: center;
+		border: none;
+	}
 
-    .stat-icon {
-        width: 60px;
-        height: 60px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: white;
-        margin-right: 15px;
-        font-size: 24px;
-    }
+	.saint-main {
+		padding: 40px 20px;
+	}
 
-    .stat-content h6 {
-        margin: 0;
-        font-size: 12px;
-        color: #999;
-        text-transform: uppercase;
-    }
+	.card-saint h2 {
+		font-size: 2.5rem;
+		font-weight: 700;
+		margin: 10px 0;
+	}
 
-    .stat-content span {
-        font-size: 18px;
-        font-weight: bold;
-        color: #333;
-    }
+	.psalm-item {
+		border-left: 3px solid #667eea;
+		padding-left: 15px;
+	}
+
+	.saint-card {
+		transition: all 0.3s ease;
+	}
+
+	.saint-card:hover {
+		box-shadow: 0 4px 12px rgba(102, 126, 234, 0.1);
+		transform: translateY(-2px);
+	}
+
+	.card {
+		border: none;
+		box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+		transition: all 0.3s ease;
+	}
+
+	.card:hover {
+		box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+	}
+
+	.card-header {
+		border: none;
+		padding: 20px;
+	}
+
+	.liturgy-section {
+		line-height: 1.8;
+	}
+
+	.btn-rounded {
+		border-radius: 20px;
+		padding: 6px 16px;
+	}
 </style>
 {% endblock %}
-

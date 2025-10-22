@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title %}Errore - Oremus{% endblock %}
+{% block page_title %}Errore{% endblock %}
+{% block page_subtitle %}Si è verificato un problema{% endblock %}
+
+{% block content %}
+<div class="row">
+	<div class="col-md-8 offset-md-2">
+		<div class="card">
+			<div class="card-body text-center py-5">
+				<i class="fas fa-exclamation-circle fa-5x text-danger mb-4"></i>
+				<h3 class="mb-3">Errore</h3>
+				<p class="lead text-muted mb-4">{{ message }}</p>
+
+				<a href="{{ url_for('index') }}" class="btn btn-primary btn-lg">
+					<i class="fas fa-home mr-2"></i>Torna a Oggi
+				</a>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}
