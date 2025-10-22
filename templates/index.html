@@ -1,0 +1,155 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - Oremus{% endblock %}
+
+{% block page_title %}Dashboard{% endblock %}
+{% block breadcrumb_label %}Dashboard{% endblock %}
+
+{% block sidebar_content %}
+<li class="nav-item">
+    <a href="{{ url_for('index') }}" class="nav-link active">
+        <i class="fas fa-chart-pie"></i>
+        <span class="nav-label">Dashboard</span>
+    </a>
+</li>
+<li class="nav-item">
+    <a href="#" class="nav-link">
+        <i class="fas fa-calendar-alt"></i>
+        <span class="nav-label">Calendar</span>
+    </a>
+</li>
+<li class="nav-item">
+    <a href="#" class="nav-link">
+        <i class="fas fa-users"></i>
+        <span class="nav-label">Users</span>
+    </a>
+</li>
+<li class="nav-item">
+    <a href="#" class="nav-link">
+        <i class="fas fa-cog"></i>
+        <span class="nav-label">Settings</span>
+    </a>
+</li>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title">Welcome to Oremus Dashboard</h5>
+            </div>
+            <div class="card-body">
+                <p>Your dashboard is ready. Start building your application!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-3">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <p class="text-muted">Total Users</p>
+                        <h3>1,284</h3>
+                    </div>
+                    <div class="icon-big text-center" style="font-size: 2rem; color: #1190cb;">
+                        <i class="fas fa-users"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <p class="text-muted">Revenue</p>
+                        <h3>$45,231</h3>
+                    </div>
+                    <div class="icon-big text-center" style="font-size: 2rem; color: #2bb930;">
+                        <i class="fas fa-dollar-sign"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <p class="text-muted">Active Sessions</p>
+                        <h3>856</h3>
+                    </div>
+                    <div class="icon-big text-center" style="font-size: 2rem; color: #ff9e27;">
+                        <i class="fas fa-signal"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-3">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title">Recent Activity</h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>User</th>
+                                <th>Activity</th>
+                                <th>Time</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>John Doe</td>
+                                <td>Login</td>
+                                <td>2 minutes ago</td>
+                                <td><span class="badge badge-success">Completed</span></td>
+                            </tr>
+                            <tr>
+                                <td>Jane Smith</td>
+                                <td>Updated Profile</td>
+                                <td>5 minutes ago</td>
+                                <td><span class="badge badge-success">Completed</span></td>
+                            </tr>
+                            <tr>
+                                <td>Mike Johnson</td>
+                                <td>Export Data</td>
+                                <td>10 minutes ago</td>
+                                <td><span class="badge badge-info">Processing</span></td>
+                            </tr>
+                            <tr>
+                                <td>Sarah Wilson</td>
+                                <td>Logout</td>
+                                <td>15 minutes ago</td>
+                                <td><span class="badge badge-secondary">Completed</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Aggiungi qui il tuo JavaScript personalizzato
+    console.log('Dashboard loaded successfully!');
+</script>
+{% endblock %}
