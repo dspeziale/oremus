@@ -1,155 +1,168 @@
 {% extends "base.html" %}
 
-{% block title %}Dashboard - Oremus{% endblock %}
+{% block title %}Dashboard - Atlantis Admin{% endblock %}
 
 {% block page_title %}Dashboard{% endblock %}
-{% block breadcrumb_label %}Dashboard{% endblock %}
 
-{% block sidebar_content %}
-<li class="nav-item">
-    <a href="{{ url_for('index') }}" class="nav-link active">
-        <i class="fas fa-chart-pie"></i>
-        <span class="nav-label">Dashboard</span>
-    </a>
+{% block breadcrumbs %}
+<li class="separator">
+	<i class="flaticon-right-arrow"></i>
 </li>
 <li class="nav-item">
-    <a href="#" class="nav-link">
-        <i class="fas fa-calendar-alt"></i>
-        <span class="nav-label">Calendar</span>
-    </a>
+	<a href="#">Dashboard</a>
+</li>
+<li class="separator">
+	<i class="flaticon-right-arrow"></i>
 </li>
 <li class="nav-item">
-    <a href="#" class="nav-link">
-        <i class="fas fa-users"></i>
-        <span class="nav-label">Users</span>
-    </a>
-</li>
-<li class="nav-item">
-    <a href="#" class="nav-link">
-        <i class="fas fa-cog"></i>
-        <span class="nav-label">Settings</span>
-    </a>
+	<a href="#">Home</a>
 </li>
 {% endblock %}
 
 {% block content %}
 <div class="row">
-    <div class="col-md-12">
-        <div class="card">
-            <div class="card-header">
-                <h5 class="card-title">Welcome to Oremus Dashboard</h5>
-            </div>
-            <div class="card-body">
-                <p>Your dashboard is ready. Start building your application!</p>
-            </div>
-        </div>
-    </div>
+	<div class="col-md-12">
+		<div class="card">
+			<div class="card-header">
+				<div class="card-title">Welcome to Dashboard</div>
+			</div>
+			<div class="card-body">
+				<p>This is your main dashboard page. You can customize this content by editing the index.html template.</p>
+				
+				<div class="alert alert-info" role="alert">
+					<strong>Info!</strong> All assets are located under the <code>static/assets</code> directory.
+				</div>
+
+				<h5>Quick Stats</h5>
+				<div class="row mt-3">
+					<div class="col-md-3">
+						<div class="card card-stats card-stats-with-icon d-flex align-items-center">
+							<div class="stat-icon bg-primary">
+								<i class="fas fa-users"></i>
+							</div>
+							<div class="stat-content">
+								<h6>Users</h6>
+								<span>1,234</span>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-3">
+						<div class="card card-stats card-stats-with-icon d-flex align-items-center">
+							<div class="stat-icon bg-success">
+								<i class="fas fa-chart-line"></i>
+							</div>
+							<div class="stat-content">
+								<h6>Revenue</h6>
+								<span>$45,678</span>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-3">
+						<div class="card card-stats card-stats-with-icon d-flex align-items-center">
+							<div class="stat-icon bg-warning">
+								<i class="fas fa-tasks"></i>
+							</div>
+							<div class="stat-content">
+								<h6>Tasks</h6>
+								<span>234</span>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-3">
+						<div class="card card-stats card-stats-with-icon d-flex align-items-center">
+							<div class="stat-icon bg-danger">
+								<i class="fas fa-bell"></i>
+							</div>
+							<div class="stat-content">
+								<h6>Notifications</h6>
+								<span>42</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 
 <div class="row mt-3">
-    <div class="col-md-4">
-        <div class="card">
-            <div class="card-body">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div>
-                        <p class="text-muted">Total Users</p>
-                        <h3>1,284</h3>
-                    </div>
-                    <div class="icon-big text-center" style="font-size: 2rem; color: #1190cb;">
-                        <i class="fas fa-users"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+	<div class="col-md-6">
+		<div class="card">
+			<div class="card-header">
+				<div class="card-title">Recent Activities</div>
+			</div>
+			<div class="card-body">
+				<ul class="list-group list-group-flush">
+					<li class="list-group-item d-flex justify-content-between align-items-center">
+						<span>Project Alpha updated</span>
+						<span class="badge badge-primary badge-pill">2 hours ago</span>
+					</li>
+					<li class="list-group-item d-flex justify-content-between align-items-center">
+						<span>New user registration</span>
+						<span class="badge badge-success badge-pill">4 hours ago</span>
+					</li>
+					<li class="list-group-item d-flex justify-content-between align-items-center">
+						<span>System maintenance completed</span>
+						<span class="badge badge-warning badge-pill">1 day ago</span>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
 
-    <div class="col-md-4">
-        <div class="card">
-            <div class="card-body">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div>
-                        <p class="text-muted">Revenue</p>
-                        <h3>$45,231</h3>
-                    </div>
-                    <div class="icon-big text-center" style="font-size: 2rem; color: #2bb930;">
-                        <i class="fas fa-dollar-sign"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-md-4">
-        <div class="card">
-            <div class="card-body">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div>
-                        <p class="text-muted">Active Sessions</p>
-                        <h3>856</h3>
-                    </div>
-                    <div class="icon-big text-center" style="font-size: 2rem; color: #ff9e27;">
-                        <i class="fas fa-signal"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="row mt-3">
-    <div class="col-md-12">
-        <div class="card">
-            <div class="card-header">
-                <h5 class="card-title">Recent Activity</h5>
-            </div>
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table table-hover">
-                        <thead>
-                            <tr>
-                                <th>User</th>
-                                <th>Activity</th>
-                                <th>Time</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>John Doe</td>
-                                <td>Login</td>
-                                <td>2 minutes ago</td>
-                                <td><span class="badge badge-success">Completed</span></td>
-                            </tr>
-                            <tr>
-                                <td>Jane Smith</td>
-                                <td>Updated Profile</td>
-                                <td>5 minutes ago</td>
-                                <td><span class="badge badge-success">Completed</span></td>
-                            </tr>
-                            <tr>
-                                <td>Mike Johnson</td>
-                                <td>Export Data</td>
-                                <td>10 minutes ago</td>
-                                <td><span class="badge badge-info">Processing</span></td>
-                            </tr>
-                            <tr>
-                                <td>Sarah Wilson</td>
-                                <td>Logout</td>
-                                <td>15 minutes ago</td>
-                                <td><span class="badge badge-secondary">Completed</span></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
+	<div class="col-md-6">
+		<div class="card">
+			<div class="card-header">
+				<div class="card-title">Quick Actions</div>
+			</div>
+			<div class="card-body">
+				<button class="btn btn-primary btn-block mb-2">
+					<i class="fas fa-plus"></i> Create New Project
+				</button>
+				<button class="btn btn-info btn-block mb-2">
+					<i class="fas fa-users"></i> Manage Users
+				</button>
+				<button class="btn btn-success btn-block mb-2">
+					<i class="fas fa-download"></i> Generate Report
+				</button>
+				<button class="btn btn-warning btn-block">
+					<i class="fas fa-cog"></i> Settings
+				</button>
+			</div>
+		</div>
+	</div>
 </div>
 {% endblock %}
 
-{% block extra_js %}
-<script>
-    // Aggiungi qui il tuo JavaScript personalizzato
-    console.log('Dashboard loaded successfully!');
-</script>
+{% block extra_css %}
+<style>
+	.card-stats-with-icon {
+		padding: 20px;
+	}
+
+	.stat-icon {
+		width: 60px;
+		height: 60px;
+		border-radius: 50%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		color: white;
+		margin-right: 15px;
+		font-size: 24px;
+	}
+
+	.stat-content h6 {
+		margin: 0;
+		font-size: 12px;
+		color: #999;
+		text-transform: uppercase;
+	}
+
+	.stat-content span {
+		font-size: 18px;
+		font-weight: bold;
+		color: #333;
+	}
+</style>
 {% endblock %}

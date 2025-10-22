@@ -1,436 +1,394 @@
-/**
- * Atlantis 2.0 Dashboard - JavaScript Functions
- * Dashboard Liturgia
- */
+"use strict";
 
-// Initialize on DOM ready
-document.addEventListener('DOMContentLoaded', function() {
-    // Initialize sidebar
-    initSidebar();
-
-    // Initialize tooltips
-    initTooltips();
-
-    // Initialize animations
-    initAnimations();
-
-    // Initialize search
-    initSearch();
-
-    // Initialize notifications
-    initNotifications();
+$(".nav-search .input-group > input").focus(function(e){
+	$(this).parents().eq(2).addClass("focus");
+}).blur(function(e){
+	$(this).parents().eq(2).removeClass("focus");
 });
 
-/**
- * Sidebar Functions
- */
-function initSidebar() {
-    // Toggle sidebar on mobile
-    const sidebarToggler = document.querySelector('.navbar-toggler');
-    const sidebar = document.querySelector('.sidebar');
+$(function () {
+	$('[data-toggle="tooltip"]').tooltip();
+	$('[data-toggle="popover"]').popover();
+	layoutsColors();
+	customBackgroundColor();
+});
 
-    if (sidebarToggler) {
-        sidebarToggler.addEventListener('click', function() {
-            sidebar.classList.toggle('show');
-        });
-    }
-
-    // Minimize sidebar on desktop
-    const minimizeBtn = document.querySelector('.btn-minimize');
-    const mainPanel = document.querySelector('.main-panel');
-
-    if (minimizeBtn) {
-        minimizeBtn.addEventListener('click', function() {
-            sidebar.classList.toggle('minimized');
-            mainPanel.classList.toggle('expanded');
-
-            // Save state to localStorage
-            const isMinimized = sidebar.classList.contains('minimized');
-            localStorage.setItem('sidebarMinimized', isMinimized);
-        });
-    }
-
-    // Restore sidebar state
-    const isMinimized = localStorage.getItem('sidebarMinimized') === 'true';
-    if (isMinimized) {
-        sidebar.classList.add('minimized');
-        mainPanel.classList.add('expanded');
-    }
-
-    // Handle dropdown menus
-    const dropdownToggles = document.querySelectorAll('[data-bs-toggle="collapse"]');
-    dropdownToggles.forEach(toggle => {
-        toggle.addEventListener('click', function(e) {
-            e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
-            if (target) {
-                target.classList.toggle('show');
-                this.setAttribute('aria-expanded', target.classList.contains('show'));
-            }
-        });
-    });
+function layoutsColors(){
+	if($('.sidebar').is('[data-background-color]')) { 
+		$('html').addClass('sidebar-color');
+	} else {
+		$('html').removeClass('sidebar-color');
+	}
 }
 
-/**
- * Initialize Tooltips
- */
-function initTooltips() {
-    const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-    tooltipTriggerList.map(function (tooltipTriggerEl) {
-        return new bootstrap.Tooltip(tooltipTriggerEl);
-    });
+function customBackgroundColor() {
+	$('*[data-background-color="custom"]').each(function(){
+		if($(this).is('[custom-color]')) {
+			$(this).css('background', $(this).attr('custom-color'));
+		} else if($(this).is('[custom-background]')) {
+			$(this).css('background-image', 'url(' + $(this).attr('custom-background') + ')');
+		}
+	});
 }
 
-/**
- * Initialize Animations
- */
-function initAnimations() {
-    // Animate elements on scroll
-    const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-    };
+function legendClickCallback(event) {
+	event = event || window.event;
 
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('animated');
-                observer.unobserve(entry.target);
-            }
-        });
-    }, observerOptions);
+	var target = event.target || event.srcElement;
+	while (target.nodeName !== 'LI') {
+		target = target.parentElement;
+	}
+	var parent = target.parentElement;
+	var chartId = parseInt(parent.classList[0].split("-")[0], 10);
+	var chart = Chart.instances[chartId];
+	var index = Array.prototype.slice.call(parent.children).indexOf(target);
 
-    // Observe fade-in elements
-    document.querySelectorAll('.fade-in').forEach(el => {
-        observer.observe(el);
-    });
-
-    // Animate counters
-    animateCounters();
+	chart.legend.options.onClick.call(chart, event, chart.legend.legendItems[index]);
+	if (chart.isDatasetVisible(index)) {
+		target.classList.remove('hidden');
+	} else {
+		target.classList.add('hidden');
+	}
 }
 
-/**
- * Animate Counters
- */
-function animateCounters() {
-    const counters = document.querySelectorAll('.stat-value');
+$(document).ready(function(){
 
-    counters.forEach(counter => {
-        const target = parseInt(counter.innerText);
-        const increment = target / 50;
-        let current = 0;
+	$('.btn-refresh-card').on('click', function(){var e=$(this).parents(".card");e.length&&(e.addClass("is-loading"),setTimeout(function(){e.removeClass("is-loading")},3e3))})
 
-        const updateCounter = () => {
-            current += increment;
-            if (current < target) {
-                counter.innerText = Math.ceil(current);
-                requestAnimationFrame(updateCounter);
-            } else {
-                counter.innerText = target;
-            }
-        };
+	var scrollbarDashboard = $('.sidebar .scrollbar');
+	if (scrollbarDashboard.length > 0) {
+		scrollbarDashboard.scrollbar();
+	}
 
-        // Start animation when element is visible
-        const observer = new IntersectionObserver((entries) => {
-            if (entries[0].isIntersecting) {
-                updateCounter();
-                observer.disconnect();
-            }
-        });
+	var contentScrollbar = $('.main-panel .content-scroll');
+	if (contentScrollbar.length > 0) {
+		contentScrollbar.scrollbar();
+	}
 
-        observer.observe(counter);
-    });
+	var messagesScrollbar = $('.messages-scroll');
+	if (messagesScrollbar.length > 0) {
+		messagesScrollbar.scrollbar();
+	}
+
+	var tasksScrollbar = $('.tasks-scroll');
+	if (tasksScrollbar.length > 0) {
+		tasksScrollbar.scrollbar();
+	}
+
+	var quickScrollbar = $('.quick-scroll');
+	if (quickScrollbar.length > 0) {
+		quickScrollbar.scrollbar();
+	}
+
+	var messageNotifScrollbar = $('.message-notif-scroll');
+	if (messageNotifScrollbar.length > 0) {
+		messageNotifScrollbar.scrollbar();
+	}
+
+	var notifScrollbar = $('.notif-scroll');
+	if (notifScrollbar.length > 0) {
+		notifScrollbar.scrollbar();
+	}
+
+	var quickActionsScrollbar = $('.quick-actions-scroll');
+	if (quickActionsScrollbar.length > 0) {
+		quickActionsScrollbar.scrollbar();
+	}
+
+	var userScrollbar = $('.dropdown-user-scroll');
+	if (userScrollbar.length > 0) {
+		userScrollbar.scrollbar();
+	}
+
+	$('.scroll-bar').draggable();
+
+	$('#search-nav').on('shown.bs.collapse', function () {
+		$('.nav-search .form-control').focus();
+	});
+
+	var toggle_sidebar = false,
+	toggle_quick_sidebar = false,
+	toggle_topbar = false,
+	minimize_sidebar = false,
+	toggle_page_sidebar = false,
+	toggle_overlay_sidebar = false,
+	nav_open = 0,
+	quick_sidebar_open = 0,
+	topbar_open = 0,
+	mini_sidebar = 0,
+	page_sidebar_open = 0,
+	overlay_sidebar_open = 0;
+
+
+	if(!toggle_sidebar) {
+		var toggle = $('.sidenav-toggler');
+
+		toggle.on('click', function(){
+			if (nav_open == 1){
+				$('html').removeClass('nav_open');
+				toggle.removeClass('toggled');
+				nav_open = 0;
+			}  else {
+				$('html').addClass('nav_open');
+				toggle.addClass('toggled');
+				nav_open = 1;
+			}
+		});
+		toggle_sidebar = true;
+	}
+
+	if(!quick_sidebar_open) {
+		var toggle = $('.quick-sidebar-toggler');
+
+		toggle.on('click', function(){
+			if (nav_open == 1){
+				$('html').removeClass('quick_sidebar_open');
+				$('.quick-sidebar-overlay').remove();
+				toggle.removeClass('toggled');
+				quick_sidebar_open = 0;
+			}  else {
+				$('html').addClass('quick_sidebar_open');
+				toggle.addClass('toggled');
+				$('<div class="quick-sidebar-overlay"></div>').insertAfter('.quick-sidebar');
+				quick_sidebar_open = 1;
+			}
+		});
+
+		$('.wrapper').mouseup(function(e)
+		{
+			var subject = $('.quick-sidebar'); 
+
+			if(e.target.className != subject.attr('class') && !subject.has(e.target).length)
+			{
+				$('html').removeClass('quick_sidebar_open');
+				$('.quick-sidebar-toggler').removeClass('toggled');
+				$('.quick-sidebar-overlay').remove();
+				quick_sidebar_open = 0;
+			}
+		});
+
+		$(".close-quick-sidebar").on('click', function(){
+			$('html').removeClass('quick_sidebar_open');
+			$('.quick-sidebar-toggler').removeClass('toggled');
+			$('.quick-sidebar-overlay').remove();
+			quick_sidebar_open = 0;
+		});
+
+		quick_sidebar_open = true;
+	}
+
+	if(!toggle_topbar) {
+		var topbar = $('.topbar-toggler');
+
+		topbar.on('click', function() {
+			if (topbar_open == 1) {
+				$('html').removeClass('topbar_open');
+				topbar.removeClass('toggled');
+				topbar_open = 0;
+			} else {
+				$('html').addClass('topbar_open');
+				topbar.addClass('toggled');
+				topbar_open = 1;
+			}
+		});
+		toggle_topbar = true;
+	}
+
+	if(!minimize_sidebar){
+		var minibutton = $('.toggle-sidebar');
+		if($('.wrapper').hasClass('sidebar_minimize')){
+			mini_sidebar = 1;
+			minibutton.addClass('toggled');
+			minibutton.html('<i class="icon-options-vertical"></i>');
+		}
+
+		minibutton.on('click', function() {
+			if (mini_sidebar == 1) {
+				$('.wrapper').removeClass('sidebar_minimize');
+				minibutton.removeClass('toggled');
+				minibutton.html('<i class="icon-menu"></i>');
+				mini_sidebar = 0;
+			} else {
+				$('.wrapper').addClass('sidebar_minimize');
+				minibutton.addClass('toggled');
+				minibutton.html('<i class="icon-options-vertical"></i>');
+				mini_sidebar = 1;
+			}
+			$(window).resize();
+		});
+		minimize_sidebar = true;
+	}
+
+	if(!toggle_page_sidebar) {
+		var pageSidebarToggler = $('.page-sidebar-toggler');
+
+		pageSidebarToggler.on('click', function() {
+			if (page_sidebar_open == 1) {
+				$('html').removeClass('pagesidebar_open');
+				pageSidebarToggler.removeClass('toggled');
+				page_sidebar_open = 0;
+			} else {
+				$('html').addClass('pagesidebar_open');
+				pageSidebarToggler.addClass('toggled');
+				page_sidebar_open = 1;
+			}
+		});
+
+		var pageSidebarClose = $('.page-sidebar .back');
+
+		pageSidebarClose.on('click', function() {
+			$('html').removeClass('pagesidebar_open');
+			pageSidebarToggler.removeClass('toggled');
+			page_sidebar_open = 0;
+		});
+		
+		toggle_page_sidebar = true;
+	}
+
+	if(!toggle_overlay_sidebar){
+		var overlaybutton = $('.sidenav-overlay-toggler');
+		if($('.wrapper').hasClass('is-show')){
+			overlay_sidebar_open = 1;
+			overlaybutton.addClass('toggled');
+			overlaybutton.html('<i class="icon-options-vertical"></i>');
+		}
+
+		overlaybutton.on('click', function() {
+			if (overlay_sidebar_open == 1) {
+				$('.wrapper').removeClass('is-show');
+				overlaybutton.removeClass('toggled');
+				overlaybutton.html('<i class="icon-menu"></i>');
+				overlay_sidebar_open = 0;
+			} else {
+				$('.wrapper').addClass('is-show');
+				overlaybutton.addClass('toggled');
+				overlaybutton.html('<i class="icon-options-vertical"></i>');
+				overlay_sidebar_open = 1;
+			}
+			$(window).resize();
+		});
+		minimize_sidebar = true;
+	}
+
+	$('.sidebar').hover(function() {
+		if ($('.wrapper').hasClass('sidebar_minimize')){
+			$('.wrapper').addClass('sidebar_minimize_hover');
+		}
+	}, function(){
+		if ($('.wrapper').hasClass('sidebar_minimize')){
+			$('.wrapper').removeClass('sidebar_minimize_hover');
+		}
+	});
+
+	// addClass if nav-item click and has subnav
+
+	$(".nav-item a").on('click', (function(){
+		if ( $(this).parent().find('.collapse').hasClass("show") ) {
+			$(this).parent().removeClass('submenu');
+		} else {
+			$(this).parent().addClass('submenu');
+		}
+	}));
+
+
+	//Chat Open
+	$('.messages-contact .user a').on('click', function(){
+		$('.tab-chat').addClass('show-chat')
+	});
+
+	$('.messages-wrapper .return').on('click', function(){
+		$('.tab-chat').removeClass('show-chat')
+	});
+
+	//select all
+	$('[data-select="checkbox"]').change(function(){
+		var target = $(this).attr('data-target');
+		$(target).prop('checked', $(this).prop("checked"));
+	})
+
+	//form-group-default active if input focus
+	$(".form-group-default .form-control").focus(function(){
+		$(this).parent().addClass("active");
+	}).blur(function(){
+		$(this).parent().removeClass("active");
+	})
+
+});
+
+// Input File Image
+
+function readURL(input) {
+	if (input.files && input.files[0]) {
+		var reader = new FileReader();
+
+		reader.onload = function (e) {
+			$(input).parent('.input-file-image').find('.img-upload-preview').attr('src', e.target.result);
+		}
+
+		reader.readAsDataURL(input.files[0]);
+	}
 }
 
-/**
- * Initialize Search
- */
-function initSearch() {
-    const searchDropdown = document.getElementById('searchDropdown');
+$('.input-file-image input[type="file"').change(function () {
+	readURL(this);
+});
 
-    if (searchDropdown) {
-        searchDropdown.addEventListener('click', function(e) {
-            e.preventDefault();
-            showSearchModal();
-        });
-    }
+// Show Password
+
+function showPassword(button) {
+	var inputPassword = $(button).parent().find('input');
+	if (inputPassword.attr('type') === "password") {
+		inputPassword.attr('type', 'text');
+	} else {
+		inputPassword.attr('type','password');
+	}
 }
 
-/**
- * Show Search Modal
- */
-function showSearchModal() {
-    // Create search modal if it doesn't exist
-    let searchModal = document.getElementById('searchModal');
+$('.show-password').on('click', function(){
+	showPassword(this);
+})
 
-    if (!searchModal) {
-        searchModal = document.createElement('div');
-        searchModal.className = 'modal fade';
-        searchModal.id = 'searchModal';
-        searchModal.innerHTML = `
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">
-                            <i class="fas fa-search me-2"></i>Ricerca Globale
-                        </h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="input-group mb-3">
-                            <input type="text" class="form-control" id="globalSearchInput"
-                                   placeholder="Cerca date, santi, preghiere...">
-                            <button class="btn btn-primary" onclick="performSearch()">
-                                <i class="fas fa-search"></i> Cerca
-                            </button>
-                        </div>
-                        <div id="searchResults"></div>
-                    </div>
-                </div>
-            </div>
-        `;
-        document.body.appendChild(searchModal);
-    }
+// Sign In & Sign Up
+var containerSignIn = $('.container-login'),
+containerSignUp = $('.container-signup'),
+showSignIn = true,
+showSignUp = false;
 
-    const modal = new bootstrap.Modal(searchModal);
-    modal.show();
+function changeContainer(){
+	if(showSignIn == true){
+		containerSignIn.css('display', 'block')
+	} else {
+		containerSignIn.css('display', 'none')
+	}
 
-    // Focus on search input
-    setTimeout(() => {
-        document.getElementById('globalSearchInput').focus();
-    }, 500);
+	if(showSignUp == true){
+		containerSignUp.css('display', 'block')
+	} else {
+		containerSignUp.css('display', 'none')
+	}
 }
 
-/**
- * Perform Search
- */
-function performSearch() {
-    const searchInput = document.getElementById('globalSearchInput');
-    const searchResults = document.getElementById('searchResults');
-    const query = searchInput.value.trim();
+$('#show-signup').on('click', function(){ 
+	showSignUp = true;
+	showSignIn = false;
+	changeContainer();
+})
 
-    if (query.length < 2) {
-        searchResults.innerHTML = `
-            <div class="alert alert-warning">
-                Inserisci almeno 2 caratteri per la ricerca
-            </div>
-        `;
-        return;
-    }
+$('#show-signin').on('click', function(){ 
+	showSignUp = false;
+	showSignIn = true;
+	changeContainer();
+})
 
-    // Show loading
-    searchResults.innerHTML = `
-        <div class="text-center py-3">
-            <div class="spinner-border text-primary" role="status">
-                <span class="visually-hidden">Ricerca in corso...</span>
-            </div>
-        </div>
-    `;
+changeContainer();
 
-    // Simulate search (in real app, this would be an API call)
-    setTimeout(() => {
-        searchResults.innerHTML = `
-            <div class="list-group">
-                <a href="#" class="list-group-item list-group-item-action">
-                    <div class="d-flex w-100 justify-content-between">
-                        <h6 class="mb-1">Lunedì 1 Ottobre 2025</h6>
-                        <small class="text-muted">Data</small>
-                    </div>
-                    <p class="mb-1">Lodi e Vespri disponibili</p>
-                </a>
-                <a href="#" class="list-group-item list-group-item-action">
-                    <div class="d-flex w-100 justify-content-between">
-                        <h6 class="mb-1">San Francesco d'Assisi</h6>
-                        <small class="text-muted">Santo</small>
-                    </div>
-                    <p class="mb-1">4 Ottobre - Patrono d'Italia</p>
-                </a>
-            </div>
-        `;
-    }, 1000);
-}
+//Input with Floating Label
 
-/**
- * Initialize Notifications
- */
-function initNotifications() {
-    // Check for new notifications periodically
-    setInterval(checkNotifications, 60000); // Every minute
-}
+$('.form-floating-label .form-control').keyup(function(){
+	if($(this).val() !== '') {
+		$(this).addClass('filled');
+	} else {
+		$(this).removeClass('filled');
+	}
+})
 
-/**
- * Check Notifications
- */
-function checkNotifications() {
-    // In real app, this would be an API call
-    console.log('Checking for new notifications...');
-}
-
-/**
- * Show Date Picker
- */
-function showDatePicker() {
-    // Fetch available dates
-    fetch('/api/search-dates')
-        .then(response => response.json())
-        .then(dates => {
-            showDatePickerModal(dates);
-        })
-        .catch(error => {
-            console.error('Error fetching dates:', error);
-            alert('Errore nel caricamento delle date');
-        });
-}
-
-/**
- * Show Date Picker Modal
- */
-function showDatePickerModal(dates) {
-    let datePickerModal = document.getElementById('datePickerModal');
-
-    if (!datePickerModal) {
-        datePickerModal = document.createElement('div');
-        datePickerModal.className = 'modal fade';
-        datePickerModal.id = 'datePickerModal';
-        document.body.appendChild(datePickerModal);
-    }
-
-    // Build options
-    let optionsHtml = '';
-    dates.forEach(date => {
-        optionsHtml += `
-            <option value="${date.value}">${date.label}</option>
-        `;
-    });
-
-    datePickerModal.innerHTML = `
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header bg-gradient-primary text-white">
-                    <h5 class="modal-title">
-                        <i class="fas fa-calendar-day me-2"></i>Seleziona Data
-                    </h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="dateSelect" class="form-label">Scegli una data:</label>
-                        <select class="form-select" id="dateSelect">
-                            ${optionsHtml}
-                        </select>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annulla</button>
-                    <button type="button" class="btn btn-primary" onclick="goToSelectedDate()">
-                        <i class="fas fa-arrow-right me-2"></i>Vai alla Data
-                    </button>
-                </div>
-            </div>
-        </div>
-    `;
-
-    const modal = new bootstrap.Modal(datePickerModal);
-    modal.show();
-}
-
-/**
- * Go to Selected Date
- */
-function goToSelectedDate() {
-    const dateSelect = document.getElementById('dateSelect');
-    const selectedDate = dateSelect.value;
-
-    if (selectedDate) {
-        window.location.href = `/giorno/${selectedDate}`;
-    }
-}
-
-/**
- * Export Data
- */
-function exportData(format) {
-    const url = `/api/export?format=${format}`;
-    window.open(url, '_blank');
-}
-
-/**
- * Print Page
- */
-function printPage() {
-    window.print();
-}
-
-/**
- * Toggle Dark Mode
- */
-function toggleDarkMode() {
-    document.body.classList.toggle('dark-mode');
-    const isDarkMode = document.body.classList.contains('dark-mode');
-    localStorage.setItem('darkMode', isDarkMode);
-}
-
-/**
- * Load Theme Preference
- */
-function loadThemePreference() {
-    const isDarkMode = localStorage.getItem('darkMode') === 'true';
-    if (isDarkMode) {
-        document.body.classList.add('dark-mode');
-    }
-}
-
-// Load theme preference on page load
-loadThemePreference();
-
-/**
- * Utility Functions
- */
-
-// Format date
-function formatDate(dateString) {
-    const options = {
-        weekday: 'long',
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric'
-    };
-    return new Date(dateString).toLocaleDateString('it-IT', options);
-}
-
-// Show toast notification
-function showToast(message, type = 'info') {
-    const toastHtml = `
-        <div class="toast align-items-center text-white bg-${type} border-0" role="alert">
-            <div class="d-flex">
-                <div class="toast-body">
-                    ${message}
-                </div>
-                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
-            </div>
-        </div>
-    `;
-
-    let toastContainer = document.getElementById('toastContainer');
-    if (!toastContainer) {
-        toastContainer = document.createElement('div');
-        toastContainer.id = 'toastContainer';
-        toastContainer.className = 'toast-container position-fixed bottom-0 end-0 p-3';
-        document.body.appendChild(toastContainer);
-    }
-
-    const toastElement = document.createElement('div');
-    toastElement.innerHTML = toastHtml;
-    toastContainer.appendChild(toastElement.firstElementChild);
-
-    const toast = new bootstrap.Toast(toastElement.firstElementChild);
-    toast.show();
-}
-
-// Smooth scroll to element
-function scrollToElement(elementId) {
-    const element = document.getElementById(elementId);
-    if (element) {
-        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-}
