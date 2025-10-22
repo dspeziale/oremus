@@ -6,52 +6,70 @@
 
 {% block breadcrumbs %}
 <li class="separator">
-	<i class="flaticon-right-arrow"></i>
+    <i class="flaticon-right-arrow"></i>
 </li>
 <li class="nav-item">
-	<a href="#">Dashboard</a>
+    <a href="#">Dashboard</a>
 </li>
 <li class="separator">
-	<i class="flaticon-right-arrow"></i>
+    <i class="flaticon-right-arrow"></i>
 </li>
 <li class="nav-item">
-	<a href="#">Home</a>
+    <a href="#">Home</a>
 </li>
 {% endblock %}
 
 {% block content %}
-
+<div class="row mt--2">
+    <div class="col-md-6">
+        <div class="card full-height">
+            <div class="card-body">
+                <div class="card-title">Overall statistics</div>
+                <div class="card-category">Daily information about statistics in system</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card full-height">
+            <div class="card-body">
+                <div class="card-title">Total income & spend statistics</div>
+                <div class="card-category">descrizioni statistics in system</div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
 
 {% block extra_css %}
 <style>
-	.card-stats-with-icon {
-		padding: 20px;
-	}
+    .card-stats-with-icon {
+        padding: 20px;
+    }
 
-	.stat-icon {
-		width: 60px;
-		height: 60px;
-		border-radius: 50%;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		color: white;
-		margin-right: 15px;
-		font-size: 24px;
-	}
+    .stat-icon {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        margin-right: 15px;
+        font-size: 24px;
+    }
 
-	.stat-content h6 {
-		margin: 0;
-		font-size: 12px;
-		color: #999;
-		text-transform: uppercase;
-	}
+    .stat-content h6 {
+        margin: 0;
+        font-size: 12px;
+        color: #999;
+        text-transform: uppercase;
+    }
 
-	.stat-content span {
-		font-size: 18px;
-		font-weight: bold;
-		color: #333;
-	}
+    .stat-content span {
+        font-size: 18px;
+        font-weight: bold;
+        color: #333;
+    }
 </style>
 {% endblock %}
+
