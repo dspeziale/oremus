@@ -494,7 +494,7 @@ if __name__ == "__main__":
     print("\n" + "=" * 70)
     print("📅 Elaborazione intervallo di date...")
     print("=" * 70)
-    results = manager.get_date_range("20251001", "20251031")
+    results = manager.get_date_range("20251101", "20251130")
 
     print("\n" + "=" * 70)
     print(f"✨ Elaborazione completata! {len(results)} giorni salvati.")

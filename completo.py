@@ -6,8 +6,7 @@ from typing import Dict, Optional
 from pathlib import Path
 
 # Importa le classi dal lrgyParser
-from lrgyParser import LiturgiaManager, LodiParser, VespriParser, SantoParser
-
+from old.lrgyParser import LiturgiaManager, LodiParser, VespriParser, SantoParser
 
 class LiturgiaDBManager:
     """Manager per salvare i dati liturgici in SQLite"""
@@ -410,7 +409,7 @@ if __name__ == "__main__":
     print("=" * 70)
 
     # Elabora un intervallo di date
-    manager.get_date_range("20251001", "20251031")
+    manager.get_date_range("20251001", "20251130")
 
     print("\n" + "=" * 70)
     print(f"✨ Database salvato in: instance/oremus.db")
