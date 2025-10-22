@@ -4,8 +4,8 @@ import os
 from pathlib import Path
 from datetime import datetime
 
-DB_PATH = "instance/oremus.db"
-JSON_DIR = "json"
+DB_PATH = "../instance/oremus.db"
+JSON_DIR = "../json"
 
 
 def init_db():
@@ -292,7 +292,7 @@ def insert_santi(giorno_id, santo_data):
 
 def process_json_files():
     """Legge e processa tutti i file JSON"""
-    os.makedirs("instance", exist_ok=True)
+    os.makedirs("../instance", exist_ok=True)
     init_db()
 
     json_files = list(Path(JSON_DIR).glob('liturgia_*.json'))
