@@ -190,47 +190,49 @@ def get_giorno_by_data(data_iso):
 @app.route('/')
 def index():
     """Home page - Mostra il giorno odierno o il primo disponibile"""
-    try:
-        if not db_exists():
-            print(f"⚠️  DB non disponibile")
-            return render_template('index.html', giorno=None, santi=[], lodi=None, vespri=None,
-                                   all_dates=[], today=get_today_date(), error="Database non disponibile")
+    # try:
+    #     if not db_exists():
+    #         print(f"⚠️  DB non disponibile")
+    #         return render_template('index.html', giorno=None, santi=[], lodi=None, vespri=None,
+    #                                all_dates=[], today=get_today_date(), error="Database non disponibile")
+    #
+    #     today = get_today_date()
+    #     print(f"📅 Cercando dati per: {today}")
+    #
+    #     # Prova a recuperare il giorno odierno
+    #     giorno_data = get_giorno_by_data(today)
+    #
+    #     # Se non esiste oggi, prendi il primo disponibile
+    #     if not giorno_data:
+    #         print(f"⚠️  Nessun giorno trovato per {today}")
+    #         all_dates = get_all_dates()
+    #         if all_dates:
+    #             giorno_data = get_giorno_by_data(all_dates[0]['data'])
+    #             if giorno_data:
+    #                 today = all_dates[0]['data']
+    #         else:
+    #             return render_template('index.html', giorno=None, santi=[], lodi=None, vespri=None,
+    #                                    all_dates=[], today=today, error="Nessun giorno liturgico nel database")
+    #
+    #     all_dates = get_all_dates()
+    #
+    #     return render_template('index.html',
+    #                            giorno=giorno_data['giorno'] if giorno_data else None,
+    #                            santi=giorno_data['santi'] if giorno_data else [],
+    #                            lodi=giorno_data['lodi'] if giorno_data else None,
+    #                            vespri=giorno_data['vespri'] if giorno_data else None,
+    #                            all_dates=all_dates,
+    #                            today=today,
+    #                            error=None)
 
-        today = get_today_date()
-        print(f"📅 Cercando dati per: {today}")
+    # except Exception as e:
+    #     print(f"❌ Errore in index: {e}")
+    #     import traceback
+    #     traceback.print_exc()
+    #     return render_template('index.html', giorno=None, santi=[], lodi=None, vespri=None,
+    #                            all_dates=[], today=get_today_date(), error=str(e))
 
-        # Prova a recuperare il giorno odierno
-        giorno_data = get_giorno_by_data(today)
-
-        # Se non esiste oggi, prendi il primo disponibile
-        if not giorno_data:
-            print(f"⚠️  Nessun giorno trovato per {today}")
-            all_dates = get_all_dates()
-            if all_dates:
-                giorno_data = get_giorno_by_data(all_dates[0]['data'])
-                if giorno_data:
-                    today = all_dates[0]['data']
-            else:
-                return render_template('index.html', giorno=None, santi=[], lodi=None, vespri=None,
-                                       all_dates=[], today=today, error="Nessun giorno liturgico nel database")
-
-        all_dates = get_all_dates()
-
-        return render_template('index.html',
-                               giorno=giorno_data['giorno'] if giorno_data else None,
-                               santi=giorno_data['santi'] if giorno_data else [],
-                               lodi=giorno_data['lodi'] if giorno_data else None,
-                               vespri=giorno_data['vespri'] if giorno_data else None,
-                               all_dates=all_dates,
-                               today=today,
-                               error=None)
-
-    except Exception as e:
-        print(f"❌ Errore in index: {e}")
-        import traceback
-        traceback.print_exc()
-        return render_template('index.html', giorno=None, santi=[], lodi=None, vespri=None,
-                               all_dates=[], today=get_today_date(), error=str(e))
+    return redirect(url_for('dashboard'))
 
 
 # ============================================
@@ -316,6 +318,256 @@ def vespri_giorno(data):
         print(f"❌ Errore in vespri_giorno: {e}")
         return render_template('error.html', message=str(e)), 500
 
+
+# ============================================
+# MIGLIORAMENTI OREMUS - NAVIGAZIONE DATE
+# Aggiungi queste rotte a app.py
+# ============================================
+
+from flask import Flask, jsonify, request
+from datetime import datetime, timedelta
+
+
+# ============================================
+# API REST: Navigazione Date
+# ============================================
+
+@app.route('/api/dates/available', methods=['GET'])
+def api_available_dates():
+    """
+    Ritorna tutte le date disponibili nel database
+    Utile per il mini-calendario
+    """
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor()
+
+        cursor.execute('''
+            SELECT data_iso, data, giorno_settimana 
+            FROM giorni_liturgici 
+            ORDER BY data_iso ASC
+        ''')
+
+        dates = [{
+            'iso': row[0],
+            'data': row[1],
+            'giorno': row[2]
+        } for row in cursor.fetchall()]
+
+        conn.close()
+        return jsonify({
+            'success': True,
+            'dates': dates,
+            'count': len(dates)
+        })
+
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
+@app.route('/api/dates/next', methods=['GET'])
+def api_next_date():
+    """Ritorna la data successiva disponibile"""
+    try:
+        current_date = request.args.get('date', datetime.now().strftime('%Y%m%d'))
+
+        conn = get_db_connection()
+        cursor = conn.cursor()
+
+        cursor.execute('''
+            SELECT data_iso, data, giorno_settimana 
+            FROM giorni_liturgici 
+            WHERE data_iso > ?
+            ORDER BY data_iso ASC
+            LIMIT 1
+        ''', (current_date,))
+
+        result = cursor.fetchone()
+        conn.close()
+
+        if result:
+            return jsonify({
+                'success': True,
+                'iso': result[0],
+                'data': result[1],
+                'giorno': result[2]
+            })
+
+        return jsonify({'success': False, 'message': 'No next date available'}), 404
+
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
+@app.route('/api/dates/previous', methods=['GET'])
+def api_previous_date():
+    """Ritorna la data precedente disponibile"""
+    try:
+        current_date = request.args.get('date', datetime.now().strftime('%Y%m%d'))
+
+        conn = get_db_connection()
+        cursor = conn.cursor()
+
+        cursor.execute('''
+            SELECT data_iso, data, giorno_settimana 
+            FROM giorni_liturgici 
+            WHERE data_iso < ?
+            ORDER BY data_iso DESC
+            LIMIT 1
+        ''', (current_date,))
+
+        result = cursor.fetchone()
+        conn.close()
+
+        if result:
+            return jsonify({
+                'success': True,
+                'iso': result[0],
+                'data': result[1],
+                'giorno': result[2]
+            })
+
+        return jsonify({'success': False, 'message': 'No previous date available'}), 404
+
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
+@app.route('/api/dates/today', methods=['GET'])
+def api_today_date():
+    """Ritorna i dati di oggi"""
+    try:
+        today = datetime.now().strftime('%Y%m%d')
+
+        conn = get_db_connection()
+        cursor = conn.cursor()
+
+        cursor.execute('''
+            SELECT data_iso, data, giorno_settimana 
+            FROM giorni_liturgici 
+            WHERE data_iso = ?
+        ''', (today,))
+
+        result = cursor.fetchone()
+        conn.close()
+
+        if result:
+            return jsonify({
+                'success': True,
+                'iso': result[0],
+                'data': result[1],
+                'giorno': result[2]
+            })
+
+        return jsonify({'success': False, 'message': 'Today data not available'}), 404
+
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
+@app.route('/api/dates/range', methods=['GET'])
+def api_date_range():
+    """
+    Ritorna le date entro un intervallo
+    Query params: start=YYYYMMDD, end=YYYYMMDD
+    """
+    try:
+        start = request.args.get('start', (datetime.now() - timedelta(days=30)).strftime('%Y%m%d'))
+        end = request.args.get('end', (datetime.now() + timedelta(days=30)).strftime('%Y%m%d'))
+
+        conn = get_db_connection()
+        cursor = conn.cursor()
+
+        cursor.execute('''
+            SELECT data_iso, data, giorno_settimana 
+            FROM giorni_liturgici 
+            WHERE data_iso BETWEEN ? AND ?
+            ORDER BY data_iso ASC
+        ''', (start, end))
+
+        dates = [{
+            'iso': row[0],
+            'data': row[1],
+            'giorno': row[2]
+        } for row in cursor.fetchall()]
+
+        conn.close()
+
+        return jsonify({
+            'success': True,
+            'dates': dates,
+            'count': len(dates),
+            'range': {'start': start, 'end': end}
+        })
+
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
+@app.route('/api/dates/jump', methods=['POST'])
+def api_jump_to_date():
+    """
+    Salta a una data specifica
+    Body: { "date": "YYYYMMDD" }
+    """
+    try:
+        data = request.get_json()
+        target_date = data.get('date')
+
+        if not target_date:
+            return jsonify({'success': False, 'error': 'Date required'}), 400
+
+        conn = get_db_connection()
+        cursor = conn.cursor()
+
+        cursor.execute('''
+            SELECT data_iso, data, giorno_settimana 
+            FROM giorni_liturgici 
+            WHERE data_iso = ?
+        ''', (target_date,))
+
+        result = cursor.fetchone()
+        conn.close()
+
+        if result:
+            return jsonify({
+                'success': True,
+                'iso': result[0],
+                'data': result[1],
+                'giorno': result[2]
+            })
+
+        return jsonify({'success': False, 'message': 'Date not available'}), 404
+
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
+# ============================================
+# HELPER: Formatta data per i template
+# ============================================
+
+@app.template_filter('format_date_it')
+def format_date_it(date_iso):
+    """
+    Filtro Jinja2 per formattare date ISO in italiano
+    Uso: {{ data_iso | format_date_it }}
+    """
+    if not date_iso or len(date_iso) != 8:
+        return date_iso
+
+    try:
+        year = date_iso[:4]
+        month = date_iso[4:6]
+        day = date_iso[6:8]
+
+        date_obj = datetime(int(year), int(month), int(day))
+        months_it = ['', 'Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno',
+                     'Luglio', 'Agosto', 'Settembre', 'Ottobre', 'Novembre', 'Dicembre']
+
+        return f"{day} {months_it[int(month)]} {year}"
+    except:
+        return date_iso
 
 # ============================================
 # DASHBOARD ROUTES

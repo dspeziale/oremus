@@ -8,613 +8,581 @@
 
 <!-- Stats Cards Row -->
 <div class="row mb-5">
-	<div class="col-lg-3 col-md-6 mb-4">
-		<div class="stat-card">
-			<div class="stat-icon bg-primary">
-				<i class="fas fa-calendar-check"></i>
-			</div>
-			<div class="stat-content">
-				<h6 class="text-muted">Giorni Totali</h6>
-				<h3 id="total-days">--</h3>
-				<small class="text-muted">Nel database</small>
-			</div>
-		</div>
-	</div>
+    <div class="col-lg-3 col-md-6 mb-4">
+        <div class="stat-card">
+            <div class="stat-icon bg-primary">
+                <i class="fas fa-calendar-check"></i>
+            </div>
+            <div class="stat-content">
+                <h6 class="text-muted">Giorni Totali</h6>
+                <h3 id="total-days">--</h3>
+                <small class="text-muted">Nel database</small>
+            </div>
+        </div>
+    </div>
 
-	<div class="col-lg-3 col-md-6 mb-4">
-		<div class="stat-card">
-			<div class="stat-icon bg-success">
-				<i class="fas fa-users"></i>
-			</div>
-			<div class="stat-content">
-				<h6 class="text-muted">Utenti</h6>
-				<h3 id="total-users">--</h3>
-				<small class="text-muted">Attivi</small>
-			</div>
-		</div>
-	</div>
+    <div class="col-lg-3 col-md-6 mb-4">
+        <div class="stat-card">
+            <div class="stat-icon bg-success">
+                <i class="fas fa-users"></i>
+            </div>
+            <div class="stat-content">
+                <h6 class="text-muted">Utenti</h6>
+                <h3 id="total-users">--</h3>
+                <small class="text-muted">Attivi</small>
+            </div>
+        </div>
+    </div>
 
-	<div class="col-lg-3 col-md-6 mb-4">
-		<div class="stat-card">
-			<div class="stat-icon bg-info">
-				<i class="fas fa-pray"></i>
-			</div>
-			<div class="stat-content">
-				<h6 class="text-muted">Celebrazioni</h6>
-				<h3 id="total-prayers">--</h3>
-				<small class="text-muted">Lodi e Vespri</small>
-			</div>
-		</div>
-	</div>
+    <div class="col-lg-3 col-md-6 mb-4">
+        <div class="stat-card">
+            <div class="stat-icon bg-info">
+                <i class="fas fa-pray"></i>
+            </div>
+            <div class="stat-content">
+                <h6 class="text-muted">Celebrazioni</h6>
+                <h3 id="total-prayers">--</h3>
+                <small class="text-muted">Lodi e Vespri</small>
+            </div>
+        </div>
+    </div>
 
-	<div class="col-lg-3 col-md-6 mb-4">
-		<div class="stat-card">
-			<div class="stat-icon bg-warning">
-				<i class="fas fa-user-circle"></i>
-			</div>
-			<div class="stat-content">
-				<h6 class="text-muted">Nuovi Utenti</h6>
-				<h3 id="new-users">--</h3>
-				<small class="text-muted">Questa settimana</small>
-			</div>
-		</div>
-	</div>
+    <div class="col-lg-3 col-md-6 mb-4">
+        <div class="stat-card">
+            <div class="stat-icon bg-warning">
+                <i class="fas fa-user-circle"></i>
+            </div>
+            <div class="stat-content">
+                <h6 class="text-muted">Nuovi Utenti</h6>
+                <h3 id="new-users">--</h3>
+                <small class="text-muted">Questa settimana</small>
+            </div>
+        </div>
+    </div>
 </div>
 
 <!-- Main Content -->
 <div class="row mb-4">
-	<div class="col-md-12">
-		<div class="card">
-			<div class="card-header d-flex align-items-center">
-				<h4 class="card-title mb-0">
-					<i class="fas fa-book mr-2"></i>Giorni Liturgici Disponibili
-				</h4>
-				<div class="ml-auto">
-					<input type="text" id="searchGiorni" class="form-control form-control-sm" placeholder="Cerca giorno o santo...">
-				</div>
-			</div>
-			<div class="card-body">
-				<!-- Giorni Container -->
-				<div id="giorni-container" class="row">
-					<div class="col-12 text-center py-5">
-						<div class="spinner-border text-primary" role="status">
-							<span class="sr-only">Caricamento...</span>
-						</div>
-						<p class="text-muted mt-3">
-							<i class="fas fa-spinner fa-spin mr-2"></i>Caricamento dei giorni liturgici...
-						</p>
-					</div>
-				</div>
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header d-flex align-items-center">
+                <h4 class="card-title mb-0">
+                    <i class="fas fa-book mr-2"></i>Giorni Liturgici Disponibili
+                </h4>
+                <div class="ml-auto">
+                    <input type="text" id="searchGiorni" class="form-control form-control-sm"
+                           placeholder="Cerca giorno o santo...">
+                </div>
+            </div>
+            <div class="card-body">
+                <!-- Giorni Container -->
+                <div id="giorni-container" class="row">
+                    <div class="col-12 text-center py-5">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="sr-only">Caricamento...</span>
+                        </div>
+                        <p class="text-muted mt-3">
+                            <i class="fas fa-spinner fa-spin mr-2"></i>Caricamento dei giorni liturgici...
+                        </p>
+                    </div>
+                </div>
 
-				<!-- No Data Message -->
-				<div id="no-data" style="display: none;">
-					<div class="alert alert-info text-center py-5" role="alert">
-						<i class="fas fa-inbox fa-3x mb-3 text-info d-block"></i>
-						<h5>Nessun giorno disponibile</h5>
-						<p class="text-muted">Esegui il parser per popolare i dati del calendario liturgico.</p>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+                <!-- No Data Message -->
+                <div id="no-data" style="display: none;">
+                    <div class="alert alert-info text-center py-5" role="alert">
+                        <i class="fas fa-inbox fa-3x mb-3 text-info d-block"></i>
+                        <h5>Nessun giorno disponibile</h5>
+                        <p class="text-muted">Esegui il parser per popolare i dati del calendario liturgico.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <!-- Modal per selezionare la celebrazione -->
-<div class="modal fade" id="celebrazioniModal" tabindex="-1" role="dialog" aria-labelledby="celebrazioniLabel" aria-hidden="true">
-	<div class="modal-dialog modal-lg" role="document">
-		<div class="modal-content">
-			<div class="modal-header bg-primary">
-				<h5 class="modal-title text-white" id="celebrazioniLabel">
-					<i class="fas fa-book mr-2"></i>Visualizza Celebrazioni
-				</h5>
-				<button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
-			</div>
-			<div class="modal-body">
-				<div id="modalContent">
-					<!-- Contenuto generato dinamicamente -->
-				</div>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary" data-dismiss="modal">Chiudi</button>
-			</div>
-		</div>
-	</div>
+<div class="modal fade" id="celebrazioniModal" tabindex="-1" role="dialog" aria-labelledby="celebrazioniLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-primary">
+                <h5 class="modal-title text-white" id="celebrazioniLabel">
+                    <i class="fas fa-book mr-2"></i>Visualizza Celebrazioni
+                </h5>
+                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="modalContent">
+                    <!-- Contenuto generato dinamicamente -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Chiudi</button>
+            </div>
+        </div>
+    </div>
 </div>
 
 <style>
-	/* Stat Cards */
-	.stat-card {
-		background: white;
-		border-radius: 10px;
-		padding: 20px;
-		display: flex;
-		align-items: center;
-		gap: 20px;
-		box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-		transition: all 0.3s ease;
-		border: 1px solid #f0f0f0;
-	}
+    /* Stat Cards */
+    .stat-card {
+        background: white;
+        border-radius: 10px;
+        padding: 20px;
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        border: 1px solid #f0f0f0;
+    }
 
-	.stat-card:hover {
-		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-		transform: translateY(-2px);
-	}
+    .stat-card:hover {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        transform: translateY(-2px);
+    }
 
-	.stat-icon {
-		width: 60px;
-		height: 60px;
-		border-radius: 10px;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		font-size: 24px;
-		color: white;
-		flex-shrink: 0;
-	}
+    .stat-icon {
+        width: 60px;
+        height: 60px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+        color: white;
+        flex-shrink: 0;
+    }
 
-	.stat-icon.bg-primary {
-		background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-	}
+    .stat-icon.bg-primary {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
 
-	.stat-icon.bg-success {
-		background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
-	}
+    .stat-icon.bg-success {
+        background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+    }
 
-	.stat-icon.bg-info {
-		background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-	}
+    .stat-icon.bg-info {
+        background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    }
 
-	.stat-icon.bg-warning {
-		background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
-	}
+    .stat-icon.bg-warning {
+        background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+    }
 
-	.stat-content h3 {
-		margin: 0;
-		font-size: 28px;
-		font-weight: 700;
-		color: #333;
-	}
+    .stat-content h3 {
+        margin: 0;
+        font-size: 28px;
+        font-weight: 700;
+        color: #333;
+    }
 
-	.stat-content h6 {
-		margin: 0 0 5px 0;
-		font-size: 12px;
-		text-transform: uppercase;
-		letter-spacing: 0.5px;
-		font-weight: 600;
-	}
+    .stat-content h6 {
+        margin: 0 0 5px 0;
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        font-weight: 600;
+    }
 
-	.stat-content small {
-		font-size: 12px;
-	}
+    .stat-content small {
+        font-size: 12px;
+    }
 
-	/* Giorno Card */
-	.giorno-card {
-		background: white;
-		border-radius: 12px;
-		padding: 25px;
-		text-align: center;
-		transition: all 0.3s ease;
-		border: 1px solid #f0f0f0;
-		height: 100%;
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-		cursor: pointer;
-		position: relative;
-		overflow: hidden;
-	}
+    /* Giorno Card */
+    .giorno-card {
+        background: white;
+        border-radius: 12px;
+        padding: 25px;
+        text-align: center;
+        transition: all 0.3s ease;
+        border: 1px solid #f0f0f0;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+    }
 
-	.giorno-card::before {
-		content: '';
-		position: absolute;
-		top: 0;
-		left: 0;
-		right: 0;
-		height: 4px;
-		background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
-		transition: all 0.3s ease;
-	}
+    .giorno-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+        transition: all 0.3s ease;
+    }
 
-	.giorno-card.variant-2::before {
-		background: linear-gradient(90deg, #f093fb 0%, #f5576c 100%);
-	}
+    .giorno-card.variant-2::before {
+        background: linear-gradient(90deg, #f093fb 0%, #f5576c 100%);
+    }
 
-	.giorno-card.variant-3::before {
-		background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);
-	}
+    .giorno-card.variant-3::before {
+        background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);
+    }
 
-	.giorno-card.variant-4::before {
-		background: linear-gradient(90deg, #43e97b 0%, #38f9d7 100%);
-	}
+    .giorno-card.variant-4::before {
+        background: linear-gradient(90deg, #43e97b 0%, #38f9d7 100%);
+    }
 
-	.giorno-card.variant-5::before {
-		background: linear-gradient(90deg, #fa709a 0%, #fee140 100%);
-	}
+    .giorno-card.variant-5::before {
+        background: linear-gradient(90deg, #fa709a 0%, #fee140 100%);
+    }
 
-	.giorno-card.variant-6::before {
-		background: linear-gradient(90deg, #30cfd0 0%, #330867 100%);
-	}
+    .giorno-card.variant-6::before {
+        background: linear-gradient(90deg, #fed766 0%, #fe4a49 100%);
+    }
 
-	.giorno-card:hover {
-		transform: translateY(-6px);
-		box-shadow: 0 8px 20px rgba(102, 126, 234, 0.2);
-	}
+    .giorno-card:hover {
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+        transform: translateY(-4px);
+    }
 
-	.giorno-card .icon {
-		font-size: 2.5rem;
-		margin-bottom: 15px;
-		display: inline-block;
-		padding: 15px;
-		border-radius: 50%;
-		background: #f8f9fa;
-		color: #667eea;
-		transition: all 0.3s ease;
-	}
+    .giorno-card:hover::before {
+        height: 4px;
+    }
 
-	.giorno-card.variant-2 .icon {
-		color: #f5576c;
-	}
+    .giorno-card .icon {
+        font-size: 40px;
+        margin-bottom: 15px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
 
-	.giorno-card.variant-3 .icon {
-		color: #4facfe;
-	}
+    .giorno-card .giorno-settimana {
+        font-size: 14px;
+        font-weight: 600;
+        color: #667eea;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 8px;
+    }
 
-	.giorno-card.variant-4 .icon {
-		color: #43e97b;
-	}
+    .giorno-card .data {
+        font-size: 22px;
+        font-weight: 700;
+        color: #333;
+        margin-bottom: 15px;
+    }
 
-	.giorno-card.variant-5 .icon {
-		color: #fa709a;
-	}
+    .santo-divider {
+        height: 2px;
+        background: #e0e0e0;
+        margin: 15px 0;
+    }
 
-	.giorno-card.variant-6 .icon {
-		color: #30cfd0;
-	}
+    .santo-nome {
+        font-size: 14px;
+        font-weight: 600;
+        color: #d9534f;
+        margin: 8px 0;
+    }
 
-	.giorno-card:hover .icon {
-		transform: scale(1.1);
-	}
+    .santo-tipo {
+        font-size: 12px;
+        color: #999;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
 
-	.giorno-card .giorno-settimana {
-		font-size: 11px;
-		text-transform: uppercase;
-		letter-spacing: 1px;
-		color: #999;
-		font-weight: 600;
-		margin-bottom: 8px;
-	}
+    /* Button Celebrazione */
+    .celebrazione-button {
+        display: inline-block;
+        padding: 10px 20px;
+        margin: 8px;
+        border: none;
+        border-radius: 6px;
+        font-size: 14px;
+        font-weight: 600;
+        text-decoration: none;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
 
-	.giorno-card .data {
-		font-size: 20px;
-		font-weight: 700;
-		color: #333;
-		margin-bottom: 12px;
-	}
+    .celebrazione-button.lodi {
+        background-color: #ffc107;
+        color: #333;
+    }
 
-	.giorno-card .santo-divider {
-		width: 30px;
-		height: 1px;
-		background: #ddd;
-		margin: 12px auto;
-	}
+    .celebrazione-button.lodi:hover {
+        background-color: #ffb300;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(255, 193, 7, 0.3);
+    }
 
-	.giorno-card .santo-nome {
-		font-size: 14px;
-		font-weight: 600;
-		color: #667eea;
-		line-height: 1.5;
-		margin-bottom: 4px;
-	}
+    .celebrazione-button.vespri {
+        background-color: #6c757d;
+        color: white;
+    }
 
-	.giorno-card.variant-2 .santo-nome {
-		color: #f5576c;
-	}
+    .celebrazione-button.vespri:hover {
+        background-color: #5a6268;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(108, 117, 125, 0.3);
+    }
 
-	.giorno-card.variant-3 .santo-nome {
-		color: #4facfe;
-	}
+    .celebrazione-button.santo {
+        background-color: #dc3545;
+        color: white;
+    }
 
-	.giorno-card.variant-4 .santo-nome {
-		color: #43e97b;
-	}
+    .celebrazione-button.santo:hover {
+        background-color: #c82333;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+    }
 
-	.giorno-card.variant-5 .santo-nome {
-		color: #fa709a;
-	}
+    .giorno-info {
+        margin-bottom: 20px;
+        padding: 15px;
+        background-color: #f8f9fa;
+        border-radius: 8px;
+        border-left: 4px solid #667eea;
+    }
 
-	.giorno-card.variant-6 .santo-nome {
-		color: #30cfd0;
-	}
+    .giorno-info h5 {
+        margin-bottom: 5px;
+        color: #333;
+    }
 
-	.giorno-card .santo-tipo {
-		font-size: 10px;
-		text-transform: uppercase;
-		letter-spacing: 0.5px;
-		color: #999;
-		font-weight: 500;
-	}
+    .giorno-info p {
+        margin: 5px 0;
+        color: #666;
+    }
 
-	/* Card Header Search */
-	.card-header {
-		border-bottom: 1px solid #f0f0f0;
-		display: flex;
-		align-items: center;
-		gap: 15px;
-	}
+    /* Responsive */
+    @media (max-width: 768px) {
+        .stat-card {
+            margin-bottom: 15px;
+        }
 
-	#searchGiorni {
-		max-width: 300px;
-		border-radius: 6px;
-		border: 1px solid #ddd;
-	}
+        .giorno-card .data {
+            font-size: 16px;
+        }
 
-	#searchGiorni:focus {
-		border-color: #667eea;
-		box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.1);
-	}
+        .giorno-card .santo-nome {
+            font-size: 12px;
+        }
 
-	/* Modal Content */
-	.celebrazione-button {
-		display: inline-block;
-		margin: 10px 5px;
-		padding: 10px 20px;
-		border-radius: 6px;
-		text-decoration: none;
-		font-weight: 600;
-		transition: all 0.3s ease;
-		cursor: pointer;
-		border: none;
-	}
+        .card-header {
+            flex-direction: column;
+            align-items: stretch;
+        }
 
-	.celebrazione-button.lodi {
-		background-color: #ffc107;
-		color: #333;
-	}
+        #searchGiorni {
+            max-width: 100%;
+        }
 
-	.celebrazione-button.lodi:hover {
-		background-color: #ffb300;
-		transform: translateY(-2px);
-		box-shadow: 0 4px 12px rgba(255, 193, 7, 0.3);
-	}
-
-	.celebrazione-button.vespri {
-		background-color: #6c757d;
-		color: white;
-	}
-
-	.celebrazione-button.vespri:hover {
-		background-color: #5a6268;
-		transform: translateY(-2px);
-		box-shadow: 0 4px 12px rgba(108, 117, 125, 0.3);
-	}
-
-	.celebrazione-button.santo {
-		background-color: #dc3545;
-		color: white;
-	}
-
-	.celebrazione-button.santo:hover {
-		background-color: #c82333;
-		transform: translateY(-2px);
-		box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
-	}
-
-	.giorno-info {
-		margin-bottom: 20px;
-		padding: 15px;
-		background-color: #f8f9fa;
-		border-radius: 8px;
-		border-left: 4px solid #667eea;
-	}
-
-	.giorno-info h5 {
-		margin-bottom: 5px;
-		color: #333;
-	}
-
-	.giorno-info p {
-		margin: 5px 0;
-		color: #666;
-	}
-
-	/* Responsive */
-	@media (max-width: 768px) {
-		.stat-card {
-			margin-bottom: 15px;
-		}
-
-		.giorno-card .data {
-			font-size: 16px;
-		}
-
-		.giorno-card .santo-nome {
-			font-size: 12px;
-		}
-
-		.card-header {
-			flex-direction: column;
-			align-items: stretch;
-		}
-
-		#searchGiorni {
-			max-width: 100%;
-		}
-
-		.celebrazione-button {
-			display: block;
-			width: 100%;
-			margin: 8px 0;
-		}
-	}
+        .celebrazione-button {
+            display: block;
+            width: 100%;
+            margin: 8px 0;
+        }
+    }
 </style>
 
 <script>
-	const colorVariants = ['', 'variant-2', 'variant-3', 'variant-4', 'variant-5', 'variant-6'];
+    const colorVariants = ['', 'variant-2', 'variant-3', 'variant-4', 'variant-5', 'variant-6'];
 
-	const iconMap = {
-		'lunedì': 'fa-moon',
-		'martedì': 'fa-fire',
-		'mercoledì': 'fa-leaf',
-		'giovedì': 'fa-cloud',
-		'venerdì': 'fa-cross',
-		'sabato': 'fa-star',
-		'domenica': 'fa-sun'
-	};
+    const dayTranslations = {
+        'monday': 'lunedì',
+        'tuesday': 'martedì',
+        'wednesday': 'mercoledì',
+        'thursday': 'giovedì',
+        'friday': 'venerdì',
+        'saturday': 'sabato',
+        'sunday': 'domenica',
+        'Monday': 'lunedì',
+        'Tuesday': 'martedì',
+        'Wednesday': 'mercoledì',
+        'Thursday': 'giovedì',
+        'Friday': 'venerdì',
+        'Saturday': 'sabato',
+        'Sunday': 'domenica'
+    };
 
-	let allGiorni = [];
-	let selectedGiorno = null;
+    const iconMap = {
+        'monday': 'fa-moon',
+        'tuesday': 'fa-fire',
+        'wednesday': 'fa-leaf',
+        'thursday': 'fa-cloud',
+        'friday': 'fa-cross',
+        'saturday': 'fa-star',
+        'sunday': 'fa-sun',
+        'lunedì': 'fa-moon',
+        'martedì': 'fa-fire',
+        'mercoledì': 'fa-leaf',
+        'giovedì': 'fa-cloud',
+        'venerdì': 'fa-cross',
+        'sabato': 'fa-star',
+        'domenica': 'fa-sun'
+    };
 
-	document.addEventListener('DOMContentLoaded', function() {
-		loadStats();
-		loadGiorni();
-		setupSearch();
-	});
+    let allGiorni = [];
+    let selectedGiorno = null;
 
-	function loadStats() {
-		fetch('/api/dashboard/stats')
-			.then(response => response.json())
-			.then(data => {
-				document.getElementById('total-days').textContent = data.total_days || 0;
-				document.getElementById('total-users').textContent = data.total_users || 0;
-				document.getElementById('total-prayers').textContent = data.total_prayers || 0;
-				document.getElementById('new-users').textContent = data.new_users || 0;
-			})
-			.catch(error => console.error('Errore stats:', error));
-	}
+    document.addEventListener('DOMContentLoaded', function() {
+        loadStats();
+        loadGiorni();
+        setupSearch();
+    });
 
-	function loadGiorni() {
-		fetch('/api/dashboard/giorni')
-			.then(response => response.json())
-			.then(data => {
-				const container = document.getElementById('giorni-container');
-				const noData = document.getElementById('no-data');
+    function loadStats() {
+        fetch('/api/dashboard/stats')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('total-days').textContent = data.total_days || 0;
+                document.getElementById('total-users').textContent = data.total_users || 0;
+                document.getElementById('total-prayers').textContent = data.total_prayers || 0;
+                document.getElementById('new-users').textContent = data.new_users || 0;
+            })
+            .catch(error => console.error('Errore stats:', error));
+    }
 
-				if (!data.giorni || data.giorni.length === 0) {
-					container.style.display = 'none';
-					noData.style.display = 'block';
-					return;
-				}
+    function loadGiorni() {
+        fetch('/api/dashboard/giorni')
+            .then(response => response.json())
+            .then(data => {
+                const container = document.getElementById('giorni-container');
+                const noData = document.getElementById('no-data');
 
-				allGiorni = data.giorni;
-				container.style.display = '';
-				noData.style.display = 'none';
-				renderGiorni(allGiorni);
-			})
-			.catch(error => {
-				console.error('Errore nel caricamento:', error);
-				document.getElementById('giorni-container').innerHTML = `
-					<div class="col-md-12">
-						<div class="alert alert-danger text-center">
-							<i class="fas fa-exclamation-circle mr-2"></i>
-							Errore nel caricamento dei dati.
-						</div>
-					</div>
-				`;
-			});
-	}
+                if (!data.giorni || data.giorni.length === 0) {
+                    container.style.display = 'none';
+                    noData.style.display = 'block';
+                    return;
+                }
 
-	function renderGiorni(giorni) {
-		const container = document.getElementById('giorni-container');
-		container.innerHTML = '';
+                allGiorni = data.giorni;
+                container.style.display = '';
+                noData.style.display = 'none';
+                renderGiorni(allGiorni);
+            })
+            .catch(error => {
+                console.error('Errore nel caricamento:', error);
+                document.getElementById('giorni-container').innerHTML = `
+                    <div class="col-md-12">
+                        <div class="alert alert-danger text-center">
+                            <i class="fas fa-exclamation-circle mr-2"></i>
+                            Errore nel caricamento dei dati.
+                        </div>
+                    </div>
+                `;
+            });
+    }
 
-		giorni.forEach((giorno, index) => {
-			const col = document.createElement('div');
-			col.className = 'col-lg-4 col-md-6 mb-4';
+    function renderGiorni(giorni) {
+        const container = document.getElementById('giorni-container');
+        container.innerHTML = '';
 
-			const variant = colorVariants[index % colorVariants.length];
-			const icon = iconMap[giorno.giorno_settimana.toLowerCase()] || 'fa-calendar';
+        giorni.forEach((giorno, index) => {
+            const col = document.createElement('div');
+            col.className = 'col-lg-4 col-md-6 mb-4';
 
-			let santoHtml = '';
-			if (giorno.santo_principale) {
-				santoHtml = `
-					<div class="santo-divider"></div>
-					<div class="santo-nome">${giorno.santo_principale}</div>
-					<div class="santo-tipo">Santo del Giorno</div>
-				`;
-			}
+            // Traduci il giorno della settimana
+            const giornoSettimanaItaliano = dayTranslations[giorno.giorno_settimana] || giorno.giorno_settimana;
 
-			col.innerHTML = `
-				<div class="giorno-card ${variant}" onclick="selectGiorno('${giorno.data_iso}', '${giorno.data}', '${giorno.giorno_settimana}', '${giorno.santo_principale || 'Non disponibile'}')">
-					<div class="icon">
-						<i class="fas ${icon}"></i>
-					</div>
-					<div class="giorno-settimana">${giorno.giorno_settimana}</div>
-					<div class="data">${giorno.data}</div>
-					${santoHtml}
-				</div>
-			`;
+            const variant = colorVariants[index % colorVariants.length];
+            const icon = iconMap[giornoSettimanaItaliano.toLowerCase()] || 'fa-calendar';
 
-			container.appendChild(col);
-		});
-	}
+            let santoHtml = '';
+            if (giorno.santo_principale) {
+                santoHtml = `
+                    <div class="santo-divider"></div>
+                    <div class="santo-nome">${giorno.santo_principale}</div>
+                    <div class="santo-tipo">Santo del Giorno</div>
+                `;
+            }
 
-	function selectGiorno(dataIso, data, giornoSettimana, santo) {
-		selectedGiorno = {
-			data_iso: dataIso,
-			data: data,
-			giorno_settimana: giornoSettimana,
-			santo_principale: santo
-		};
+            col.innerHTML = `
+                <div class="giorno-card ${variant}" onclick="selectGiorno('${giorno.data_iso}', '${giorno.data}', '${giornoSettimanaItaliano}', '${giorno.santo_principale || 'Non disponibile'}')">
+                    <div class="icon">
+                        <i class="fas ${icon}"></i>
+                    </div>
+                    <div class="giorno-settimana">${giornoSettimanaItaliano}</div>
+                    <div class="data">${giorno.data}</div>
+                    ${santoHtml}
+                </div>
+            `;
 
-		// Genera il contenuto del modal
-		const modalContent = document.getElementById('modalContent');
-		const santoText = santo !== 'Non disponibile' ? `<p><strong>Santo:</strong> ${santo}</p>` : '';
+            container.appendChild(col);
+        });
+    }
 
-		modalContent.innerHTML = `
-			<div class="giorno-info">
-				<h5><i class="fas fa-calendar mr-2"></i>${data}</h5>
-				<p><strong>Giorno:</strong> ${giornoSettimana}</p>
-				${santoText}
-			</div>
+    function selectGiorno(dataIso, data, giornoSettimana, santo) {
+        selectedGiorno = {
+            data_iso: dataIso,
+            data: data,
+            giorno_settimana: giornoSettimana,
+            santo_principale: santo
+        };
 
-			<div style="text-align: center;">
-				<h6 class="mb-3">Seleziona cosa visualizzare:</h6>
-				<a href="#" class="celebrazione-button lodi" onclick="viewCelebrazione('lodi', '${dataIso}'); return false;">
-					<i class="fas fa-sun mr-2"></i>Lodi Mattutine
-				</a>
-				<a href="#" class="celebrazione-button vespri" onclick="viewCelebrazione('vespri', '${dataIso}'); return false;">
-					<i class="fas fa-moon mr-2"></i>Vespri
-				</a>
-				<a href="#" class="celebrazione-button santo" onclick="viewCelebrazione('santo', '${dataIso}'); return false;">
-					<i class="fas fa-cross mr-2"></i>Santi del Giorno
-				</a>
-			</div>
-		`;
+        // Genera il contenuto del modal
+        const modalContent = document.getElementById('modalContent');
+        const santoText = santo !== 'Non disponibile' ? `<p><strong>Santo:</strong> ${santo}</p>` : '';
 
-		// Mostra il modal
-		$('#celebrazioniModal').modal('show');
-	}
+        modalContent.innerHTML = `
+            <div class="giorno-info">
+                <h5><i class="fas fa-calendar mr-2"></i>${data}</h5>
+                <p><strong>Giorno:</strong> ${giornoSettimana}</p>
+                ${santoText}
+            </div>
 
-	function viewCelebrazione(type, dataIso) {
-		// Chiudi il modal
-		$('#celebrazioniModal').modal('hide');
+            <div style="text-align: center;">
+                <h6 class="mb-3">Seleziona cosa visualizzare:</h6>
+                <a href="#" class="celebrazione-button lodi" onclick="viewCelebrazione('lodi', '${dataIso}'); return false;">
+                    <i class="fas fa-sun mr-2"></i>Lodi Mattutine
+                </a>
+                <a href="#" class="celebrazione-button vespri" onclick="viewCelebrazione('vespri', '${dataIso}'); return false;">
+                    <i class="fas fa-moon mr-2"></i>Vespri
+                </a>
+                <a href="#" class="celebrazione-button santo" onclick="viewCelebrazione('santo', '${dataIso}'); return false;">
+                    <i class="fas fa-cross mr-2"></i>Santi del Giorno
+                </a>
+            </div>
+        `;
 
-		// Reindirizza alla pagina appropriata con il parametro della data
-		if (type === 'lodi') {
-			window.location.href = `/lodi?date=${dataIso}`;
-		} else if (type === 'vespri') {
-			window.location.href = `/vespri?date=${dataIso}`;
-		} else if (type === 'santo') {
-			window.location.href = `/santi?date=${dataIso}`;
-		}
-	}
+        // Mostra il modal
+        $('#celebrazioniModal').modal('show');
+    }
 
-	function setupSearch() {
-		const searchInput = document.getElementById('searchGiorni');
-		searchInput.addEventListener('input', function(e) {
-			const query = e.target.value.toLowerCase();
-			const filtered = allGiorni.filter(giorno => {
-				const data = giorno.data.toLowerCase();
-				const santo = (giorno.santo_principale || '').toLowerCase();
-				const giorno_settimana = (giorno.giorno_settimana || '').toLowerCase();
-				return data.includes(query) || santo.includes(query) || giorno_settimana.includes(query);
-			});
-			renderGiorni(filtered);
-		});
-	}
+    function viewCelebrazione(type, dataIso) {
+        // Chiudi il modal
+        $('#celebrazioniModal').modal('hide');
+
+        // Reindirizza alla pagina appropriata con il parametro della data
+        if (type === 'lodi') {
+            window.location.href = `/lodi?date=${dataIso}`;
+        } else if (type === 'vespri') {
+            window.location.href = `/vespri?date=${dataIso}`;
+        } else if (type === 'santo') {
+            window.location.href = `/santi?date=${dataIso}`;
+        }
+    }
+
+    function setupSearch() {
+        const searchInput = document.getElementById('searchGiorni');
+        searchInput.addEventListener('input', function(e) {
+            const query = e.target.value.toLowerCase();
+            const filtered = allGiorni.filter(giorno => {
+                const data = giorno.data.toLowerCase();
+                const santo = (giorno.santo_principale || '').toLowerCase();
+                const giorno_settimana = (giorno.giorno_settimana || '').toLowerCase();
+                return data.includes(query) || santo.includes(query) || giorno_settimana.includes(query);
+            });
+            renderGiorni(filtered);
+        });
+    }
 </script>
 
 {% endblock %}
