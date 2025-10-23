@@ -1158,6 +1158,112 @@ def get_lodi_by_giorno_id(giorno_id):
         return None
 
 
+def get_lodi_with_antifone_salmi(lodi_id):
+    """
+    Recupera Lodi con relative Antifone e Salmi dalla tabella antifone_salmi
+
+    Struttura: ogni riga in antifone_salmi contiene sia l'antifona che il salmo/cantico
+    - antifona_numero: 1, 2, 3 (numero dell'antifona)
+    - antifona_testo: il testo dell'antifona
+    - tipo: SALMO, CANTICO
+    - titolo: titolo del salmo/cantico
+    - contenuto: testo del salmo/cantico
+    """
+    try:
+        conn = get_db_connection()
+        if conn is None:
+            return None
+
+        cursor = conn.cursor()
+
+        # Recupera i dati delle Lodi
+        cursor.execute('SELECT * FROM lodi_mattutine WHERE id = ?', (lodi_id,))
+        lodi = dict_from_row(cursor.fetchone())
+
+        if not lodi:
+            conn.close()
+            return None
+
+        print(f"\n📚 Caricamento Lodi ID: {lodi_id}")
+
+        # Recupera le antifone e i salmi per questa lodi
+        cursor.execute('''
+            SELECT * FROM antifone_salmi 
+            WHERE lodi_id = ? 
+            ORDER BY antifona_numero
+        ''', (lodi_id,))
+
+        antifone_salmi_rows = cursor.fetchall()
+        antifone_salmi_list = [dict_from_row(row) for row in antifone_salmi_rows]
+
+        print(f"   Antifone/Salmi trovati: {len(antifone_salmi_list)}")
+
+        if not antifone_salmi_list:
+            print(f"   ⚠️  Nessun antifone/salmo trovato!")
+            conn.close()
+            return lodi
+
+        # Organizza i dati in modo strutturato
+        struttura = {
+            'antifona_1': None,
+            'salmo_1': None,
+            'antifona_2': None,
+            'salmo_2': None,
+            'antifona_3': None,
+            'salmo_3': None,
+        }
+
+        print(f"\n📋 Elaborazione elementi:\n")
+
+        # Ogni riga contiene antifona + salmo/cantico
+        for idx, item in enumerate(antifone_salmi_list, 1):
+            numero_antifona = item.get('antifona_numero')
+            antifona_testo = item.get('antifona_testo')
+            tipo = item.get('tipo', '').upper()
+            titolo = item.get('titolo')
+            contenuto = item.get('contenuto')
+
+            print(f"   Item {idx}:")
+            print(f"      Antifona #{numero_antifona}: {str(antifona_testo)[:40] if antifona_testo else 'N/A'}...")
+            print(f"      Tipo: {tipo}")
+
+            # Assegna l'antifona
+            if numero_antifona:
+                key_antifona = f'antifona_{numero_antifona}'
+                struttura[key_antifona] = antifona_testo
+                print(f"      ✅ Assegnata {key_antifona}")
+
+            # Assegna il salmo/cantico
+            if numero_antifona:
+                key_salmo = f'salmo_{numero_antifona}'
+                # Combina titolo e contenuto
+                testo_salmo = f"{titolo}\n\n{contenuto}".strip() if (titolo and contenuto) else (
+                            titolo or contenuto or '')
+                struttura[key_salmo] = testo_salmo
+                print(f"      ✅ Assegnato {key_salmo} ({tipo})")
+
+            print()
+
+        conn.close()
+
+        print(f"📊 Verifica struttura:")
+        for key, value in struttura.items():
+            has_value = "✅" if value else "❌"
+            print(f"   {has_value} {key}")
+
+        # Aggiungi la struttura dei salmi/antifone al dict lodi
+        lodi.update(struttura)
+
+        print(f"✅ Lodi caricate con antifone e salmi\n")
+        return lodi
+
+    except Exception as e:
+        print(f"❌ Errore recupero Lodi con Antifone/Salmi: {e}")
+        import traceback
+        traceback.print_exc()
+        return None
+
+
 def get_vespri_by_giorno_id(giorno_id):
     """Recupera Vespri di un giorno"""
     try:
@@ -1173,6 +1279,118 @@ def get_vespri_by_giorno_id(giorno_id):
         return dict_from_row(result)
     except Exception as e:
         print(f"❌ Errore recupero Vespri: {e}")
+        return None
+
+
+def get_vespri_with_antifone_salmi(vespri_id):
+    """
+    Recupera Vespri con relative Antifone e Salmi dalla tabella antifone_salmi
+
+    Struttura: ogni riga in antifone_salmi contiene sia l'antifona che il salmo/cantico
+    - antifona_numero: 1, 2, 3, 4, 5 (numero dell'antifona)
+    - antifona_testo: il testo dell'antifona
+    - tipo: SALMO, CANTICO
+    - titolo: titolo del salmo/cantico
+    - contenuto: testo del salmo/cantico
+    """
+    try:
+        conn = get_db_connection()
+        if conn is None:
+            return None
+
+        cursor = conn.cursor()
+
+        # Recupera i dati dei Vespri
+        cursor.execute('SELECT * FROM vespri WHERE id = ?', (vespri_id,))
+        vespri = dict_from_row(cursor.fetchone())
+
+        if not vespri:
+            conn.close()
+            return None
+
+        print(f"\n🌙 Caricamento Vespri ID: {vespri_id}")
+
+        # Recupera le antifone e i salmi per questi vespri
+        cursor.execute('''
+            SELECT * FROM antifone_salmi 
+            WHERE vespri_id = ? 
+            ORDER BY antifona_numero
+        ''', (vespri_id,))
+
+        antifone_salmi_rows = cursor.fetchall()
+        antifone_salmi_list = [dict_from_row(row) for row in antifone_salmi_rows]
+
+        print(f"   Antifone/Salmi trovati: {len(antifone_salmi_list)}")
+
+        if not antifone_salmi_list:
+            print(f"   ⚠️  Nessun antifone/salmo trovato!")
+            conn.close()
+            return vespri
+
+        # Organizza i dati in modo strutturato (Vespri hanno 5 antifone/salmi)
+        struttura = {
+            'antifona_1': None,
+            'salmo_1': None,
+            'antifona_2': None,
+            'salmo_2': None,
+            'antifona_3': None,
+            'salmo_3': None,
+            'antifona_4': None,
+            'salmo_4': None,
+            'antifona_5': None,
+            'salmo_5': None,
+        }
+
+        print(f"\n📋 Elaborazione elementi:\n")
+
+        # Ogni riga contiene antifona + salmo/cantico
+        for idx, item in enumerate(antifone_salmi_list, 1):
+            numero_antifona = item.get('antifona_numero')
+            antifona_testo = item.get('antifona_testo')
+            tipo = item.get('tipo', '').upper()
+            titolo = item.get('titolo')
+            contenuto = item.get('contenuto')
+
+            print(f"   Item {idx}:")
+            print(f"      Antifona #{numero_antifona}: {str(antifona_testo)[:40] if antifona_testo else 'N/A'}...")
+            print(f"      Tipo: {tipo}")
+
+            # Assegna l'antifona
+            if numero_antifona:
+                key_antifona = f'antifona_{numero_antifona}'
+                if key_antifona in struttura:  # Controlla che non superi 5
+                    struttura[key_antifona] = antifona_testo
+                    print(f"      ✅ Assegnata {key_antifona}")
+
+            # Assegna il salmo/cantico
+            if numero_antifona:
+                key_salmo = f'salmo_{numero_antifona}'
+                if key_salmo in struttura:  # Controlla che non superi 5
+                    # Combina titolo e contenuto
+                    testo_salmo = f"{titolo}\n\n{contenuto}".strip() if (titolo and contenuto) else (
+                                titolo or contenuto or '')
+                    struttura[key_salmo] = testo_salmo
+                    print(f"      ✅ Assegnato {key_salmo} ({tipo})")
+
+            print()
+
+        conn.close()
+
+        print(f"📊 Verifica struttura:")
+        for key, value in struttura.items():
+            has_value = "✅" if value else "❌"
+            print(f"   {has_value} {key}")
+
+        # Aggiungi la struttura dei salmi/antifone al dict vespri
+        vespri.update(struttura)
+
+        print(f"✅ Vespri caricate con antifone e salmi\n")
+        return vespri
+
+    except Exception as e:
+        print(f"❌ Errore recupero Vespri con Antifone/Salmi: {e}")
+        import traceback
+        traceback.print_exc()
         return None
 
 
@@ -1281,7 +1499,7 @@ def api_dashboard_giorni():
 
 @app.route('/lodi')
 def lodi_route():
-    """Pagina Lodi Mattutine"""
+    """Pagina Lodi Mattutine - con Antifone e Salmi"""
     try:
         today = get_today_date()
         giorno_id = get_giorno_id_by_iso_date(today)
@@ -1290,11 +1508,21 @@ def lodi_route():
             return render_template('error.html', message="Dati non disponibili per oggi"), 404
 
         giorno_data = get_giorno_completo_by_iso(today)
-        lodi = get_lodi_by_giorno_id(giorno_id) if giorno_data else None
+
+        # Recupera Lodi con Antifone e Salmi
+        if giorno_data and giorno_data.get('lodi'):
+            lodi_id = giorno_data['lodi'].get('id')
+            lodi = get_lodi_with_antifone_salmi(lodi_id)
+            print(f"✅ Lodi recuperate con antifone e salmi (ID: {lodi_id})")
+        else:
+            lodi = None
+            print(f"⚠️  Nessuna Lodi trovata per {today}")
 
         return render_template('lodi.html', lodi=lodi, giorno=giorno_data['giorno'] if giorno_data else None)
     except Exception as e:
         print(f"❌ Errore Lodi: {e}")
+        import traceback
+        traceback.print_exc()
         return render_template('error.html', message=f"Errore: {str(e)}"), 500
 
 
@@ -1304,7 +1532,7 @@ def lodi_route():
 
 @app.route('/vespri')
 def vespri_route():
-    """Pagina Vespri"""
+    """Pagina Vespri - con Antifone e Salmi"""
     try:
         today = get_today_date()
         giorno_id = get_giorno_id_by_iso_date(today)
@@ -1313,11 +1541,21 @@ def vespri_route():
             return render_template('error.html', message="Dati non disponibili per oggi"), 404
 
         giorno_data = get_giorno_completo_by_iso(today)
-        vespri = get_vespri_by_giorno_id(giorno_id) if giorno_data else None
+
+        # Recupera Vespri con Antifone e Salmi
+        if giorno_data and giorno_data.get('vespri'):
+            vespri_id = giorno_data['vespri'].get('id')
+            vespri = get_vespri_with_antifone_salmi(vespri_id)
+            print(f"✅ Vespri recuperate con antifone e salmi (ID: {vespri_id})")
+        else:
+            vespri = None
+            print(f"⚠️  Nessun Vespri trovato per {today}")
 
         return render_template('vespri.html', vespri=vespri, giorno=giorno_data['giorno'] if giorno_data else None)
     except Exception as e:
         print(f"❌ Errore Vespri: {e}")
+        import traceback
+        traceback.print_exc()
         return render_template('error.html', message=f"Errore: {str(e)}"), 500
 
 

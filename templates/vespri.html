@@ -43,6 +43,106 @@
 					</div>
 					{% endif %}
 
+					<!-- Antifona 1 -->
+					{% if vespri.antifona_1 %}
+					<div class="mb-4">
+						<h5><i class="fas fa-star mr-2" style="color: #6f42c1;"></i>Antifona 1</h5>
+						<div class="bg-light p-4 rounded border-left" style="border-left-color: #6f42c1 !important;">
+							<p class="text-justify" style="line-height: 1.8; white-space: pre-line; font-style: italic;">{{ vespri.antifona_1 }}</p>
+						</div>
+					</div>
+					{% endif %}
+
+					<!-- Salmo 1 -->
+					{% if vespri.salmo_1 %}
+					<div class="mb-4">
+						<h5><i class="fas fa-scroll mr-2 text-info"></i>Salmo 1</h5>
+						<div class="bg-light p-4 rounded border-left border-info">
+							<p class="text-justify" style="line-height: 1.8; white-space: pre-line;">{{ vespri.salmo_1 }}</p>
+						</div>
+					</div>
+					{% endif %}
+
+					<!-- Antifona 2 -->
+					{% if vespri.antifona_2 %}
+					<div class="mb-4">
+						<h5><i class="fas fa-star mr-2" style="color: #6f42c1;"></i>Antifona 2</h5>
+						<div class="bg-light p-4 rounded border-left" style="border-left-color: #6f42c1 !important;">
+							<p class="text-justify" style="line-height: 1.8; white-space: pre-line; font-style: italic;">{{ vespri.antifona_2 }}</p>
+						</div>
+					</div>
+					{% endif %}
+
+					<!-- Salmo 2 -->
+					{% if vespri.salmo_2 %}
+					<div class="mb-4">
+						<h5><i class="fas fa-scroll mr-2 text-info"></i>Salmo 2</h5>
+						<div class="bg-light p-4 rounded border-left border-info">
+							<p class="text-justify" style="line-height: 1.8; white-space: pre-line;">{{ vespri.salmo_2 }}</p>
+						</div>
+					</div>
+					{% endif %}
+
+					<!-- Antifona 3 -->
+					{% if vespri.antifona_3 %}
+					<div class="mb-4">
+						<h5><i class="fas fa-star mr-2" style="color: #6f42c1;"></i>Antifona 3</h5>
+						<div class="bg-light p-4 rounded border-left" style="border-left-color: #6f42c1 !important;">
+							<p class="text-justify" style="line-height: 1.8; white-space: pre-line; font-style: italic;">{{ vespri.antifona_3 }}</p>
+						</div>
+					</div>
+					{% endif %}
+
+					<!-- Salmo 3 -->
+					{% if vespri.salmo_3 %}
+					<div class="mb-4">
+						<h5><i class="fas fa-scroll mr-2 text-info"></i>Salmo 3</h5>
+						<div class="bg-light p-4 rounded border-left border-info">
+							<p class="text-justify" style="line-height: 1.8; white-space: pre-line;">{{ vespri.salmo_3 }}</p>
+						</div>
+					</div>
+					{% endif %}
+
+					<!-- Antifona 4 -->
+					{% if vespri.antifona_4 %}
+					<div class="mb-4">
+						<h5><i class="fas fa-star mr-2" style="color: #6f42c1;"></i>Antifona 4</h5>
+						<div class="bg-light p-4 rounded border-left" style="border-left-color: #6f42c1 !important;">
+							<p class="text-justify" style="line-height: 1.8; white-space: pre-line; font-style: italic;">{{ vespri.antifona_4 }}</p>
+						</div>
+					</div>
+					{% endif %}
+
+					<!-- Salmo 4 -->
+					{% if vespri.salmo_4 %}
+					<div class="mb-4">
+						<h5><i class="fas fa-scroll mr-2 text-info"></i>Salmo 4</h5>
+						<div class="bg-light p-4 rounded border-left border-info">
+							<p class="text-justify" style="line-height: 1.8; white-space: pre-line;">{{ vespri.salmo_4 }}</p>
+						</div>
+					</div>
+					{% endif %}
+
+					<!-- Antifona 5 -->
+					{% if vespri.antifona_5 %}
+					<div class="mb-4">
+						<h5><i class="fas fa-star mr-2" style="color: #6f42c1;"></i>Antifona 5</h5>
+						<div class="bg-light p-4 rounded border-left" style="border-left-color: #6f42c1 !important;">
+							<p class="text-justify" style="line-height: 1.8; white-space: pre-line; font-style: italic;">{{ vespri.antifona_5 }}</p>
+						</div>
+					</div>
+					{% endif %}
+
+					<!-- Salmo 5 -->
+					{% if vespri.salmo_5 %}
+					<div class="mb-4">
+						<h5><i class="fas fa-scroll mr-2 text-info"></i>Salmo 5</h5>
+						<div class="bg-light p-4 rounded border-left border-info">
+							<p class="text-justify" style="line-height: 1.8; white-space: pre-line;">{{ vespri.salmo_5 }}</p>
+						</div>
+					</div>
+					{% endif %}
+
 					<!-- Lettura Breve -->
 					{% if vespri.lettura_breve %}
 					<div class="mb-4">
@@ -63,10 +163,10 @@
 					</div>
 					{% endif %}
 
-					<!-- Cantico Finale (Magnificat) -->
+					<!-- Cantico Finale -->
 					{% if vespri.cantico_finale %}
 					<div class="mb-4">
-						<h5><i class="fas fa-cross mr-2 text-danger"></i>Cantico di Maria (Magnificat)</h5>
+						<h5><i class="fas fa-cross mr-2 text-danger"></i>Cantico Finale</h5>
 						<div class="bg-light p-4 rounded border-left border-danger">
 							<p class="text-justify" style="line-height: 1.8; white-space: pre-line;">{{ vespri.cantico_finale }}</p>
 						</div>
@@ -81,7 +181,7 @@
 							<i class="fas fa-arrow-left mr-2"></i>Torna a Oggi
 						</a>
 						<a href="{{ url_for('lodi_route') }}" class="btn btn-info btn-rounded">
-							<i class="fas fa-sun mr-2"></i>Lodi Mattutine
+							<i class="fas fa-sun mr-2"></i>Lodi
 						</a>
 					</div>
 
