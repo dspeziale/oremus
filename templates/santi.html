@@ -1,0 +1,202 @@
+{% extends "base.html" %}
+
+{% block page_title %}Santi del Giorno{% endblock %}
+{% block page_subtitle %}Celebrazioni della Chiesa Cattolica{% endblock %}
+
+{% block content %}
+<div class="row">
+	<div class="col-md-12">
+		<div class="card">
+			<div class="card-header bg-danger">
+				<h3 class="card-title text-white mb-0">
+					<i class="fas fa-cross mr-2"></i>Santi del Giorno
+				</h3>
+			</div>
+			<div class="card-body">
+				<!-- Data e Giorno -->
+				{% if giorno %}
+				<div class="row mb-4">
+					<div class="col-md-6">
+						<h5><i class="fas fa-calendar mr-2 text-info"></i>Data</h5>
+						<p class="text-muted">{{ giorno.data }}</p>
+					</div>
+					<div class="col-md-6">
+						<h5><i class="fas fa-day mr-2 text-info"></i>Giorno Liturgico</h5>
+						<p class="text-muted">{{ giorno.giorno_settimana }}</p>
+					</div>
+				</div>
+				<hr>
+				{% endif %}
+
+				{% if santi %}
+					<!-- Santo Principale -->
+					{% for santo in santi %}
+						{% if santo.tipo == 'principale' %}
+						<div class="mb-4">
+							<div class="saint-header">
+								<h2 class="text-danger mb-2">
+									<i class="fas fa-star mr-2" style="color: #ffc107;"></i>{{ santo.nome_santo }}
+								</h2>
+								<span class="badge badge-danger">Santo Principale</span>
+							</div>
+
+							{% if santo.martirologio %}
+							<div class="bg-light p-4 rounded border-left border-danger mt-3" style="border-left: 4px solid #dc3545;">
+								<h6 class="mb-3"><i class="fas fa-scroll mr-2"></i>Martirologio</h6>
+								<p class="text-justify" style="line-height: 1.8; white-space: pre-line;">{{ santo.martirologio }}</p>
+							</div>
+							{% endif %}
+						</div>
+						<hr>
+						{% endif %}
+					{% endfor %}
+
+					<!-- Altri Santi -->
+					{% set altri_santi = santi|selectattr('tipo', 'equalto', 'altro')|list %}
+					{% if altri_santi %}
+					<div class="mb-4">
+						<h4 class="mb-4">
+							<i class="fas fa-users mr-2 text-warning"></i>Altri Santi
+						</h4>
+
+						<div class="row">
+							{% for santo in altri_santi %}
+							<div class="col-md-6 mb-3">
+								<div class="card border-warning h-100">
+									<div class="card-body">
+										<h6 class="card-title text-warning">
+											<i class="fas fa-heart mr-2"></i>{{ santo.nome_santo }}
+										</h6>
+
+										{% if santo.martirologio %}
+										<p class="card-text small text-muted">
+											{{ santo.martirologio[:150] }}{% if santo.martirologio|length > 150 %}...{% endif %}
+										</p>
+										{% endif %}
+									</div>
+								</div>
+							</div>
+							{% endfor %}
+						</div>
+					</div>
+					{% endif %}
+
+				{% else %}
+				<div class="alert alert-info" role="alert">
+					<i class="fas fa-info-circle mr-2"></i>
+					<strong>Nessun dato disponibile</strong> per i Santi di questo giorno.
+				</div>
+				{% endif %}
+
+				<hr>
+
+				<!-- Navigation Buttons -->
+				<div class="mt-4">
+					<a href="{{ url_for('index') }}" class="btn btn-secondary btn-rounded">
+						<i class="fas fa-arrow-left mr-2"></i>Torna a Oggi
+					</a>
+					<a href="{{ url_for('dashboard') }}" class="btn btn-info btn-rounded">
+						<i class="fas fa-calendar mr-2"></i>Calendario
+					</a>
+					<a href="{{ url_for('lodi') }}" class="btn btn-warning btn-rounded">
+						<i class="fas fa-sun mr-2"></i>Lodi Mattutine
+					</a>
+					<a href="{{ url_for('vespri') }}" class="btn btn-dark btn-rounded">
+						<i class="fas fa-moon mr-2"></i>Vespri
+					</a>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Card con informazioni liturgiche -->
+<div class="row mt-4">
+	<div class="col-md-12">
+		<div class="card">
+			<div class="card-header">
+				<h4 class="card-title">
+					<i class="fas fa-book mr-2"></i>Informazioni Liturgiche
+				</h4>
+			</div>
+			<div class="card-body">
+				<p class="text-muted">
+					I santi celebrati in questa pagina sono commemorati secondo il calendario liturgico della Chiesa Cattolica Romana.
+					Ogni santo ha una propria festa e una commemorazione speciale nel corso dell'anno liturgico.
+				</p>
+				<div class="alert alert-light" role="alert">
+					<h6>📖 Significato dei Santi</h6>
+					<p class="mb-0">
+						La celebrazione dei santi nella liturgia rappresenta l'intercessione della comunità dei credenti con Dio,
+						ricordando gli esempi di santità e fedeltà a Cristo attraverso i secoli.
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<style>
+	.border-left {
+		border-left: 4px solid;
+	}
+
+	.border-left.border-danger {
+		border-left-color: #dc3545 !important;
+	}
+
+	.bg-light {
+		background-color: #f8f9fa !important;
+	}
+
+	.text-justify {
+		text-align: justify;
+	}
+
+	.btn-rounded {
+		border-radius: 20px;
+		padding: 8px 18px;
+		margin-right: 10px;
+		margin-bottom: 5px;
+	}
+
+	.saint-header {
+		padding-bottom: 15px;
+		border-bottom: 2px solid #dc3545;
+	}
+
+	.saint-header h2 {
+		font-weight: 700;
+		margin-bottom: 10px;
+	}
+
+	.card {
+		box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+		transition: all 0.3s ease;
+		border: none;
+	}
+
+	.card:hover {
+		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+		transform: translateY(-2px);
+	}
+
+	.card-body {
+		line-height: 1.8;
+	}
+
+	p {
+		line-height: 1.8;
+	}
+
+	@media (max-width: 768px) {
+		.btn-rounded {
+			display: block;
+			width: 100%;
+			margin: 8px 0;
+		}
+	}
+</style>
+
+{% endblock %}

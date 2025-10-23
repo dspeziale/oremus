@@ -2,7 +2,7 @@
 
 {% block title %}Dashboard - Oremus{% endblock %}
 {% block page_title %}Dashboard{% endblock %}
-{% block page_subtitle %}Calendario Liturgico - Visualizza i giorni disponibili{% endblock %}
+{% block page_subtitle %}Calendario Liturgico - Seleziona un giorno per visualizzare la liturgia{% endblock %}
 
 {% block content %}
 
@@ -94,6 +94,30 @@
 						<p class="text-muted">Esegui il parser per popolare i dati del calendario liturgico.</p>
 					</div>
 				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Modal per selezionare la celebrazione -->
+<div class="modal fade" id="celebrazioniModal" tabindex="-1" role="dialog" aria-labelledby="celebrazioniLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<div class="modal-header bg-primary">
+				<h5 class="modal-title text-white" id="celebrazioniLabel">
+					<i class="fas fa-book mr-2"></i>Visualizza Celebrazioni
+				</h5>
+				<button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div id="modalContent">
+					<!-- Contenuto generato dinamicamente -->
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Chiudi</button>
 			</div>
 		</div>
 	</div>
@@ -332,6 +356,70 @@
 		box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.1);
 	}
 
+	/* Modal Content */
+	.celebrazione-button {
+		display: inline-block;
+		margin: 10px 5px;
+		padding: 10px 20px;
+		border-radius: 6px;
+		text-decoration: none;
+		font-weight: 600;
+		transition: all 0.3s ease;
+		cursor: pointer;
+		border: none;
+	}
+
+	.celebrazione-button.lodi {
+		background-color: #ffc107;
+		color: #333;
+	}
+
+	.celebrazione-button.lodi:hover {
+		background-color: #ffb300;
+		transform: translateY(-2px);
+		box-shadow: 0 4px 12px rgba(255, 193, 7, 0.3);
+	}
+
+	.celebrazione-button.vespri {
+		background-color: #6c757d;
+		color: white;
+	}
+
+	.celebrazione-button.vespri:hover {
+		background-color: #5a6268;
+		transform: translateY(-2px);
+		box-shadow: 0 4px 12px rgba(108, 117, 125, 0.3);
+	}
+
+	.celebrazione-button.santo {
+		background-color: #dc3545;
+		color: white;
+	}
+
+	.celebrazione-button.santo:hover {
+		background-color: #c82333;
+		transform: translateY(-2px);
+		box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+	}
+
+	.giorno-info {
+		margin-bottom: 20px;
+		padding: 15px;
+		background-color: #f8f9fa;
+		border-radius: 8px;
+		border-left: 4px solid #667eea;
+	}
+
+	.giorno-info h5 {
+		margin-bottom: 5px;
+		color: #333;
+	}
+
+	.giorno-info p {
+		margin: 5px 0;
+		color: #666;
+	}
+
 	/* Responsive */
 	@media (max-width: 768px) {
 		.stat-card {
@@ -354,6 +442,12 @@
 		#searchGiorni {
 			max-width: 100%;
 		}
+
+		.celebrazione-button {
+			display: block;
+			width: 100%;
+			margin: 8px 0;
+		}
 	}
 </style>
 
@@ -371,6 +465,7 @@
 	};
 
 	let allGiorni = [];
+	let selectedGiorno = null;
 
 	document.addEventListener('DOMContentLoaded', function() {
 		loadStats();
@@ -442,7 +537,7 @@
 			}
 
 			col.innerHTML = `
-				<div class="giorno-card ${variant}">
+				<div class="giorno-card ${variant}" onclick="selectGiorno('${giorno.data_iso}', '${giorno.data}', '${giorno.giorno_settimana}', '${giorno.santo_principale || 'Non disponibile'}')">
 					<div class="icon">
 						<i class="fas ${icon}"></i>
 					</div>
@@ -454,6 +549,57 @@
 
 			container.appendChild(col);
 		});
+	}
+
+	function selectGiorno(dataIso, data, giornoSettimana, santo) {
+		selectedGiorno = {
+			data_iso: dataIso,
+			data: data,
+			giorno_settimana: giornoSettimana,
+			santo_principale: santo
+		};
+
+		// Genera il contenuto del modal
+		const modalContent = document.getElementById('modalContent');
+		const santoText = santo !== 'Non disponibile' ? `<p><strong>Santo:</strong> ${santo}</p>` : '';
+
+		modalContent.innerHTML = `
+			<div class="giorno-info">
+				<h5><i class="fas fa-calendar mr-2"></i>${data}</h5>
+				<p><strong>Giorno:</strong> ${giornoSettimana}</p>
+				${santoText}
+			</div>
+
+			<div style="text-align: center;">
+				<h6 class="mb-3">Seleziona cosa visualizzare:</h6>
+				<a href="#" class="celebrazione-button lodi" onclick="viewCelebrazione('lodi', '${dataIso}'); return false;">
+					<i class="fas fa-sun mr-2"></i>Lodi Mattutine
+				</a>
+				<a href="#" class="celebrazione-button vespri" onclick="viewCelebrazione('vespri', '${dataIso}'); return false;">
+					<i class="fas fa-moon mr-2"></i>Vespri
+				</a>
+				<a href="#" class="celebrazione-button santo" onclick="viewCelebrazione('santo', '${dataIso}'); return false;">
+					<i class="fas fa-cross mr-2"></i>Santi del Giorno
+				</a>
+			</div>
+		`;
+
+		// Mostra il modal
+		$('#celebrazioniModal').modal('show');
+	}
+
+	function viewCelebrazione(type, dataIso) {
+		// Chiudi il modal
+		$('#celebrazioniModal').modal('hide');
+
+		// Reindirizza alla pagina appropriata con il parametro della data
+		if (type === 'lodi') {
+			window.location.href = `/lodi?date=${dataIso}`;
+		} else if (type === 'vespri') {
+			window.location.href = `/vespri?date=${dataIso}`;
+		} else if (type === 'santo') {
+			window.location.href = `/santi?date=${dataIso}`;
+		}
 	}
 
 	function setupSearch() {

@@ -157,18 +157,48 @@
 										</a>
 									</li>
 									<li>
-										<a href="{{ url_for('lodi') }}">
-											<span class="sub-item">Lodi Mattutine</span>
-										</a>
-									</li>
-									<li>
-										<a href="{{ url_for('vespri') }}">
-											<span class="sub-item">Vespri</span>
+										<a href="{{ url_for('dashboard') }}">
+											<span class="sub-item">Calendario</span>
 										</a>
 									</li>
 								</ul>
 							</div>
 						</li>
+
+						<li class="nav-section">
+							<span class="sidebar-mini-icon">
+								<i class="fa fa-ellipsis-h"></i>
+							</span>
+							<h4 class="text-section">Liturgia</h4>
+						</li>
+
+						<li class="nav-item">
+							<a data-toggle="collapse" href="#liturgia" class="collapsed" aria-expanded="false">
+								<i class="fas fa-book"></i>
+								<p>Celebrazioni</p>
+								<span class="caret"></span>
+							</a>
+							<div class="collapse" id="liturgia">
+								<ul class="nav nav-collapse">
+									<li>
+										<a href="{{ url_for('lodi') }}">
+											<span class="sub-item"><i class="fas fa-sun mr-2" style="color: #ffc107;"></i>Lodi Mattutine</span>
+										</a>
+									</li>
+									<li>
+										<a href="{{ url_for('vespri') }}">
+											<span class="sub-item"><i class="fas fa-moon mr-2" style="color: #6c757d;"></i>Vespri</span>
+										</a>
+									</li>
+									<li>
+										<a href="{{ url_for('santi') }}">
+											<span class="sub-item"><i class="fas fa-cross mr-2" style="color: #dc3545;"></i>Santi del Giorno</span>
+										</a>
+									</li>
+								</ul>
+							</div>
+						</li>
+
 						<li class="nav-section">
 							<span class="sidebar-mini-icon">
 								<i class="fa fa-ellipsis-h"></i>

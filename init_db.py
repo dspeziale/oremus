@@ -197,143 +197,143 @@ def init_database():
         conn.commit()
         print("\n✅ Tutte le tabelle create con successo!")
 
-        # ============================================
-        # INSERISCI DATI DI TEST
-        # ============================================
-        print("\n📝 Inserendo dati di test...\n")
-
-        # Inserisci utenti di test
-        test_users = [
-            ('Admin Oremus', 'admin@oremus.it', 'password123', '+39 123 456 7890', 'admin'),
-            ('Marco Rossi', 'marco@example.com', 'password123', '+39 111 222 3333', 'user'),
-            ('Giulia Bianchi', 'giulia@example.com', 'password123', '+39 444 555 6666', 'user'),
-            ('Andrea Verdi', 'andrea@example.com', 'password123', '+39 777 888 9999', 'moderator'),
-            ('Roberto Neri', 'roberto@example.com', 'password123', '+39 121 212 1212', 'user'),
-        ]
-
-        for nome, email, password, telefono, ruolo in test_users:
-            try:
-                cursor.execute('''
-                    INSERT INTO utenti (nome, email, password, telefono, ruolo, is_active, is_verified)
-                    VALUES (?, ?, ?, ?, ?, 1, 1)
-                ''', (nome, email, password, telefono, ruolo))
-                print(f"  ✅ Aggiunto utente: {nome} ({email})")
-            except sqlite3.IntegrityError:
-                print(f"  ⚠️  Utente già esiste: {email}")
-
-        conn.commit()
-
-        # ============================================
-        # Inserisci giorni liturgici DINAMICI (ultimi 30 giorni + 30 futuri)
-        # ============================================
-        print("\n📅 Generando giorni liturgici (da 30 giorni fa a 30 giorni nel futuro)...\n")
-
-        giorni_settimana = ['Lunedì', 'Martedì', 'Mercoledì', 'Giovedì', 'Venerdì', 'Sabato', 'Domenica']
-        mesi = ['', 'Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno',
-                'Luglio', 'Agosto', 'Settembre', 'Ottobre', 'Novembre', 'Dicembre']
-
-        today = datetime.now()
-        start_date = today - timedelta(days=30)
-        end_date = today + timedelta(days=30)
-
-        current_date = start_date
-        giorni_creati = 0
-
-        while current_date <= end_date:
-            try:
-                # Formati data
-                data_iso = current_date.strftime('%Y%m%d')  # 20251023
-                data_formatted = current_date.strftime('%d') + ' ' + mesi[
-                    current_date.month] + ' ' + current_date.strftime('%Y')
-                giorno_settimana = giorni_settimana[current_date.weekday()]
-
-                cursor.execute('''
-                    INSERT INTO giorni_liturgici (data, data_iso, giorno_settimana)
-                    VALUES (?, ?, ?)
-                ''', (data_formatted, data_iso, giorno_settimana))
-
-                if current_date.day == today.day and current_date.month == today.month and current_date.year == today.year:
-                    print(f"  ✅ Aggiunto giorno: {data_formatted} ({data_iso}) ⭐ OGGI")
-                elif giorni_creati % 5 == 0:  # Stampa ogni 5 giorni
-                    print(f"  ✅ Aggiunto giorno: {data_formatted} ({data_iso})")
-
-                giorni_creati += 1
-
-            except sqlite3.IntegrityError:
-                pass  # Giorno già esiste
-
-            current_date += timedelta(days=1)
-
-        print(f"\n  📊 Totale giorni creati: {giorni_creati}")
-        conn.commit()
-
-        # Inserisci Lodi Mattutine, Vespri e Santi per oggi
-        cursor.execute("SELECT id FROM giorni_liturgici WHERE data_iso = ?", (today.strftime('%Y%m%d'),))
-        result = cursor.fetchone()
-
-        if result:
-            giorno_id = result[0]
-            print(f"\n📚 Aggiungendo Liturgia per oggi (ID giorno: {giorno_id})...\n")
-
-            # Lodi Mattutine
-            try:
-                cursor.execute('''
-                    INSERT INTO lodi_mattutine 
-                    (giorno_id, tipo, titolo, gloria_al_padre, inno, lettura_breve, responsorio_breve, antifona_cantico_finale, cantico_finale)
-                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-                ''', (
-                    giorno_id,
-                    'Lodi',
-                    f'Lodi Mattutine - {today.strftime("%A %d %B %Y")}',
-                    'Gloria al Padre e al Figlio e allo Spirito Santo, come era nel principio, e ora e sempre, nei secoli dei secoli. Amen.',
-                    'O Dio, vieni a salvarmi, Signore, vieni in mio aiuto. Sia glorificato il Padre e il Figlio e lo Spirito Santo.',
-                    'Dal Vangelo: In quel tempo, Gesù disse ai suoi discepoli: "Ecco, noi saliremo a Gerusalemme..."',
-                    'V. Ascolta, Signore, la mia voce, R. secondo la tua misericordia.',
-                    'Cantico di Zaccaria',
-                    'Benedetto sia il Signore, Dio d\'Israele, perché ha visitato e redento il suo popolo.'
-                ))
-                print(f"  ✅ Aggiunte Lodi Mattutine")
-            except Exception as e:
-                print(f"  ⚠️  Errore Lodi: {e}")
-
-            # Vespri
-            try:
-                cursor.execute('''
-                    INSERT INTO vespri 
-                    (giorno_id, tipo, titolo, gloria_al_padre, inno, lettura_breve, responsorio_breve, antifona_cantico_finale, cantico_finale)
-                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-                ''', (
-                    giorno_id,
-                    'Vespri',
-                    f'Vespri - {today.strftime("%A %d %B %Y")}',
-                    'Gloria al Padre e al Figlio e allo Spirito Santo, come era nel principio, e ora e sempre, nei secoli dei secoli. Amen.',
-                    'O luce serena della gloria del Padre, divina sapienza, aiutaci a camminar verso la luce e preservaci dall\'errore di questa notte.',
-                    'Dal libro della Lettera ai Romani (12, 9-21): La carità non sia falsa. Abhorrire il male, restare attaccati al bene.',
-                    'V. Ti lodiamo, Signore, R. con tutto il cuore.',
-                    'Magnificat',
-                    'Magnificat anima mea Dominum et exultavit spiritus meus in Deo salutari meo.'
-                ))
-                print(f"  ✅ Aggiunti Vespri")
-            except Exception as e:
-                print(f"  ⚠️  Errore Vespri: {e}")
-
-            # Santo del Giorno
-            try:
-                cursor.execute('''
-                    INSERT INTO santi (giorno_id, giorno, nome_santo, martirologio, tipo)
-                    VALUES (?, ?, ?, ?, ?)
-                ''', (
-                    giorno_id,
-                    today.strftime('%d %B'),
-                    'Santo del Giorno',
-                    'Memoria di un santo celebre della Chiesa Cattolica.',
-                    'principale'
-                ))
-                print(f"  ✅ Aggiunto Santo del Giorno")
-            except Exception as e:
-                print(f"  ⚠️  Errore Santo: {e}")
-
-            conn.commit()
+        # # ============================================
+        # # INSERISCI DATI DI TEST
+        # # ============================================
+        # print("\n📝 Inserendo dati di test...\n")
+        #
+        # # Inserisci utenti di test
+        # test_users = [
+        #     ('Admin Oremus', 'admin@oremus.it', 'password123', '+39 123 456 7890', 'admin'),
+        #     ('Marco Rossi', 'marco@example.com', 'password123', '+39 111 222 3333', 'user'),
+        #     ('Giulia Bianchi', 'giulia@example.com', 'password123', '+39 444 555 6666', 'user'),
+        #     ('Andrea Verdi', 'andrea@example.com', 'password123', '+39 777 888 9999', 'moderator'),
+        #     ('Roberto Neri', 'roberto@example.com', 'password123', '+39 121 212 1212', 'user'),
+        # ]
+        #
+        # for nome, email, password, telefono, ruolo in test_users:
+        #     try:
+        #         cursor.execute('''
+        #             INSERT INTO utenti (nome, email, password, telefono, ruolo, is_active, is_verified)
+        #             VALUES (?, ?, ?, ?, ?, 1, 1)
+        #         ''', (nome, email, password, telefono, ruolo))
+        #         print(f"  ✅ Aggiunto utente: {nome} ({email})")
+        #     except sqlite3.IntegrityError:
+        #         print(f"  ⚠️  Utente già esiste: {email}")
+        #
+        # conn.commit()
+        #
+        # # ============================================
+        # # Inserisci giorni liturgici DINAMICI (ultimi 30 giorni + 30 futuri)
+        # # ============================================
+        # print("\n📅 Generando giorni liturgici (da 30 giorni fa a 30 giorni nel futuro)...\n")
+        #
+        # giorni_settimana = ['Lunedì', 'Martedì', 'Mercoledì', 'Giovedì', 'Venerdì', 'Sabato', 'Domenica']
+        # mesi = ['', 'Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno',
+        #         'Luglio', 'Agosto', 'Settembre', 'Ottobre', 'Novembre', 'Dicembre']
+        #
+        # today = datetime.now()
+        # start_date = today - timedelta(days=30)
+        # end_date = today + timedelta(days=30)
+        #
+        # current_date = start_date
+        # giorni_creati = 0
+        #
+        # while current_date <= end_date:
+        #     try:
+        #         # Formati data
+        #         data_iso = current_date.strftime('%Y%m%d')  # 20251023
+        #         data_formatted = current_date.strftime('%d') + ' ' + mesi[
+        #             current_date.month] + ' ' + current_date.strftime('%Y')
+        #         giorno_settimana = giorni_settimana[current_date.weekday()]
+        #
+        #         cursor.execute('''
+        #             INSERT INTO giorni_liturgici (data, data_iso, giorno_settimana)
+        #             VALUES (?, ?, ?)
+        #         ''', (data_formatted, data_iso, giorno_settimana))
+        #
+        #         if current_date.day == today.day and current_date.month == today.month and current_date.year == today.year:
+        #             print(f"  ✅ Aggiunto giorno: {data_formatted} ({data_iso}) ⭐ OGGI")
+        #         elif giorni_creati % 5 == 0:  # Stampa ogni 5 giorni
+        #             print(f"  ✅ Aggiunto giorno: {data_formatted} ({data_iso})")
+        #
+        #         giorni_creati += 1
+        #
+        #     except sqlite3.IntegrityError:
+        #         pass  # Giorno già esiste
+        #
+        #     current_date += timedelta(days=1)
+        #
+        # print(f"\n  📊 Totale giorni creati: {giorni_creati}")
+        # conn.commit()
+        #
+        # # Inserisci Lodi Mattutine, Vespri e Santi per oggi
+        # cursor.execute("SELECT id FROM giorni_liturgici WHERE data_iso = ?", (today.strftime('%Y%m%d'),))
+        # result = cursor.fetchone()
+        #
+        # if result:
+        #     giorno_id = result[0]
+        #     print(f"\n📚 Aggiungendo Liturgia per oggi (ID giorno: {giorno_id})...\n")
+        #
+        #     # Lodi Mattutine
+        #     try:
+        #         cursor.execute('''
+        #             INSERT INTO lodi_mattutine
+        #             (giorno_id, tipo, titolo, gloria_al_padre, inno, lettura_breve, responsorio_breve, antifona_cantico_finale, cantico_finale)
+        #             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+        #         ''', (
+        #             giorno_id,
+        #             'Lodi',
+        #             f'Lodi Mattutine - {today.strftime("%A %d %B %Y")}',
+        #             'Gloria al Padre e al Figlio e allo Spirito Santo, come era nel principio, e ora e sempre, nei secoli dei secoli. Amen.',
+        #             'O Dio, vieni a salvarmi, Signore, vieni in mio aiuto. Sia glorificato il Padre e il Figlio e lo Spirito Santo.',
+        #             'Dal Vangelo: In quel tempo, Gesù disse ai suoi discepoli: "Ecco, noi saliremo a Gerusalemme..."',
+        #             'V. Ascolta, Signore, la mia voce, R. secondo la tua misericordia.',
+        #             'Cantico di Zaccaria',
+        #             'Benedetto sia il Signore, Dio d\'Israele, perché ha visitato e redento il suo popolo.'
+        #         ))
+        #         print(f"  ✅ Aggiunte Lodi Mattutine")
+        #     except Exception as e:
+        #         print(f"  ⚠️  Errore Lodi: {e}")
+        #
+        #     # Vespri
+        #     try:
+        #         cursor.execute('''
+        #             INSERT INTO vespri
+        #             (giorno_id, tipo, titolo, gloria_al_padre, inno, lettura_breve, responsorio_breve, antifona_cantico_finale, cantico_finale)
+        #             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+        #         ''', (
+        #             giorno_id,
+        #             'Vespri',
+        #             f'Vespri - {today.strftime("%A %d %B %Y")}',
+        #             'Gloria al Padre e al Figlio e allo Spirito Santo, come era nel principio, e ora e sempre, nei secoli dei secoli. Amen.',
+        #             'O luce serena della gloria del Padre, divina sapienza, aiutaci a camminar verso la luce e preservaci dall\'errore di questa notte.',
+        #             'Dal libro della Lettera ai Romani (12, 9-21): La carità non sia falsa. Abhorrire il male, restare attaccati al bene.',
+        #             'V. Ti lodiamo, Signore, R. con tutto il cuore.',
+        #             'Magnificat',
+        #             'Magnificat anima mea Dominum et exultavit spiritus meus in Deo salutari meo.'
+        #         ))
+        #         print(f"  ✅ Aggiunti Vespri")
+        #     except Exception as e:
+        #         print(f"  ⚠️  Errore Vespri: {e}")
+        #
+        #     # Santo del Giorno
+        #     try:
+        #         cursor.execute('''
+        #             INSERT INTO santi (giorno_id, giorno, nome_santo, martirologio, tipo)
+        #             VALUES (?, ?, ?, ?, ?)
+        #         ''', (
+        #             giorno_id,
+        #             today.strftime('%d %B'),
+        #             'Santo del Giorno',
+        #             'Memoria di un santo celebre della Chiesa Cattolica.',
+        #             'principale'
+        #         ))
+        #         print(f"  ✅ Aggiunto Santo del Giorno")
+        #     except Exception as e:
+        #         print(f"  ⚠️  Errore Santo: {e}")
+        #
+        #     conn.commit()
 
         # Statistiche finali
         print("\n" + "=" * 70)

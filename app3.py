@@ -51,6 +51,7 @@ if DB_PATH is None:
 # ============================================
 def get_db_connection():
     """Get SQLite database connection"""
+    DB_PATH = 'instance/oremus.db'
     try:
         if not os.path.exists(DB_PATH):
             print(f"❌ Database non esiste: {DB_PATH}")
@@ -262,42 +263,6 @@ def giorno(data):
         return render_template('error.html', message=str(e)), 500
 
 
-@app.route('/lodi')
-def lodi():
-    """Lodi Mattutine (Morning Prayers) - Giorno odierno"""
-    try:
-        if not db_exists():
-            return render_template('lodi.html', lodi=None, giorno=None, all_dates=[],
-                                   error="Database non disponibile")
-
-        today = get_today_date()
-        giorno_data = get_giorno_by_data(today)
-
-        if not giorno_data:
-            all_dates = get_all_dates()
-            if all_dates:
-                giorno_data = get_giorno_by_data(all_dates[0]['data'])
-                if giorno_data:
-                    today = all_dates[0]['data']
-            else:
-                return render_template('lodi.html', lodi=None, giorno=None, all_dates=[],
-                                       error="Nessun giorno disponibile")
-
-        all_dates = get_all_dates()
-
-        return render_template('lodi.html',
-                               lodi=giorno_data['lodi'],
-                               giorno=giorno_data['giorno'],
-                               all_dates=all_dates,
-                               today=today,
-                               error=None)
-
-    except Exception as e:
-        print(f"❌ Errore in lodi: {e}")
-        return render_template('lodi.html', lodi=None, giorno=None, all_dates=[],
-                               error=str(e))
-
-
 @app.route('/lodi/<data>')
 def lodi_giorno(data):
     """Lodi Mattutine per un giorno specifico"""
@@ -322,42 +287,6 @@ def lodi_giorno(data):
     except Exception as e:
         print(f"❌ Errore in lodi_giorno: {e}")
         return render_template('error.html', message=str(e)), 500
-
-
-@app.route('/vespri')
-def vespri():
-    """Vespri (Evening Prayers) - Giorno odierno"""
-    try:
-        if not db_exists():
-            return render_template('vespri.html', vespri=None, giorno=None, all_dates=[],
-                                   error="Database non disponibile")
-
-        today = get_today_date()
-        giorno_data = get_giorno_by_data(today)
-
-        if not giorno_data:
-            all_dates = get_all_dates()
-            if all_dates:
-                giorno_data = get_giorno_by_data(all_dates[0]['data'])
-                if giorno_data:
-                    today = all_dates[0]['data']
-            else:
-                return render_template('vespri.html', vespri=None, giorno=None, all_dates=[],
-                                       error="Nessun giorno disponibile")
-
-        all_dates = get_all_dates()
-
-        return render_template('vespri.html',
-                               vespri=giorno_data['vespri'],
-                               giorno=giorno_data['giorno'],
-                               all_dates=all_dates,
-                               today=today,
-                               error=None)
-
-    except Exception as e:
-        print(f"❌ Errore in vespri: {e}")
-        return render_template('vespri.html', vespri=None, giorno=None, all_dates=[],
-                               error=str(e))
 
 
 @app.route('/vespri/<data>')
@@ -410,18 +339,6 @@ def dashboard_1():
     return dashboard()
 
 
-@app.route('/dashboard/2')
-def dashboard_2():
-    """Dashboard variant 2"""
-    return dashboard()
-
-
-@app.route('/dashboard/3')
-def dashboard_3():
-    """Dashboard variant 3"""
-    return dashboard()
-
-
 # ============================================
 # CALENDARIO ROUTE
 # ============================================
@@ -444,50 +361,6 @@ def calendario():
     except Exception as e:
         print(f"❌ Errore in calendario: {e}")
         return render_template('calendario.html', all_dates=[], today=get_today_date(),
-                               error=str(e))
-
-
-# ============================================
-# SANTI ROUTE
-# ============================================
-@app.route('/santi')
-def santi():
-    """Visualizza la lista completa dei santi memorizzati"""
-    try:
-        if not db_exists():
-            return render_template('santi.html', santi=[], all_dates=[], today=get_today_date(),
-                                   error="Database non disponibile")
-
-        conn = get_db_connection()
-        if conn is None:
-            return render_template('santi.html', santi=[], all_dates=[], today=get_today_date(),
-                                   error="Errore connessione DB")
-
-        cursor = conn.cursor()
-
-        cursor.execute('''
-            SELECT s.*, g.data_iso, g.data, g.giorno_settimana
-            FROM santi s
-            JOIN giorni_liturgici g ON s.giorno_id = g.id
-            ORDER BY g.data_iso ASC, s.tipo DESC
-        ''')
-
-        santi_list = [dict_from_row(row) for row in cursor.fetchall()]
-        conn.close()
-
-        all_dates = get_all_dates()
-        today = get_today_date()
-
-        print(f"✅ Caricati {len(santi_list)} santi")
-        return render_template('santi.html',
-                               santi=santi_list,
-                               all_dates=all_dates,
-                               today=today,
-                               error=None)
-
-    except Exception as e:
-        print(f"❌ Errore in santi: {e}")
-        return render_template('santi.html', santi=[], all_dates=[], today=get_today_date(),
                                error=str(e))
 
 
@@ -942,6 +815,253 @@ def get_dashboard_giorni():
         }), 500
 
 
+def get_dashboard_stats():
+    """✅ CORRETTO - API per statistiche dashboard"""
+    try:
+        conn = get_db_connection()
+        if conn is None:
+            return {'error': 'Database non disponibile'}
+
+        cursor = conn.cursor()
+
+        # Giorni totali
+        cursor.execute('SELECT COUNT(*) as count FROM giorni_liturgici')
+        total_days = cursor.fetchone()['count']
+
+        # Utenti (se esiste tabella)
+        try:
+            cursor.execute('SELECT COUNT(*) as count FROM utenti')
+            total_users = cursor.fetchone()['count']
+        except:
+            total_users = 0
+
+        # Celebrazioni (Lodi + Vespri)
+        cursor.execute('SELECT COUNT(*) as count FROM lodi_mattutine')
+        lodi_count = cursor.fetchone()['count']
+
+        cursor.execute('SELECT COUNT(*) as count FROM vespri')
+        vespri_count = cursor.fetchone()['count']
+
+        total_prayers = lodi_count + vespri_count
+
+        # Nuovi utenti questa settimana (se esiste)
+        try:
+            cursor.execute('''
+                SELECT COUNT(*) as count FROM utenti 
+                WHERE datetime(data_registrazione) >= datetime('now', '-7 days')
+            ''')
+            new_users = cursor.fetchone()['count']
+        except:
+            new_users = 0
+
+        conn.close()
+
+        return {
+            'total_days': total_days,
+            'total_users': total_users,
+            'total_prayers': total_prayers,
+            'new_users': new_users
+        }
+
+    except Exception as e:
+        print(f"Errore statistiche: {e}")
+        return {'error': str(e)}
+
+
+def get_dashboard_giorni():
+    """✅ CORRETTO - API per lista giorni con santi"""
+    try:
+        conn = get_db_connection()
+        if conn is None:
+            return {'error': 'Database non disponibile'}
+
+        cursor = conn.cursor()
+
+        # Recupera tutti i giorni
+        cursor.execute('''
+            SELECT id, data, data_iso, giorno_settimana 
+            FROM giorni_liturgici 
+            ORDER BY data_iso DESC
+        ''')
+
+        risultati = []
+        for row in cursor.fetchall():
+            giorno = dict_from_row(row)
+
+            # Prendi il santo principale per questo giorno
+            cursor.execute('''
+                SELECT nome_santo 
+                FROM santi 
+                WHERE giorno_id = ? AND tipo = 'principale'
+                LIMIT 1
+            ''', (giorno['id'],))
+
+            santo_row = cursor.fetchone()
+            santo_principale = dict_from_row(santo_row)['nome_santo'] if santo_row else None
+
+            risultati.append({
+                'id': giorno['id'],
+                'data': giorno['data'],
+                'data_iso': giorno['data_iso'],
+                'giorno_settimana': giorno['giorno_settimana'],
+                'santo_principale': santo_principale
+            })
+
+        conn.close()
+        return {'giorni': risultati}
+
+    except Exception as e:
+        print(f"Errore giorni: {e}")
+        return {'error': str(e)}
+
+
+def get_giorno_id_by_iso_date(date_iso):
+    """✅ CORRETTO - Recupera ID giorno dalla data ISO"""
+    try:
+        conn = get_db_connection()
+        if conn is None:
+            return None
+
+        cursor = conn.cursor()
+
+        # Prova prima con data_iso, poi con fallback
+        cursor.execute('''
+            SELECT id FROM giorni_liturgici 
+            WHERE data_iso = ? OR data = ?
+            LIMIT 1
+        ''', (date_iso, date_iso))
+
+        row = cursor.fetchone()
+        conn.close()
+
+        return row['id'] if row else None
+
+    except Exception as e:
+        print(f"Errore get_giorno_id_by_iso_date: {e}")
+        return None
+
+
+def get_lodi_by_giorno(giorno_id):
+    """✅ CORRETTO - Recupera lodi per un giorno"""
+    try:
+        conn = get_db_connection()
+        if conn is None:
+            return None
+
+        cursor = conn.cursor()
+        cursor.execute('''
+            SELECT * FROM lodi_mattutine WHERE giorno_id = ?
+        ''', (giorno_id,))
+
+        row = cursor.fetchone()
+        conn.close()
+
+        return dict_from_row(row)
+
+    except Exception as e:
+        print(f"Errore get_lodi_by_giorno: {e}")
+        return None
+
+
+def get_vespri_by_giorno(giorno_id):
+    """✅ CORRETTO - Recupera vespri per un giorno"""
+    try:
+        conn = get_db_connection()
+        if conn is None:
+            return None
+
+        cursor = conn.cursor()
+        cursor.execute('''
+            SELECT * FROM vespri WHERE giorno_id = ?
+        ''', (giorno_id,))
+
+        row = cursor.fetchone()
+        conn.close()
+
+        return dict_from_row(row)
+
+    except Exception as e:
+        print(f"Errore get_vespri_by_giorno: {e}")
+        return None
+
+
+def get_santi_by_giorno(giorno_id):
+    """✅ CORRETTO - Recupera santi per un giorno"""
+    try:
+        conn = get_db_connection()
+        if conn is None:
+            return []
+
+        cursor = conn.cursor()
+        cursor.execute('''
+            SELECT * FROM santi WHERE giorno_id = ? 
+            ORDER BY tipo DESC, nome_santo ASC
+        ''', (giorno_id,))
+
+        rows = cursor.fetchall()
+        conn.close()
+
+        return [dict_from_row(row) for row in rows]
+
+    except Exception as e:
+        print(f"Errore get_santi_by_giorno: {e}")
+        return []
+
+
+def get_giorno_completo(date_iso):
+    """✅ CORRETTO - Recupera tutti i dati di un giorno (versione corretta)"""
+    try:
+        conn = get_db_connection()
+        if conn is None:
+            return None
+
+        cursor = conn.cursor()
+
+        # Recupera il giorno
+        cursor.execute('''
+            SELECT * FROM giorni_liturgici 
+            WHERE data_iso = ? OR data = ?
+        ''', (date_iso, date_iso))
+
+        giorno_row = cursor.fetchone()
+
+        if not giorno_row:
+            conn.close()
+            return None
+
+        giorno = dict_from_row(giorno_row)
+        giorno_id = giorno['id']
+
+        # Recupera lodi
+        cursor.execute('SELECT * FROM lodi_mattutine WHERE giorno_id = ?', (giorno_id,))
+        lodi = dict_from_row(cursor.fetchone())
+
+        # Recupera vespri
+        cursor.execute('SELECT * FROM vespri WHERE giorno_id = ?', (giorno_id,))
+        vespri = dict_from_row(cursor.fetchone())
+
+        # Recupera santi
+        cursor.execute(
+            'SELECT * FROM santi WHERE giorno_id = ? ORDER BY tipo DESC',
+            (giorno_id,)
+        )
+        santi = [dict_from_row(row) for row in cursor.fetchall()]
+
+        conn.close()
+
+        return {
+            'giorno': giorno,
+            'lodi': lodi,
+            'vespri': vespri,
+            'santi': santi,
+            'giorno_id': giorno_id
+        }
+
+    except Exception as e:
+        print(f"Errore get_giorno_completo: {e}")
+        return None
+
+
 # ============================================
 # ERROR HANDLERS
 # ============================================
@@ -958,11 +1078,278 @@ def internal_error(error):
 
 
 # ============================================
+# DATABASE QUERY HELPERS - SQLITE3 DIRETTO ✅
+# ============================================
+
+def get_giorno_id_by_iso_date(date_iso):
+    """Recupera l'ID del giorno dalla data ISO (YYYYMMDD)"""
+    try:
+        conn = get_db_connection()
+        if conn is None:
+            return None
+
+        cursor = conn.cursor()
+        cursor.execute('SELECT id FROM giorni_liturgici WHERE data_iso = ?', (date_iso,))
+        result = cursor.fetchone()
+        conn.close()
+
+        return result[0] if result else None
+    except Exception as e:
+        print(f"❌ Errore nel recupero ID giorno: {e}")
+        return None
+
+
+def get_giorno_completo_by_iso(date_iso):
+    """Recupera tutti i dati di un giorno da data ISO"""
+    try:
+        conn = get_db_connection()
+        if conn is None:
+            return None
+
+        cursor = conn.cursor()
+
+        cursor.execute('SELECT * FROM giorni_liturgici WHERE data_iso = ?', (date_iso,))
+        giorno_row = cursor.fetchone()
+
+        if not giorno_row:
+            conn.close()
+            return None
+
+        giorno = dict_from_row(giorno_row)
+        giorno_id = giorno['id']
+
+        cursor.execute('SELECT * FROM lodi_mattutine WHERE giorno_id = ?', (giorno_id,))
+        lodi = dict_from_row(cursor.fetchone())
+
+        cursor.execute('SELECT * FROM vespri WHERE giorno_id = ?', (giorno_id,))
+        vespri = dict_from_row(cursor.fetchone())
+
+        cursor.execute('SELECT * FROM santi WHERE giorno_id = ? ORDER BY tipo DESC', (giorno_id,))
+        santi = [dict_from_row(row) for row in cursor.fetchall()]
+
+        conn.close()
+
+        return {
+            'giorno': giorno,
+            'lodi': lodi,
+            'vespri': vespri,
+            'santi': santi
+        }
+    except Exception as e:
+        print(f"❌ Errore recupero giorno completo: {e}")
+        return None
+
+
+def get_lodi_by_giorno_id(giorno_id):
+    """Recupera Lodi di un giorno"""
+    try:
+        conn = get_db_connection()
+        if conn is None:
+            return None
+
+        cursor = conn.cursor()
+        cursor.execute('SELECT * FROM lodi_mattutine WHERE giorno_id = ?', (giorno_id,))
+        result = cursor.fetchone()
+        conn.close()
+
+        return dict_from_row(result)
+    except Exception as e:
+        print(f"❌ Errore recupero Lodi: {e}")
+        return None
+
+
+def get_vespri_by_giorno_id(giorno_id):
+    """Recupera Vespri di un giorno"""
+    try:
+        conn = get_db_connection()
+        if conn is None:
+            return None
+
+        cursor = conn.cursor()
+        cursor.execute('SELECT * FROM vespri WHERE giorno_id = ?', (giorno_id,))
+        result = cursor.fetchone()
+        conn.close()
+
+        return dict_from_row(result)
+    except Exception as e:
+        print(f"❌ Errore recupero Vespri: {e}")
+        return None
+
+
+def get_santi_by_giorno_id(giorno_id):
+    """Recupera Santi di un giorno"""
+    try:
+        conn = get_db_connection()
+        if conn is None:
+            return []
+
+        cursor = conn.cursor()
+        cursor.execute('SELECT * FROM santi WHERE giorno_id = ? ORDER BY tipo DESC', (giorno_id,))
+        results = cursor.fetchall()
+        conn.close()
+
+        return [dict_from_row(row) for row in results]
+    except Exception as e:
+        print(f"❌ Errore recupero Santi: {e}")
+        return []
+
+
+def get_dashboard_stats():
+    """Recupera statistiche per dashboard"""
+    try:
+        conn = get_db_connection()
+        if conn is None:
+            return {'total_days': 0, 'total_users': 0, 'total_prayers': 0, 'new_users': 0}
+
+        cursor = conn.cursor()
+
+        cursor.execute('SELECT COUNT(*) FROM giorni_liturgici')
+        total_days = cursor.fetchone()[0]
+
+        cursor.execute('SELECT COUNT(*) FROM utenti')
+        total_users = cursor.fetchone()[0]
+
+        cursor.execute('SELECT COUNT(*) FROM lodi_mattutine')
+        lodi_count = cursor.fetchone()[0]
+
+        cursor.execute('SELECT COUNT(*) FROM vespri')
+        vespri_count = cursor.fetchone()[0]
+
+        week_ago = (datetime.now() - timedelta(days=7)).isoformat()
+        cursor.execute('SELECT COUNT(*) FROM utenti WHERE data_registrazione > ?', (week_ago,))
+        new_users = cursor.fetchone()[0]
+
+        conn.close()
+
+        return {
+            'total_days': total_days,
+            'total_users': total_users,
+            'total_prayers': lodi_count + vespri_count,
+            'new_users': new_users
+        }
+    except Exception as e:
+        print(f"❌ Errore recupero stats: {e}")
+        return {'total_days': 0, 'total_users': 0, 'total_prayers': 0, 'new_users': 0}
+
+
+def get_dashboard_giorni():
+    """Recupera giorni con santi per dashboard"""
+    try:
+        conn = get_db_connection()
+        if conn is None:
+            return []
+
+        cursor = conn.cursor()
+        query = '''
+            SELECT 
+                g.id, g.data, g.data_iso, g.giorno_settimana,
+                (SELECT nome_santo FROM santi WHERE giorno_id = g.id AND tipo = 'principale' LIMIT 1) as santo_principale
+            FROM giorni_liturgici g
+            ORDER BY g.data_iso DESC
+            LIMIT 60
+        '''
+        cursor.execute(query)
+        results = cursor.fetchall()
+        conn.close()
+
+        return [dict_from_row(row) for row in results]
+    except Exception as e:
+        print(f"❌ Errore recupero giorni dashboard: {e}")
+        return []
+
+
+# ============================================
+# ROUTES: Dashboard e API
+# ============================================
+
+
+@app.route('/api/dashboard/stats')
+def dashboard_stats():
+    """API: Statistiche dashboard"""
+    return jsonify(get_dashboard_stats())
+
+
+@app.route('/api/dashboard/giorni')
+def api_dashboard_giorni():
+    """API: Giorni per dashboard"""
+    return jsonify({'giorni': get_dashboard_giorni()})
+
+
+# ============================================
+# ROUTE: Lodi Mattutine
+# ============================================
+
+@app.route('/lodi')
+def lodi_route():
+    """Pagina Lodi Mattutine"""
+    try:
+        today = get_today_date()
+        giorno_id = get_giorno_id_by_iso_date(today)
+
+        if not giorno_id:
+            return render_template('error.html', message="Dati non disponibili per oggi"), 404
+
+        giorno_data = get_giorno_completo_by_iso(today)
+        lodi = get_lodi_by_giorno_id(giorno_id) if giorno_data else None
+
+        return render_template('lodi.html', lodi=lodi, giorno=giorno_data['giorno'] if giorno_data else None)
+    except Exception as e:
+        print(f"❌ Errore Lodi: {e}")
+        return render_template('error.html', message=f"Errore: {str(e)}"), 500
+
+
+# ============================================
+# ROUTE: Vespri
+# ============================================
+
+@app.route('/vespri')
+def vespri_route():
+    """Pagina Vespri"""
+    try:
+        today = get_today_date()
+        giorno_id = get_giorno_id_by_iso_date(today)
+
+        if not giorno_id:
+            return render_template('error.html', message="Dati non disponibili per oggi"), 404
+
+        giorno_data = get_giorno_completo_by_iso(today)
+        vespri = get_vespri_by_giorno_id(giorno_id) if giorno_data else None
+
+        return render_template('vespri.html', vespri=vespri, giorno=giorno_data['giorno'] if giorno_data else None)
+    except Exception as e:
+        print(f"❌ Errore Vespri: {e}")
+        return render_template('error.html', message=f"Errore: {str(e)}"), 500
+
+
+# ============================================
+# ROUTE: Santi del Giorno
+# ============================================
+
+@app.route('/santi')
+def santi_route():
+    """Pagina Santi del Giorno"""
+    try:
+        today = get_today_date()
+        giorno_id = get_giorno_id_by_iso_date(today)
+
+        if not giorno_id:
+            return render_template('error.html', message="Dati non disponibili per oggi"), 404
+
+        giorno_data = get_giorno_completo_by_iso(today)
+        santi = get_santi_by_giorno_id(giorno_id) if giorno_data else []
+
+        return render_template('index.html', santi=santi, giorno=giorno_data['giorno'] if giorno_data else None)
+    except Exception as e:
+        print(f"❌ Errore Santi: {e}")
+        return render_template('error.html', message=f"Errore: {str(e)}"), 500
+
+
+# ============================================
 # MAIN - Server startup
 # ============================================
 if __name__ == '__main__':
     print("\n" + "=" * 70)
-    print("🚀 OREMUS - Liturgia Divina (Versione Unificata 3.0)")
+    print("🚀 OREMUS - Liturgia Divina (Versione Unificata 3.0 - SQLite3)")
     print("=" * 70)
     print(f"📁 Database path: {DB_PATH}")
     print(f"✅ Database exists: {db_exists()}")
