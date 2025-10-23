@@ -1,141 +1,365 @@
 {% extends "base.html" %}
 
 {% block title %}Dashboard - Oremus{% endblock %}
+{% block page_title %}Dashboard{% endblock %}
+{% block page_subtitle %}Calendario Liturgico - Visualizza i giorni disponibili{% endblock %}
 
 {% block content %}
-<div class="row mb-4">
-	<div class="col-md-12">
-		<h3 class="text-white pb-2 fw-bold">
-			<i class="fas fa-calendar-alt mr-2"></i>Giorni Liturgici
-		</h3>
-		<p class="text-white op-7">Visualizza i giorni disponibili nel calendario liturgico</p>
-	</div>
-</div>
 
-<!-- Cards Container -->
-<div class="row" id="giorni-container">
-	<!-- I giorni verranno caricati qui via JavaScript -->
-	<div class="col-md-12">
-		<div class="text-center py-5">
-			<div class="spinner-border text-primary" role="status">
-				<span class="sr-only">Caricamento...</span>
+<!-- Stats Cards Row -->
+<div class="row mb-5">
+	<div class="col-lg-3 col-md-6 mb-4">
+		<div class="stat-card">
+			<div class="stat-icon bg-primary">
+				<i class="fas fa-calendar-check"></i>
 			</div>
-			<p class="text-muted mt-3">Caricamento dei giorni liturgici...</p>
+			<div class="stat-content">
+				<h6 class="text-muted">Giorni Totali</h6>
+				<h3 id="total-days">--</h3>
+				<small class="text-muted">Nel database</small>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-lg-3 col-md-6 mb-4">
+		<div class="stat-card">
+			<div class="stat-icon bg-success">
+				<i class="fas fa-users"></i>
+			</div>
+			<div class="stat-content">
+				<h6 class="text-muted">Utenti</h6>
+				<h3 id="total-users">--</h3>
+				<small class="text-muted">Attivi</small>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-lg-3 col-md-6 mb-4">
+		<div class="stat-card">
+			<div class="stat-icon bg-info">
+				<i class="fas fa-pray"></i>
+			</div>
+			<div class="stat-content">
+				<h6 class="text-muted">Celebrazioni</h6>
+				<h3 id="total-prayers">--</h3>
+				<small class="text-muted">Lodi e Vespri</small>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-lg-3 col-md-6 mb-4">
+		<div class="stat-card">
+			<div class="stat-icon bg-warning">
+				<i class="fas fa-user-circle"></i>
+			</div>
+			<div class="stat-content">
+				<h6 class="text-muted">Nuovi Utenti</h6>
+				<h3 id="new-users">--</h3>
+				<small class="text-muted">Questa settimana</small>
+			</div>
 		</div>
 	</div>
 </div>
 
-<!-- No data message -->
-<div class="row" id="no-data" style="display: none;">
+<!-- Main Content -->
+<div class="row mb-4">
 	<div class="col-md-12">
-		<div class="alert alert-info text-center">
-			<i class="fas fa-info-circle mr-2"></i>
-			Nessun giorno disponibile nel database. Esegui il parser per popolare i dati.
+		<div class="card">
+			<div class="card-header d-flex align-items-center">
+				<h4 class="card-title mb-0">
+					<i class="fas fa-book mr-2"></i>Giorni Liturgici Disponibili
+				</h4>
+				<div class="ml-auto">
+					<input type="text" id="searchGiorni" class="form-control form-control-sm" placeholder="Cerca giorno o santo...">
+				</div>
+			</div>
+			<div class="card-body">
+				<!-- Giorni Container -->
+				<div id="giorni-container" class="row">
+					<div class="col-12 text-center py-5">
+						<div class="spinner-border text-primary" role="status">
+							<span class="sr-only">Caricamento...</span>
+						</div>
+						<p class="text-muted mt-3">
+							<i class="fas fa-spinner fa-spin mr-2"></i>Caricamento dei giorni liturgici...
+						</p>
+					</div>
+				</div>
+
+				<!-- No Data Message -->
+				<div id="no-data" style="display: none;">
+					<div class="alert alert-info text-center py-5" role="alert">
+						<i class="fas fa-inbox fa-3x mb-3 text-info d-block"></i>
+						<h5>Nessun giorno disponibile</h5>
+						<p class="text-muted">Esegui il parser per popolare i dati del calendario liturgico.</p>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>
 
 <style>
-	.giorno-card {
-		background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-		border: none;
-		border-radius: 12px;
-		overflow: hidden;
+	/* Stat Cards */
+	.stat-card {
+		background: white;
+		border-radius: 10px;
+		padding: 20px;
+		display: flex;
+		align-items: center;
+		gap: 20px;
+		box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 		transition: all 0.3s ease;
-		cursor: pointer;
+		border: 1px solid #f0f0f0;
+	}
+
+	.stat-card:hover {
+		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+		transform: translateY(-2px);
+	}
+
+	.stat-icon {
+		width: 60px;
+		height: 60px;
+		border-radius: 10px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: 24px;
 		color: white;
+		flex-shrink: 0;
+	}
+
+	.stat-icon.bg-primary {
+		background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+	}
+
+	.stat-icon.bg-success {
+		background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+	}
+
+	.stat-icon.bg-info {
+		background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+	}
+
+	.stat-icon.bg-warning {
+		background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+	}
+
+	.stat-content h3 {
+		margin: 0;
+		font-size: 28px;
+		font-weight: 700;
+		color: #333;
+	}
+
+	.stat-content h6 {
+		margin: 0 0 5px 0;
+		font-size: 12px;
+		text-transform: uppercase;
+		letter-spacing: 0.5px;
+		font-weight: 600;
+	}
+
+	.stat-content small {
+		font-size: 12px;
+	}
+
+	/* Giorno Card */
+	.giorno-card {
+		background: white;
+		border-radius: 12px;
+		padding: 25px;
+		text-align: center;
+		transition: all 0.3s ease;
+		border: 1px solid #f0f0f0;
 		height: 100%;
-		min-height: 200px;
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
 		align-items: center;
-		text-align: center;
-		padding: 30px;
+		cursor: pointer;
+		position: relative;
+		overflow: hidden;
+	}
+
+	.giorno-card::before {
+		content: '';
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		height: 4px;
+		background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+		transition: all 0.3s ease;
+	}
+
+	.giorno-card.variant-2::before {
+		background: linear-gradient(90deg, #f093fb 0%, #f5576c 100%);
+	}
+
+	.giorno-card.variant-3::before {
+		background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);
+	}
+
+	.giorno-card.variant-4::before {
+		background: linear-gradient(90deg, #43e97b 0%, #38f9d7 100%);
+	}
+
+	.giorno-card.variant-5::before {
+		background: linear-gradient(90deg, #fa709a 0%, #fee140 100%);
+	}
+
+	.giorno-card.variant-6::before {
+		background: linear-gradient(90deg, #30cfd0 0%, #330867 100%);
 	}
 
 	.giorno-card:hover {
-		transform: translateY(-8px);
-		box-shadow: 0 12px 24px rgba(102, 126, 234, 0.4);
-	}
-
-	.giorno-card.variant-2 {
-		background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-	}
-
-	.giorno-card.variant-3 {
-		background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-	}
-
-	.giorno-card.variant-4 {
-		background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
-	}
-
-	.giorno-card.variant-5 {
-		background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
-	}
-
-	.giorno-card.variant-6 {
-		background: linear-gradient(135deg, #30cfd0 0%, #330867 100%);
-	}
-
-	.giorno-card .data {
-		font-size: 2.5rem;
-		font-weight: 700;
-		margin-bottom: 10px;
-	}
-
-	.giorno-card .giorno-settimana {
-		font-size: 0.9rem;
-		opacity: 0.9;
-		margin-bottom: 15px;
-		text-transform: uppercase;
-		letter-spacing: 1px;
-	}
-
-	.giorno-card .santo-divider {
-		width: 40px;
-		height: 2px;
-		background: rgba(255, 255, 255, 0.5);
-		margin: 15px auto;
-	}
-
-	.giorno-card .santo-nome {
-		font-size: 1.3rem;
-		font-weight: 600;
-		line-height: 1.4;
-	}
-
-	.giorno-card .santo-tipo {
-		font-size: 0.8rem;
-		opacity: 0.8;
-		margin-top: 8px;
-		text-transform: uppercase;
-		letter-spacing: 0.5px;
+		transform: translateY(-6px);
+		box-shadow: 0 8px 20px rgba(102, 126, 234, 0.2);
 	}
 
 	.giorno-card .icon {
-		font-size: 2rem;
-		margin-bottom: 10px;
-		opacity: 0.9;
+		font-size: 2.5rem;
+		margin-bottom: 15px;
+		display: inline-block;
+		padding: 15px;
+		border-radius: 50%;
+		background: #f8f9fa;
+		color: #667eea;
+		transition: all 0.3s ease;
 	}
 
+	.giorno-card.variant-2 .icon {
+		color: #f5576c;
+	}
+
+	.giorno-card.variant-3 .icon {
+		color: #4facfe;
+	}
+
+	.giorno-card.variant-4 .icon {
+		color: #43e97b;
+	}
+
+	.giorno-card.variant-5 .icon {
+		color: #fa709a;
+	}
+
+	.giorno-card.variant-6 .icon {
+		color: #30cfd0;
+	}
+
+	.giorno-card:hover .icon {
+		transform: scale(1.1);
+	}
+
+	.giorno-card .giorno-settimana {
+		font-size: 11px;
+		text-transform: uppercase;
+		letter-spacing: 1px;
+		color: #999;
+		font-weight: 600;
+		margin-bottom: 8px;
+	}
+
+	.giorno-card .data {
+		font-size: 20px;
+		font-weight: 700;
+		color: #333;
+		margin-bottom: 12px;
+	}
+
+	.giorno-card .santo-divider {
+		width: 30px;
+		height: 1px;
+		background: #ddd;
+		margin: 12px auto;
+	}
+
+	.giorno-card .santo-nome {
+		font-size: 14px;
+		font-weight: 600;
+		color: #667eea;
+		line-height: 1.5;
+		margin-bottom: 4px;
+	}
+
+	.giorno-card.variant-2 .santo-nome {
+		color: #f5576c;
+	}
+
+	.giorno-card.variant-3 .santo-nome {
+		color: #4facfe;
+	}
+
+	.giorno-card.variant-4 .santo-nome {
+		color: #43e97b;
+	}
+
+	.giorno-card.variant-5 .santo-nome {
+		color: #fa709a;
+	}
+
+	.giorno-card.variant-6 .santo-nome {
+		color: #30cfd0;
+	}
+
+	.giorno-card .santo-tipo {
+		font-size: 10px;
+		text-transform: uppercase;
+		letter-spacing: 0.5px;
+		color: #999;
+		font-weight: 500;
+	}
+
+	/* Card Header Search */
+	.card-header {
+		border-bottom: 1px solid #f0f0f0;
+		display: flex;
+		align-items: center;
+		gap: 15px;
+	}
+
+	#searchGiorni {
+		max-width: 300px;
+		border-radius: 6px;
+		border: 1px solid #ddd;
+	}
+
+	#searchGiorni:focus {
+		border-color: #667eea;
+		box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.1);
+	}
+
+	/* Responsive */
 	@media (max-width: 768px) {
+		.stat-card {
+			margin-bottom: 15px;
+		}
+
 		.giorno-card .data {
-			font-size: 1.8rem;
+			font-size: 16px;
 		}
 
 		.giorno-card .santo-nome {
-			font-size: 1rem;
+			font-size: 12px;
+		}
+
+		.card-header {
+			flex-direction: column;
+			align-items: stretch;
+		}
+
+		#searchGiorni {
+			max-width: 100%;
 		}
 	}
 </style>
 
 <script>
-	// Array di varianti di colore per diversificare le card
 	const colorVariants = ['', 'variant-2', 'variant-3', 'variant-4', 'variant-5', 'variant-6'];
 
-	// Icone per i giorni della settimana
 	const iconMap = {
 		'lunedì': 'fa-moon',
 		'martedì': 'fa-fire',
@@ -146,9 +370,25 @@
 		'domenica': 'fa-sun'
 	};
 
+	let allGiorni = [];
+
 	document.addEventListener('DOMContentLoaded', function() {
+		loadStats();
 		loadGiorni();
+		setupSearch();
 	});
+
+	function loadStats() {
+		fetch('/api/dashboard/stats')
+			.then(response => response.json())
+			.then(data => {
+				document.getElementById('total-days').textContent = data.total_days || 0;
+				document.getElementById('total-users').textContent = data.total_users || 0;
+				document.getElementById('total-prayers').textContent = data.total_prayers || 0;
+				document.getElementById('new-users').textContent = data.new_users || 0;
+			})
+			.catch(error => console.error('Errore stats:', error));
+	}
 
 	function loadGiorni() {
 		fetch('/api/dashboard/giorni')
@@ -163,43 +403,14 @@
 					return;
 				}
 
-				container.innerHTML = '';
+				allGiorni = data.giorni;
+				container.style.display = '';
 				noData.style.display = 'none';
-
-				data.giorni.forEach((giorno, index) => {
-					const col = document.createElement('div');
-					col.className = 'col-lg-4 col-md-6 mb-4';
-
-					const variant = colorVariants[index % colorVariants.length];
-					const icon = iconMap[giorno.giorno_settimana.toLowerCase()] || 'fa-calendar';
-
-					let santoHtml = '';
-					if (giorno.santo_principale) {
-						santoHtml = `
-							<div class="santo-divider"></div>
-							<div class="santo-nome">${giorno.santo_principale}</div>
-							<div class="santo-tipo">Santo del Giorno</div>
-						`;
-					}
-
-					col.innerHTML = `
-						<div class="giorno-card ${variant}">
-							<div class="icon">
-								<i class="fas ${icon}"></i>
-							</div>
-							<div class="giorno-settimana">${giorno.giorno_settimana}</div>
-							<div class="data">${giorno.data}</div>
-							${santoHtml}
-						</div>
-					`;
-
-					container.appendChild(col);
-				});
+				renderGiorni(allGiorni);
 			})
 			.catch(error => {
 				console.error('Errore nel caricamento:', error);
-				const container = document.getElementById('giorni-container');
-				container.innerHTML = `
+				document.getElementById('giorni-container').innerHTML = `
 					<div class="col-md-12">
 						<div class="alert alert-danger text-center">
 							<i class="fas fa-exclamation-circle mr-2"></i>
@@ -209,5 +420,55 @@
 				`;
 			});
 	}
+
+	function renderGiorni(giorni) {
+		const container = document.getElementById('giorni-container');
+		container.innerHTML = '';
+
+		giorni.forEach((giorno, index) => {
+			const col = document.createElement('div');
+			col.className = 'col-lg-4 col-md-6 mb-4';
+
+			const variant = colorVariants[index % colorVariants.length];
+			const icon = iconMap[giorno.giorno_settimana.toLowerCase()] || 'fa-calendar';
+
+			let santoHtml = '';
+			if (giorno.santo_principale) {
+				santoHtml = `
+					<div class="santo-divider"></div>
+					<div class="santo-nome">${giorno.santo_principale}</div>
+					<div class="santo-tipo">Santo del Giorno</div>
+				`;
+			}
+
+			col.innerHTML = `
+				<div class="giorno-card ${variant}">
+					<div class="icon">
+						<i class="fas ${icon}"></i>
+					</div>
+					<div class="giorno-settimana">${giorno.giorno_settimana}</div>
+					<div class="data">${giorno.data}</div>
+					${santoHtml}
+				</div>
+			`;
+
+			container.appendChild(col);
+		});
+	}
+
+	function setupSearch() {
+		const searchInput = document.getElementById('searchGiorni');
+		searchInput.addEventListener('input', function(e) {
+			const query = e.target.value.toLowerCase();
+			const filtered = allGiorni.filter(giorno => {
+				const data = giorno.data.toLowerCase();
+				const santo = (giorno.santo_principale || '').toLowerCase();
+				const giorno_settimana = (giorno.giorno_settimana || '').toLowerCase();
+				return data.includes(query) || santo.includes(query) || giorno_settimana.includes(query);
+			});
+			renderGiorni(filtered);
+		});
+	}
 </script>
+
 {% endblock %}

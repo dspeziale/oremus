@@ -1,317 +1,411 @@
-import sqlite3
-import json
+#!/usr/bin/env python3
+"""
+OREMUS - Applicazione per visualizzare la Liturgia delle Ore
+Dashboard con navigazione per date, santi del giorno, lodi e vespri
+"""
+from flask import Flask, render_template, request, jsonify, redirect, url_for
 from datetime import datetime, timedelta
-from flask import Flask, render_template, request, jsonify
-from flask_cors import CORS
+import sqlite3
+from pathlib import Path
+import json
+from app import db_exists, get_db_connection, dict_from_row
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'oremus'
-app.config['JSON_AS_ASCII'] = False
-CORS(app)
+app.config['TEMPLATES_AUTO_RELOAD'] = True
 
-DB_PATH = 'instance/oremus.db'
+DB_PATH = Path("instance/oremus.db")
 
 
-# ============================================
-# DATABASE HELPER FUNCTIONS
-# ============================================
-
-def get_db_connection():
-    """Crea una connessione al database SQLite"""
-    conn = sqlite3.connect(DB_PATH)
+def get_db():
+    """Ritorna la connessione al database"""
+    conn = sqlite3.connect(str(DB_PATH))
     conn.row_factory = sqlite3.Row
     return conn
 
 
-def get_giorno_liturgico(data_iso: str = None):
-    """Ottiene il giorno liturgico per una data specifica o oggi"""
-    if not data_iso:
-        data_iso = datetime.now().strftime('%Y-%m-%d')
-
-    conn = get_db_connection()
-    cursor = conn.cursor()
-    cursor.execute('SELECT * FROM giorni_liturgici WHERE data_iso = ?', (data_iso,))
-    giorno = cursor.fetchone()
-    conn.close()
-    return dict(giorno) if giorno else None
-
-
-def get_lodi_by_giorno(giorno_id: int):
-    """Ottiene i dati delle lodi per un giorno"""
-    conn = get_db_connection()
+def get_giorno(data):
+    """Recupera i dati di un giorno specifico"""
+    conn = get_db()
     cursor = conn.cursor()
 
-    cursor.execute('SELECT * FROM lodi_mattutine WHERE giorno_id = ?', (giorno_id,))
-    lodi = cursor.fetchone()
-
-    if lodi:
-        lodi = dict(lodi)
-        lodi_id = lodi['id']
-
-        # Salmi e antifone
-        cursor.execute('SELECT * FROM antifone_salmi WHERE lodi_id = ?', (lodi_id,))
-        lodi['salmi'] = [dict(row) for row in cursor.fetchall()]
-
-        # Versicoli
-        cursor.execute('SELECT * FROM versicoli WHERE lodi_id = ?', (lodi_id,))
-        lodi['versicoli'] = [dict(row) for row in cursor.fetchall()]
-
-        # Invocazioni
-        cursor.execute('SELECT * FROM invocazioni WHERE lodi_id = ?', (lodi_id,))
-        lodi['invocazioni'] = [dict(row) for row in cursor.fetchall()]
-
-        # Orazioni
-        cursor.execute('SELECT * FROM orazioni WHERE lodi_id = ?', (lodi_id,))
-        lodi['orazioni'] = [dict(row) for row in cursor.fetchall()]
-
-    conn.close()
-    return lodi
-
-
-def get_vespri_by_giorno(giorno_id: int):
-    """Ottiene i dati dei vespri per un giorno"""
-    conn = get_db_connection()
-    cursor = conn.cursor()
-
-    cursor.execute('SELECT * FROM vespri WHERE giorno_id = ?', (giorno_id,))
-    vespri = cursor.fetchone()
-
-    if vespri:
-        vespri = dict(vespri)
-        vespri_id = vespri['id']
-
-        # Salmi e antifone
-        cursor.execute('SELECT * FROM antifone_salmi WHERE vespri_id = ?', (vespri_id,))
-        vespri['salmi'] = [dict(row) for row in cursor.fetchall()]
-
-        # Versicoli
-        cursor.execute('SELECT * FROM versicoli WHERE vespri_id = ?', (vespri_id,))
-        vespri['versicoli'] = [dict(row) for row in cursor.fetchall()]
-
-        # Intercessioni
-        cursor.execute('SELECT * FROM invocazioni WHERE vespri_id = ?', (vespri_id,))
-        vespri['intercessioni'] = [dict(row) for row in cursor.fetchall()]
-
-        # Orazioni
-        cursor.execute('SELECT * FROM orazioni WHERE vespri_id = ?', (vespri_id,))
-        vespri['orazioni'] = [dict(row) for row in cursor.fetchall()]
-
-    conn.close()
-    return vespri
-
-
-def get_santi_by_giorno(giorno_id: int):
-    """Ottiene i santi per un giorno"""
-    conn = get_db_connection()
-    cursor = conn.cursor()
-
-    cursor.execute('SELECT * FROM santi WHERE giorno_id = ? ORDER BY tipo DESC', (giorno_id,))
-    santi = [dict(row) for row in cursor.fetchall()]
-
-    conn.close()
-    return santi
-
-
-def get_calendario(mese: int = None, anno: int = None):
-    """Ottiene tutti i giorni del mese"""
-    if not mese:
-        mese = datetime.now().month
-    if not anno:
-        anno = datetime.now().year
-
-    conn = get_db_connection()
-    cursor = conn.cursor()
-
-    # Ottieni tutti i giorni del mese
+    # Recupera dati del giorno
     cursor.execute('''
-        SELECT * FROM giorni_liturgici 
-        WHERE strftime('%Y', data_iso) = ? AND strftime('%m', data_iso) = ?
-        ORDER BY data_iso
-    ''', (str(anno), f'{mese:02d}'))
+        SELECT * FROM giorni_liturgici WHERE data = ?
+    ''', (data,))
 
-    giorni = [dict(row) for row in cursor.fetchall()]
+    giorno = cursor.fetchone()
+
+    if giorno:
+        # Recupera lodi
+        cursor.execute('''
+            SELECT * FROM lodi_mattutine WHERE data = ?
+        ''', (data,))
+        lodi = cursor.fetchone()
+
+        # Recupera vespri
+        cursor.execute('''
+            SELECT * FROM vespri WHERE data = ?
+        ''', (data,))
+        vespri = cursor.fetchone()
+
+        conn.close()
+
+        return {
+            'data': giorno['data'],
+            'data_formattata': giorno['data_formattata'],
+            'santo': giorno['santo_principale'],
+            'colore': giorno['colore_liturgico'],
+            'grado': giorno['grado_celebrazione'],
+            'martirologio': giorno['martirologio'],
+            'lodi': dict(lodi) if lodi else None,
+            'vespri': dict(vespri) if vespri else None,
+        }
+
     conn.close()
-    return giorni
+    return None
 
 
-# ============================================
-# ROUTES - HOME & MAIN PAGES
-# ============================================
+def get_all_dates():
+    """Ritorna tutte le date disponibili nel database"""
+    conn = get_db()
+    cursor = conn.cursor()
+
+    cursor.execute('''
+        SELECT giorno as data, santo_principale FROM santi 
+        ORDER BY data ASC
+    ''')
+
+    dates = cursor.fetchall()
+    conn.close()
+
+    return [
+        {
+            'data': row['data'],
+            'santo': row['santo_principale']
+        } for row in dates
+    ]
+
+
+def get_today():
+    """Ritorna la data odierna nel formato YYYY-MM-DD"""
+    return datetime.now().strftime("%Y-%m-%d")
+
 
 @app.route('/')
 def index():
-    """Homepage - mostra il giorno di oggi"""
-    giorno = get_giorno_liturgico()
+    """Homepage - Mostra il giorno odierno"""
+    today = get_today()
+    giorno = get_giorno(today)
 
+    # Se non c'è un giorno per oggi, prendi il primo disponibile
     if not giorno:
-        return render_template('error.html', message='Dati non disponibili per oggi'), 404
+        all_dates = get_all_dates()
+        if all_dates:
+            giorno = get_giorno(all_dates[0]['data'])
+            today = all_dates[0]['data']
 
-    lodi = get_lodi_by_giorno(giorno['id'])
-    vespri = get_vespri_by_giorno(giorno['id'])
-    santi = get_santi_by_giorno(giorno['id'])
+    all_dates = get_all_dates()
 
-    return render_template('index.html',
-                           giorno=giorno,
-                           lodi=lodi,
-                           vespri=vespri,
-                           santi=santi)
+    return render_template(
+        'index.html',
+        giorno=giorno,
+        today=today,
+        all_dates=all_dates
+    )
+
+@app.route('/profile/edit', methods=['GET', 'POST'])
+def profile_edit():
+    """Edit profile page"""
+    if request.method == 'POST':
+        try:
+            if not db_exists():
+                return jsonify({'status': 'error', 'message': 'Database non disponibile'}), 400
+
+            conn = get_db_connection()
+            if conn is None:
+                return jsonify({'status': 'error', 'message': 'Errore connessione DB'}), 400
+
+            cursor = conn.cursor()
+            data = request.get_json() or request.form
+
+            cursor.execute('''
+                UPDATE utenti 
+                SET nome = ?, email = ?, telefono = ?, bio = ?, indirizzo = ?, citta = ?, paese = ?
+                WHERE ruolo = ?
+            ''', (
+                data.get('nome'),
+                data.get('email'),
+                data.get('telefono'),
+                data.get('bio'),
+                data.get('indirizzo'),
+                data.get('citta'),
+                data.get('paese'),
+                'admin'
+            ))
+
+            conn.commit()
+            conn.close()
+
+            print(f"✅ Profilo aggiornato")
+            return jsonify({'status': 'success', 'message': 'Profilo aggiornato con successo'})
+        except Exception as e:
+            print(f"❌ Errore in profile_edit POST: {e}")
+            return jsonify({'status': 'error', 'message': str(e)}), 400
+
+    try:
+        if not db_exists():
+            return render_template('profile_edit.html', profile={'nome': 'Oremus', 'email': 'admin@oremus.it'})
+
+        conn = get_db_connection()
+        if conn is None:
+            return render_template('profile_edit.html', profile={'nome': 'Oremus', 'email': 'admin@oremus.it'})
+
+        cursor = conn.cursor()
+        cursor.execute('SELECT * FROM utenti WHERE ruolo = ? LIMIT 1', ('admin',))
+        profile_data = dict_from_row(cursor.fetchone())
+        conn.close()
+
+        if not profile_data:
+            profile_data = {'nome': 'Oremus', 'email': 'admin@oremus.it'}
+
+        return render_template('profile_edit.html', profile=profile_data)
+
+    except Exception as e:
+        print(f"❌ Errore in profile_edit GET: {e}")
+        return render_template('profile_edit.html', profile={'nome': 'Oremus', 'email': 'admin@oremus.it'})
+
+
+@app.route('/profile/settings')
+def profile_settings():
+    """Profile settings page"""
+    return render_template('profile_settings.html')
+
+
+# ============================================
+# NAVIGATION & UTILITY ROUTES
+# ============================================
+@app.route('/help')
+def help():
+    """Help page"""
+    return render_template('help.html')
+
+
+@app.route('/licenses')
+def licenses():
+    """Licenses information page"""
+    return render_template('licenses.html')
+
+@app.route('/profile')
+def profile():
+    """User profile page"""
+    try:
+        if not db_exists():
+            return render_template('profile.html',
+                                   profile={'nome': 'Oremus', 'email': 'admin@oremus.it', 'ruolo': 'admin'})
+
+        conn = get_db_connection()
+        if conn is None:
+            return render_template('profile.html',
+                                   profile={'nome': 'Oremus', 'email': 'admin@oremus.it', 'ruolo': 'admin'})
+
+        cursor = conn.cursor()
+        cursor.execute('SELECT * FROM utenti WHERE ruolo = ? LIMIT 1', ('admin',))
+        profile_data = dict_from_row(cursor.fetchone())
+        conn.close()
+
+        if not profile_data:
+            profile_data = {'nome': 'Oremus', 'email': 'admin@oremus.it', 'ruolo': 'admin'}
+
+        print(f"✅ Caricato profilo: {profile_data.get('nome', 'Oremus')}")
+        return render_template('profile.html', profile=profile_data)
+
+    except Exception as e:
+        print(f"❌ Errore in profile: {e}")
+        return render_template('profile.html', profile={'nome': 'Oremus', 'email': 'admin@oremus.it', 'ruolo': 'admin'})
+
+@app.route('/logout')
+def logout():
+    """Logout user and redirect to home"""
+    return redirect(url_for('index'))
+
+@app.route('/giorno/<data>')
+def giorno(data):
+    """Visualizza un giorno specifico"""
+    giorno_data = get_giorno(data)
+    all_dates = get_all_dates()
+
+    if not giorno_data:
+        return render_template('error.html', message="Giorno non trovato"), 404
+
+    return render_template(
+        'index.html',
+        giorno=giorno_data,
+        today=data,
+        all_dates=all_dates
+    )
+
+
+@app.route('/api/dates')
+def api_dates():
+    """API: Ritorna tutte le date disponibili"""
+    return jsonify(get_all_dates())
+
+
+@app.route('/api/giorno/<data>')
+def api_giorno(data):
+    """API: Ritorna i dati di un giorno specifico"""
+    giorno_data = get_giorno(data)
+
+    if not giorno_data:
+        return jsonify({'error': 'Giorno non trovato'}), 404
+
+    return jsonify(giorno_data)
 
 
 @app.route('/calendario')
 def calendario():
-    """Visualizza il calendario del mese"""
-    mese = request.args.get('mese', datetime.now().month, type=int)
-    anno = request.args.get('anno', datetime.now().year, type=int)
+    """Visualizza il calendario interattivo"""
+    all_dates = get_all_dates()
+    today = get_today()
 
-    giorni = get_calendario(mese, anno)
+    return render_template(
+        'calendario.html',
+        all_dates=all_dates,
+        today=today
+    )
 
-    return render_template('calendario.html',
-                           giorni=giorni,
-                           mese=mese,
-                           anno=anno)
-
-
-@app.route('/giorno/<data_iso>')
-def giorno_dettaglio(data_iso):
-    """Visualizza il dettaglio di un giorno specifico"""
-    giorno = get_giorno_liturgico(data_iso)
-
-    if not giorno:
-        return render_template('error.html', message=f'Nessun dato per {data_iso}'), 404
-
-    lodi = get_lodi_by_giorno(giorno['id'])
-    vespri = get_vespri_by_giorno(giorno['id'])
-    santi = get_santi_by_giorno(giorno['id'])
-
-    return render_template('giorno.html',
-                           giorno=giorno,
-                           lodi=lodi,
-                           vespri=vespri,
-                           santi=santi)
-
-
-# ============================================
-# ROUTES - LITURGY PAGES
-# ============================================
 
 @app.route('/lodi')
 def lodi():
-    """Visualizza le lodi di oggi"""
-    data_iso = request.args.get('data', datetime.now().strftime('%Y-%m-%d'))
-    giorno = get_giorno_liturgico(data_iso)
+    """Visualizza le Lodi Mattutine del giorno odierno"""
+    today = get_today()
+    giorno_data = get_giorno(today)
+    all_dates = get_all_dates()
 
-    if not giorno:
-        return render_template('error.html', message='Dati non disponibili'), 404
+    if not giorno_data:
+        all_dates = get_all_dates()
+        if all_dates:
+            today = all_dates[0]['data']
+            giorno_data = get_giorno(today)
 
-    lodi = get_lodi_by_giorno(giorno['id'])
-
-    if not lodi:
-        return render_template('error.html', message='Lodi non disponibili per questo giorno'), 404
-
-    return render_template('lodi.html', giorno=giorno, lodi=lodi)
+    return render_template(
+        'lodi.html',
+        giorno=giorno_data,
+        today=today,
+        all_dates=all_dates
+    )
 
 
 @app.route('/vespri')
 def vespri():
-    """Visualizza i vespri di oggi"""
-    data_iso = request.args.get('data', datetime.now().strftime('%Y-%m-%d'))
-    giorno = get_giorno_liturgico(data_iso)
+    """Visualizza i Vespri del giorno odierno"""
+    today = get_today()
+    giorno_data = get_giorno(today)
+    all_dates = get_all_dates()
 
-    if not giorno:
-        return render_template('error.html', message='Dati non disponibili'), 404
+    if not giorno_data:
+        all_dates = get_all_dates()
+        if all_dates:
+            today = all_dates[0]['data']
+            giorno_data = get_giorno(today)
 
-    vespri = get_vespri_by_giorno(giorno['id'])
-
-    if not vespri:
-        return render_template('error.html', message='Vespri non disponibili per questo giorno'), 404
-
-    return render_template('vespri.html', giorno=giorno, vespri=vespri)
+    return render_template(
+        'vespri.html',
+        giorno=giorno_data,
+        today=today,
+        all_dates=all_dates
+    )
 
 
 @app.route('/santi')
 def santi():
-    """Visualizza i santi del giorno"""
-    data_iso = request.args.get('data', datetime.now().strftime('%Y-%m-%d'))
-    giorno = get_giorno_liturgico(data_iso)
+    """Visualizza la lista dei santi memorizzati"""
+    all_dates = get_all_dates()
+    today = get_today()
 
-    if not giorno:
-        return render_template('error.html', message='Dati non disponibili'), 404
+    santi_list = []
+    for date_info in all_dates:
+        giorno_data = get_giorno(date_info['data'])
+        if giorno_data:
+            santi_list.append({
+                'data': giorno_data['data'],
+                'data_formattata': giorno_data['data_formattata'],
+                'santo': giorno_data['santo'],
+                'colore': giorno_data['colore'],
+                'grado': giorno_data['grado'],
+                'martirologio': giorno_data['martirologio'],
+            })
 
-    santi_list = get_santi_by_giorno(giorno['id'])
+    return render_template(
+        'santi.html',
+        santi=santi_list,
+        today=today,
+        all_dates=all_dates
+    )
 
-    if not santi_list:
-        return render_template('error.html', message='Nessun santo disponibile per questo giorno'), 404
-
-    return render_template('santi.html', giorno=giorno, santi=santi_list)
-
-
-# ============================================
-# ROUTES - INFO PAGES
-# ============================================
-
-@app.route('/about')
-def about():
-    """Pagina chi siamo"""
-    return render_template('about.html')
-
-
-# ============================================
-# API ENDPOINTS
-# ============================================
-
-@app.route('/api/giorno/<data_iso>')
-def api_giorno(data_iso):
-    """API per ottenere un giorno completo"""
-    giorno = get_giorno_liturgico(data_iso)
-
-    if not giorno:
-        return jsonify({'error': 'Non trovato'}), 404
-
-    lodi = get_lodi_by_giorno(giorno['id'])
-    vespri = get_vespri_by_giorno(giorno['id'])
-    santi = get_santi_by_giorno(giorno['id'])
-
-    return jsonify({
-        'giorno': dict(giorno),
-        'lodi': dict(lodi) if lodi else None,
-        'vespri': dict(vespri) if vespri else None,
-        'santi': santi
-    })
-
-
-@app.route('/api/calendario/<int:anno>/<int:mese>')
-def api_calendario(anno, mese):
-    """API per ottenere il calendario"""
-    giorni = get_calendario(mese, anno)
-    return jsonify({'giorni': [dict(g) for g in giorni]})
-
-
-@app.route('/api/santi/<int:anno>/<int:mese>/<int:giorno>')
-def api_santi(anno, mese, giorno):
-    """API per ottenere i santi di un giorno"""
-    data_iso = f'{anno:04d}-{mese:02d}-{giorno:02d}'
-    giorno_record = get_giorno_liturgico(data_iso)
-
-    if not giorno_record:
-        return jsonify({'error': 'Non trovato'}), 404
-
-    santi_list = get_santi_by_giorno(giorno_record['id'])
-    return jsonify({'santi': santi_list})
-
-
-# ============================================
-# ERROR HANDLERS
-# ============================================
 
 @app.errorhandler(404)
 def not_found(error):
-    return render_template('error.html', message='Pagina non trovata'), 404
+    """Gestisce gli errori 404"""
+    return render_template('error.html', message="Pagina non trovata"), 404
 
 
 @app.errorhandler(500)
 def server_error(error):
-    return render_template('error.html', message='Errore del server'), 500
+    """Gestisce gli errori 500"""
+    return render_template('error.html', message="Errore interno del server"), 500
 
+
+# Sezione da aggiungere a app.py
+
+@app.route('/api/dashboard/giorni')
+def get_dashboard_giorni():
+    """API endpoint to get all liturgical days with their saints from database"""
+    try:
+        import sqlite3
+
+        db_path = "instance/oremus.db"
+        conn = sqlite3.connect(db_path)
+        conn.row_factory = sqlite3.Row
+        cursor = conn.cursor()
+
+        # Query per ottenere giorni e santi
+        cursor.execute('''
+            SELECT 
+                g.id,
+                g.data,
+                g.data_iso,
+                g.giorno_settimana,
+                s.nome_santo as santo_principale
+            FROM giorni_liturgici g
+            LEFT JOIN santi s ON g.id = s.giorno_id AND s.tipo = 'principale'
+            ORDER BY g.data_iso ASC
+        ''')
+
+        giorni = []
+        for row in cursor.fetchall():
+            giorni.append({
+                'id': row['id'],
+                'data': row['data'],
+                'data_iso': row['data_iso'],
+                'giorno_settimana': row['giorno_settimana'],
+                'santo_principale': row['santo_principale']
+            })
+
+        conn.close()
+
+        return jsonify({
+            'status': 'success',
+            'giorni': giorni,
+            'total': len(giorni)
+        })
+
+    except Exception as e:
+        return jsonify({
+            'status': 'error',
+            'message': str(e),
+            'giorni': []
+        }), 500
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=59000)
+    app.run(debug=True, host='0.0.0.0', port=5000)
