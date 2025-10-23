@@ -303,6 +303,8 @@ def vespri_giorno(data):
         if not giorno_data:
             return render_template('error.html', message='Giorno non trovato'), 404
 
+        print(giorno_data['vespri'])
+
         return render_template('vespri.html',
                                vespri=giorno_data['vespri'],
                                giorno=giorno_data['giorno'],
