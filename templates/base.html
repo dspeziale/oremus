@@ -101,77 +101,31 @@
 			</nav>
 			<!-- End Navbar -->
 		</div>
-
 		<!-- Sidebar -->
 		<div class="sidebar sidebar-style-2">
 			<div class="sidebar-wrapper scrollbar scrollbar-inner">
 				<div class="sidebar-content">
-					<div class="user">
-						<div class="avatar-sm float-left mr-2">
-							<img src="{{ url_for('static', filename='img/profile.jpg') }}" alt="..." class="avatar-img rounded-circle">
-						</div>
-						<div class="info">
-							<a data-toggle="collapse" href="#collapseExample" aria-expanded="true">
-								<span>
-									Daniele
-									<span class="user-level">Administrator</span>
-									<span class="caret"></span>
-								</span>
-							</a>
-							<div class="clearfix"></div>
-							<div class="collapse in" id="collapseExample">
-								<ul class="nav">
-									<li>
-										<a href="{{ url_for('profile') }}">
-											<span class="link-collapse">My Profile</span>
-										</a>
-									</li>
-									<li>
-										<a href="{{ url_for('profile_edit') }}">
-											<span class="link-collapse">Edit Profile</span>
-										</a>
-									</li>
-									<li>
-										<a href="{{ url_for('profile_settings') }}">
-											<span class="link-collapse">Settings</span>
-										</a>
-									</li>
-								</ul>
-							</div>
-						</div>
-					</div>
-
-					<!-- NAVBAR -->
+					<!-- Sidebar Menu -->
 					<ul class="nav nav-primary">
+						<!-- Dashboard Menu Item -->
 						<li class="nav-item active">
 							<a data-toggle="collapse" href="#dashboard" class="collapsed" aria-expanded="false">
 								<i class="fas fa-home"></i>
-								<p>Home</p>
+								<p>Dashboard</p>
 								<span class="caret"></span>
 							</a>
 							<div class="collapse" id="dashboard">
 								<ul class="nav nav-collapse">
 									<li>
-										<a href="{{ url_for('index') }}">
-											<span class="sub-item">Oggi</span>
-										</a>
-									</li>
-									<li>
 										<a href="{{ url_for('dashboard') }}">
-											<span class="sub-item">Calendario</span>
+											<span class="sub-item"><i class="fas fa-chart-line mr-2"></i>Dashboard</span>
 										</a>
 									</li>
 								</ul>
 							</div>
 						</li>
 
-						<li class="nav-section">
-							<span class="sidebar-mini-icon">
-								<i class="fa fa-ellipsis-h"></i>
-							</span>
-							<h4 class="text-section">Liturgia</h4>
-						</li>
-
+						<!-- Celebrazioni Section -->
 						<li class="nav-item">
 							<a data-toggle="collapse" href="#liturgia" class="collapsed" aria-expanded="false">
 								<i class="fas fa-book"></i>
@@ -199,27 +153,69 @@
 							</div>
 						</li>
 
+						<!-- Profile Section -->
 						<li class="nav-section">
 							<span class="sidebar-mini-icon">
 								<i class="fa fa-ellipsis-h"></i>
 							</span>
-							<h4 class="text-section">Sezioni</h4>
+							<h4 class="text-section">Profilo</h4>
 						</li>
+
 						<li class="nav-item">
-							<a data-toggle="collapse" href="#base">
-								<i class="fas fa-layer-group"></i>
-								<p>Components</p>
+							<a data-toggle="collapse" href="#profile-menu" class="collapsed" aria-expanded="false">
+								<i class="fas fa-user"></i>
+								<p>Il Mio Profilo</p>
 								<span class="caret"></span>
 							</a>
-							<div class="collapse" id="base">
+							<div class="collapse" id="profile-menu">
 								<ul class="nav nav-collapse">
 									<li>
-										<a href="#">
-											<span class="sub-item">Buttons</span>
+										<a href="{{ url_for('profile') }}">
+											<span class="sub-item"><i class="fas fa-user-circle mr-2"></i>Visualizza Profilo</span>
+										</a>
+									</li>
+									<li>
+										<a href="{{ url_for('profile_edit') }}">
+											<span class="sub-item"><i class="fas fa-edit mr-2"></i>Modifica Profilo</span>
+										</a>
+									</li>
+									<li>
+										<a href="{{ url_for('profile_settings') }}">
+											<span class="sub-item"><i class="fas fa-cog mr-2"></i>Impostazioni</span>
 										</a>
 									</li>
 								</ul>
 							</div>
+						</li>
+
+						<!-- Supporto Section -->
+						<li class="nav-section">
+							<span class="sidebar-mini-icon">
+								<i class="fa fa-ellipsis-h"></i>
+							</span>
+							<h4 class="text-section">Supporto</h4>
+						</li>
+
+						<li class="nav-item">
+							<a href="{{ url_for('help') }}" class="nav-link">
+								<i class="fas fa-question-circle"></i>
+								<p>Centro Aiuto</p>
+							</a>
+						</li>
+
+						<li class="nav-item">
+							<a href="{{ url_for('licenses') }}" class="nav-link">
+								<i class="fas fa-file-alt"></i>
+								<p>Licenze</p>
+							</a>
+						</li>
+
+						<!-- Logout -->
+						<li class="nav-item">
+							<a href="{{ url_for('logout') }}" class="nav-link">
+								<i class="fas fa-sign-out-alt"></i>
+								<p>Esci</p>
+							</a>
 						</li>
 					</ul>
 				</div>
@@ -261,11 +257,10 @@
 	<script src="{{ url_for('static', filename='js/core/popper.min.js') }}"></script>
 	<script src="{{ url_for('static', filename='js/core/bootstrap.min.js') }}"></script>
 
-
     <script src="{{ url_for('static', filename='js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js') }}"></script>
 	<script src="{{ url_for('static', filename='js/plugin/jquery-ui-touch-punch/jquery.ui.touch-punch.min.js') }}"></script>
 
-<!-- jQuery Scrollbar -->
+	<!-- jQuery Scrollbar -->
 	<script src="{{ url_for('static', filename='js/plugin/jquery-scrollbar/jquery.scrollbar.min.js') }}"></script>
 
 	<!-- Moment JS -->
@@ -291,7 +286,6 @@
 
 	<!-- Atlantis JS (AFTER jQuery UI + Circles) -->
 	<script src="{{ url_for('static', filename='js/atlantis.min.js') }}"></script>
-
 
 </body>
 </html>
