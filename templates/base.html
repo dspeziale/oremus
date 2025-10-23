@@ -181,17 +181,17 @@
 							<div class="collapse" id="liturgia">
 								<ul class="nav nav-collapse">
 									<li>
-										<a href="{{ url_for('lodi') }}">
+										<a href="{{ url_for('lodi_route') }}">
 											<span class="sub-item"><i class="fas fa-sun mr-2" style="color: #ffc107;"></i>Lodi Mattutine</span>
 										</a>
 									</li>
 									<li>
-										<a href="{{ url_for('vespri') }}">
+										<a href="{{ url_for('vespri_route') }}">
 											<span class="sub-item"><i class="fas fa-moon mr-2" style="color: #6c757d;"></i>Vespri</span>
 										</a>
 									</li>
 									<li>
-										<a href="{{ url_for('santi') }}">
+										<a href="{{ url_for('santi_route') }}">
 											<span class="sub-item"><i class="fas fa-cross mr-2" style="color: #dc3545;"></i>Santi del Giorno</span>
 										</a>
 									</li>
@@ -257,23 +257,41 @@
 	</div>
 
 	<!--   Core JS Files   -->
-	<script src="{{ url_for('static', filename='js/core/jquery.3.2.1.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/core/jquery.3.2.1.min.js') }}"></script>
 	<script src="{{ url_for('static', filename='js/core/popper.min.js') }}"></script>
 	<script src="{{ url_for('static', filename='js/core/bootstrap.min.js') }}"></script>
 
-	<!-- jQuery Scrollbar -->
+
+    <script src="{{ url_for('static', filename='js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='js/plugin/jquery-ui-touch-punch/jquery.ui.touch-punch.min.js') }}"></script>
+
+<!-- jQuery Scrollbar -->
 	<script src="{{ url_for('static', filename='js/plugin/jquery-scrollbar/jquery.scrollbar.min.js') }}"></script>
+
+	<!-- Moment JS -->
+	<script src="{{ url_for('static', filename='js/plugin/moment/moment.min.js') }}"></script>
 
 	<!-- Chart JS -->
 	<script src="{{ url_for('static', filename='js/plugin/chart.js/chart.min.js') }}"></script>
 
+	<!-- jQuery Sparkline -->
+	<script src="{{ url_for('static', filename='js/plugin/jquery.sparkline/jquery.sparkline.min.js') }}"></script>
+
+	<!-- ⭐ Chart Circle (MUST be BEFORE demo.js) -->
+	<script src="{{ url_for('static', filename='js/plugin/chart-circle/circles.min.js') }}"></script>
+
 	<!-- Datatables -->
 	<script src="{{ url_for('static', filename='js/plugin/datatables/datatables.min.js') }}"></script>
 
-	<!-- Atlantis JS -->
+	<!-- Bootstrap Notify -->
+	<script src="{{ url_for('static', filename='js/plugin/bootstrap-notify/bootstrap-notify.min.js') }}"></script>
+
+	<!-- Bootstrap Toggle -->
+	<script src="{{ url_for('static', filename='js/plugin/bootstrap-toggle/bootstrap-toggle.min.js') }}"></script>
+
+	<!-- Atlantis JS (AFTER jQuery UI + Circles) -->
 	<script src="{{ url_for('static', filename='js/atlantis.min.js') }}"></script>
 
-	<!-- Demo JS -->
-	<script src="{{ url_for('static', filename='js/demo.js') }}"></script>
+
 </body>
 </html>

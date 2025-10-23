@@ -131,7 +131,7 @@ class LiturgiaDBManager:
             )
         ''')
 
-        # Tabella per santi del giorno - FIXED
+        # Tabella per santi del giorno
         cursor.execute('''
             CREATE TABLE IF NOT EXISTS santi (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -140,7 +140,6 @@ class LiturgiaDBManager:
                 nome_santo TEXT NOT NULL,
                 martirologio TEXT,
                 tipo TEXT DEFAULT 'principale',
-                santo_principale TEXT,
                 FOREIGN KEY (giorno_id) REFERENCES giorni_liturgici(id) ON DELETE CASCADE
             )
         ''')
@@ -327,29 +326,27 @@ class LiturgiaDBManager:
             if santo_data.get('santo_principale'):
                 santo = santo_data['santo_principale']
                 cursor.execute('''
-                    INSERT INTO santi (giorno_id, giorno, nome_santo, martirologio, tipo, santo_principale)
-                    VALUES (?, ?, ?, ?, ?, ?)
+                    INSERT INTO santi (giorno_id, giorno, nome_santo, martirologio, tipo)
+                    VALUES (?, ?, ?, ?, ?)
                 ''', (
                     giorno_id,
                     santo_data.get('giorno'),
                     santo.get('nome'),
                     santo.get('martirologio'),
-                    'principale',
-                    santo.get('nome')
+                    'principale'
                 ))
 
             # Altri santi
             for santo in santo_data.get('altri_santi', []):
                 cursor.execute('''
-                    INSERT INTO santi (giorno_id, giorno, nome_santo, martirologio, tipo, santo_principale)
-                    VALUES (?, ?, ?, ?, ?, ?)
+                    INSERT INTO santi (giorno_id, giorno, nome_santo, martirologio, tipo)
+                    VALUES (?, ?, ?, ?, ?)
                 ''', (
                     giorno_id,
                     santo_data.get('giorno'),
                     santo.get('nome'),
                     santo.get('martirologio'),
-                    'altro',
-                    None
+                    'altro'
                 ))
 
             conn.commit()
