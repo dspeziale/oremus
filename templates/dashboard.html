@@ -1,172 +1,213 @@
 {% extends "base.html" %}
 
+{% block title %}Dashboard - Oremus{% endblock %}
+
 {% block content %}
-<!-- Dashboard Cards -->
-<div class="row">
-	<div class="col-md-3 mb-4">
-		<div class="card card-stats card-stats-primary">
-			<div class="card-body">
-				<div class="row">
-					<div class="col-3 text-center">
-						<div class="icon-big text-center icon-primary">
-							<i class="fas fa-users"></i>
-						</div>
-					</div>
-					<div class="col-9 text-right">
-						<div class="define">
-							<h3>1,234</h3>
-							<p>Utenti Registrati</p>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<div class="col-md-3 mb-4">
-		<div class="card card-stats card-stats-success">
-			<div class="card-body">
-				<div class="row">
-					<div class="col-3 text-center">
-						<div class="icon-big text-center icon-success">
-							<i class="fas fa-check-circle"></i>
-						</div>
-					</div>
-					<div class="col-9 text-right">
-						<div class="define">
-							<h3>856</h3>
-							<p>Vendite Completate</p>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<div class="col-md-3 mb-4">
-		<div class="card card-stats card-stats-danger">
-			<div class="card-body">
-				<div class="row">
-					<div class="col-3 text-center">
-						<div class="icon-big text-center icon-danger">
-							<i class="fas fa-shopping-cart"></i>
-						</div>
-					</div>
-					<div class="col-9 text-right">
-						<div class="define">
-							<h3>$45.632</h3>
-							<p>Totale Guadagni</p>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<div class="col-md-3 mb-4">
-		<div class="card card-stats card-stats-info">
-			<div class="card-body">
-				<div class="row">
-					<div class="col-3 text-center">
-						<div class="icon-big text-center icon-info">
-							<i class="fas fa-eye"></i>
-						</div>
-					</div>
-					<div class="col-9 text-right">
-						<div class="define">
-							<h3>98.765</h3>
-							<p>Visualizzazioni</p>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
-
-<!-- Charts Row -->
-<div class="row">
-	<div class="col-md-6">
-		<div class="card">
-			<div class="card-header">
-				<h4 class="card-title">Reddito Totale</h4>
-			</div>
-			<div class="card-body">
-				<canvas id="totalIncomeChart" height="250"></canvas>
-			</div>
-		</div>
-	</div>
-
-	<div class="col-md-6">
-		<div class="card">
-			<div class="card-header">
-				<h4 class="card-title">Statistiche Mensili</h4>
-			</div>
-			<div class="card-body">
-				<div class="row">
-					<div class="col-4 text-center">
-						<div id="circles-1"></div>
-					</div>
-					<div class="col-4 text-center">
-						<div id="circles-2"></div>
-					</div>
-					<div class="col-4 text-center">
-						<div id="circles-3"></div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
-
-<!-- Activity Row -->
-<div class="row">
+<div class="row mb-4">
 	<div class="col-md-12">
-		<div class="card">
-			<div class="card-header">
-				<h4 class="card-title">Attività Recente</h4>
+		<h3 class="text-white pb-2 fw-bold">
+			<i class="fas fa-calendar-alt mr-2"></i>Giorni Liturgici
+		</h3>
+		<p class="text-white op-7">Visualizza i giorni disponibili nel calendario liturgico</p>
+	</div>
+</div>
+
+<!-- Cards Container -->
+<div class="row" id="giorni-container">
+	<!-- I giorni verranno caricati qui via JavaScript -->
+	<div class="col-md-12">
+		<div class="text-center py-5">
+			<div class="spinner-border text-primary" role="status">
+				<span class="sr-only">Caricamento...</span>
 			</div>
-			<div class="card-body">
-				<div class="table-responsive">
-					<table class="table table-hover">
-						<thead>
-							<tr>
-								<th>Data</th>
-								<th>Evento</th>
-								<th>Utente</th>
-								<th>Stato</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td>21 Ott 2025</td>
-								<td>Nuovo utente registrato</td>
-								<td>Marco Rossi</td>
-								<td><span class="badge badge-success">Completato</span></td>
-							</tr>
-							<tr>
-								<td>20 Ott 2025</td>
-								<td>Ordine confermato</td>
-								<td>Giulia Bianchi</td>
-								<td><span class="badge badge-success">Completato</span></td>
-							</tr>
-							<tr>
-								<td>19 Ott 2025</td>
-								<td>Pagamento ricevuto</td>
-								<td>Andrea Verdi</td>
-								<td><span class="badge badge-warning">In Sospeso</span></td>
-							</tr>
-							<tr>
-								<td>18 Ott 2025</td>
-								<td>Supporto clienti</td>
-								<td>Sara Neri</td>
-								<td><span class="badge badge-info">Richiesta</span></td>
-							</tr>
-						</tbody>
-					</table>
-				</div>
-			</div>
+			<p class="text-muted mt-3">Caricamento dei giorni liturgici...</p>
 		</div>
 	</div>
 </div>
+
+<!-- No data message -->
+<div class="row" id="no-data" style="display: none;">
+	<div class="col-md-12">
+		<div class="alert alert-info text-center">
+			<i class="fas fa-info-circle mr-2"></i>
+			Nessun giorno disponibile nel database. Esegui il parser per popolare i dati.
+		</div>
+	</div>
+</div>
+
+<style>
+	.giorno-card {
+		background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+		border: none;
+		border-radius: 12px;
+		overflow: hidden;
+		transition: all 0.3s ease;
+		cursor: pointer;
+		color: white;
+		height: 100%;
+		min-height: 200px;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		text-align: center;
+		padding: 30px;
+	}
+
+	.giorno-card:hover {
+		transform: translateY(-8px);
+		box-shadow: 0 12px 24px rgba(102, 126, 234, 0.4);
+	}
+
+	.giorno-card.variant-2 {
+		background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+	}
+
+	.giorno-card.variant-3 {
+		background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+	}
+
+	.giorno-card.variant-4 {
+		background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+	}
+
+	.giorno-card.variant-5 {
+		background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+	}
+
+	.giorno-card.variant-6 {
+		background: linear-gradient(135deg, #30cfd0 0%, #330867 100%);
+	}
+
+	.giorno-card .data {
+		font-size: 2.5rem;
+		font-weight: 700;
+		margin-bottom: 10px;
+	}
+
+	.giorno-card .giorno-settimana {
+		font-size: 0.9rem;
+		opacity: 0.9;
+		margin-bottom: 15px;
+		text-transform: uppercase;
+		letter-spacing: 1px;
+	}
+
+	.giorno-card .santo-divider {
+		width: 40px;
+		height: 2px;
+		background: rgba(255, 255, 255, 0.5);
+		margin: 15px auto;
+	}
+
+	.giorno-card .santo-nome {
+		font-size: 1.3rem;
+		font-weight: 600;
+		line-height: 1.4;
+	}
+
+	.giorno-card .santo-tipo {
+		font-size: 0.8rem;
+		opacity: 0.8;
+		margin-top: 8px;
+		text-transform: uppercase;
+		letter-spacing: 0.5px;
+	}
+
+	.giorno-card .icon {
+		font-size: 2rem;
+		margin-bottom: 10px;
+		opacity: 0.9;
+	}
+
+	@media (max-width: 768px) {
+		.giorno-card .data {
+			font-size: 1.8rem;
+		}
+
+		.giorno-card .santo-nome {
+			font-size: 1rem;
+		}
+	}
+</style>
+
+<script>
+	// Array di varianti di colore per diversificare le card
+	const colorVariants = ['', 'variant-2', 'variant-3', 'variant-4', 'variant-5', 'variant-6'];
+
+	// Icone per i giorni della settimana
+	const iconMap = {
+		'lunedì': 'fa-moon',
+		'martedì': 'fa-fire',
+		'mercoledì': 'fa-leaf',
+		'giovedì': 'fa-cloud',
+		'venerdì': 'fa-cross',
+		'sabato': 'fa-star',
+		'domenica': 'fa-sun'
+	};
+
+	document.addEventListener('DOMContentLoaded', function() {
+		loadGiorni();
+	});
+
+	function loadGiorni() {
+		fetch('/api/dashboard/giorni')
+			.then(response => response.json())
+			.then(data => {
+				const container = document.getElementById('giorni-container');
+				const noData = document.getElementById('no-data');
+
+				if (!data.giorni || data.giorni.length === 0) {
+					container.style.display = 'none';
+					noData.style.display = 'block';
+					return;
+				}
+
+				container.innerHTML = '';
+				noData.style.display = 'none';
+
+				data.giorni.forEach((giorno, index) => {
+					const col = document.createElement('div');
+					col.className = 'col-lg-4 col-md-6 mb-4';
+
+					const variant = colorVariants[index % colorVariants.length];
+					const icon = iconMap[giorno.giorno_settimana.toLowerCase()] || 'fa-calendar';
+
+					let santoHtml = '';
+					if (giorno.santo_principale) {
+						santoHtml = `
+							<div class="santo-divider"></div>
+							<div class="santo-nome">${giorno.santo_principale}</div>
+							<div class="santo-tipo">Santo del Giorno</div>
+						`;
+					}
+
+					col.innerHTML = `
+						<div class="giorno-card ${variant}">
+							<div class="icon">
+								<i class="fas ${icon}"></i>
+							</div>
+							<div class="giorno-settimana">${giorno.giorno_settimana}</div>
+							<div class="data">${giorno.data}</div>
+							${santoHtml}
+						</div>
+					`;
+
+					container.appendChild(col);
+				});
+			})
+			.catch(error => {
+				console.error('Errore nel caricamento:', error);
+				const container = document.getElementById('giorni-container');
+				container.innerHTML = `
+					<div class="col-md-12">
+						<div class="alert alert-danger text-center">
+							<i class="fas fa-exclamation-circle mr-2"></i>
+							Errore nel caricamento dei dati.
+						</div>
+					</div>
+				`;
+			});
+	}
+</script>
 {% endblock %}

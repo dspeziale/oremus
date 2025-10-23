@@ -1,184 +1,152 @@
+"""
+Database Migration Script
+Adds the missing 'santo_principale' column to the santi table
+"""
+
 import sqlite3
 import os
-from datetime import datetime
-
-# Database path
-DB_PATH = 'instance/oremus.db'
+from pathlib import Path
 
 
-def get_table_columns(conn, table_name):
-    """Get list of columns for a table"""
-    cursor = conn.cursor()
-    cursor.execute(f"PRAGMA table_info({table_name})")
-    columns = [row[1] for row in cursor.fetchall()]
-    return columns
-
-
-def migrate_database():
-    """Migrate existing database to new schema"""
-
-    if not os.path.exists(DB_PATH):
-        print(f"❌ Database non trovato: {DB_PATH}")
+def backup_database(db_path: str):
+    """Create a backup of the database before migration"""
+    if not os.path.exists(db_path):
+        print(f"❌ Database not found at {db_path}")
         return False
 
-    conn = sqlite3.connect(DB_PATH)
-    cursor = conn.cursor()
-
-    print("🔄 Migrazione database in corso...\n")
-
+    backup_path = f"{db_path}.backup"
     try:
-        # ============================================
-        # VERIFICA E AGGIORNA: lodi_mattutine
-        # ============================================
-        print("📋 Controllando tabella: lodi_mattutine")
-        lodi_columns = get_table_columns(conn, 'lodi_mattutine')
-        print(f"   Colonne attuali: {lodi_columns}")
+        with open(db_path, 'rb') as source:
+            with open(backup_path, 'wb') as dest:
+                dest.write(source.read())
+        print(f"✅ Backup created at: {backup_path}")
+        return True
+    except Exception as e:
+        print(f"❌ Backup failed: {e}")
+        return False
 
-        if 'tipo' not in lodi_columns:
-            print("   ➕ Aggiungendo colonna: tipo")
-            cursor.execute('ALTER TABLE lodi_mattutine ADD COLUMN tipo TEXT DEFAULT NULL')
-            conn.commit()
-            print("   ✅ Colonna 'tipo' aggiunta")
-        else:
-            print("   ✅ Colonna 'tipo' già presente")
 
-        if 'gloria_al_padre' not in lodi_columns:
-            print("   ➕ Aggiungendo colonna: gloria_al_padre")
-            cursor.execute('ALTER TABLE lodi_mattutine ADD COLUMN gloria_al_padre TEXT DEFAULT NULL')
-            conn.commit()
-            print("   ✅ Colonna 'gloria_al_padre' aggiunta")
+def add_santo_principale_column(db_path: str):
+    """Add the santo_principale column to existing santi table"""
+    try:
+        conn = sqlite3.connect(db_path)
+        cursor = conn.cursor()
 
-        # ============================================
-        # VERIFICA E AGGIORNA: vespri
-        # ============================================
-        print("\n📋 Controllando tabella: vespri")
-        vespri_columns = get_table_columns(conn, 'vespri')
-        print(f"   Colonne attuali: {vespri_columns}")
+        # Check if column already exists
+        cursor.execute("PRAGMA table_info(santi);")
+        columns = [col[1] for col in cursor.fetchall()]
 
-        if 'tipo' not in vespri_columns:
-            print("   ➕ Aggiungendo colonna: tipo")
-            cursor.execute('ALTER TABLE vespri ADD COLUMN tipo TEXT DEFAULT NULL')
-            conn.commit()
-            print("   ✅ Colonna 'tipo' aggiunta")
-        else:
-            print("   ✅ Colonna 'tipo' già presente")
+        if 'santo_principale' in columns:
+            print("✓ Column 'santo_principale' already exists")
+            conn.close()
+            return True
 
-        if 'gloria_al_padre' not in vespri_columns:
-            print("   ➕ Aggiungendo colonna: gloria_al_padre")
-            cursor.execute('ALTER TABLE vespri ADD COLUMN gloria_al_padre TEXT DEFAULT NULL')
-            conn.commit()
-            print("   ✅ Colonna 'gloria_al_padre' aggiunta")
+        # Add the column
+        print("Adding 'santo_principale' column...")
+        cursor.execute('ALTER TABLE santi ADD COLUMN santo_principale TEXT;')
 
-        # ============================================
-        # VERIFICA E AGGIORNA: santi
-        # ============================================
-        print("\n📋 Controllando tabella: santi")
-        try:
-            santi_columns = get_table_columns(conn, 'santi')
-            print(f"   Colonne attuali: {santi_columns}")
-        except:
-            print("   ℹ️  Tabella non esiste, verrà creata")
+        # Populate the column based on tipo = 'principale'
+        print("Populating 'santo_principale' column...")
+        cursor.execute('''
+            UPDATE santi 
+            SET santo_principale = nome_santo 
+            WHERE tipo = 'principale'
+        ''')
+
+        conn.commit()
+        print(f"✅ Updated {cursor.rowcount} rows")
+        conn.close()
+        return True
+
+    except sqlite3.OperationalError as e:
+        print(f"❌ Migration failed: {e}")
+        return False
+    except Exception as e:
+        print(f"❌ Unexpected error: {e}")
+        return False
+
+
+def verify_schema(db_path: str):
+    """Verify the schema after migration"""
+    try:
+        conn = sqlite3.connect(db_path)
+        cursor = conn.cursor()
+
+        print("\n📋 Current santi table schema:")
+        print("-" * 50)
+
+        cursor.execute("PRAGMA table_info(santi);")
+        columns = cursor.fetchall()
+
+        for col_id, col_name, col_type, not_null, default, pk in columns:
+            nullable = "NOT NULL" if not_null else "NULL"
+            print(f"  {col_name:20} {col_type:10} {nullable}")
+
+        print("-" * 50)
+
+        # Show sample data
+        cursor.execute("SELECT COUNT(*) FROM santi;")
+        count = cursor.fetchone()[0]
+        print(f"\n📊 Total saints in database: {count}")
+
+        if count > 0:
+            print("\n📌 Sample data:")
             cursor.execute('''
-                CREATE TABLE IF NOT EXISTS santi (
-                    id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    giorno_id INTEGER NOT NULL,
-                    giorno TEXT NOT NULL,
-                    nome_santo TEXT NOT NULL,
-                    martirologio TEXT,
-                    tipo TEXT DEFAULT 'principale',
-                    FOREIGN KEY (giorno_id) REFERENCES giorni_liturgici(id) ON DELETE CASCADE
-                )
+                SELECT giorno, nome_santo, tipo, santo_principale 
+                FROM santi 
+                LIMIT 3
             ''')
-            conn.commit()
-            print("   ✅ Tabella 'santi' creata")
-
-        # ============================================
-        # VERIFICA E AGGIORNA: utenti
-        # ============================================
-        print("\n📋 Controllando tabella: utenti")
-        try:
-            utenti_columns = get_table_columns(conn, 'utenti')
-            print(f"   Colonne attuali: {utenti_columns}")
-        except:
-            print("   ℹ️  Tabella non esiste, verrà creata")
-            cursor.execute('''
-                CREATE TABLE IF NOT EXISTS utenti (
-                    id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    nome TEXT NOT NULL,
-                    email TEXT UNIQUE NOT NULL,
-                    password TEXT NOT NULL,
-                    telefono TEXT,
-                    ruolo TEXT DEFAULT 'user',
-                    is_active BOOLEAN DEFAULT 1,
-                    is_verified BOOLEAN DEFAULT 0,
-                    data_registrazione TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                    ultimo_accesso TIMESTAMP,
-                    bio TEXT,
-                    indirizzo TEXT,
-                    citta TEXT,
-                    cap TEXT,
-                    provincia TEXT,
-                    paese TEXT
-                )
-            ''')
-            conn.commit()
-            print("   ✅ Tabella 'utenti' creata")
-
-        # ============================================
-        # STATISTICHE
-        # ============================================
-        print("\n" + "=" * 70)
-        print("📊 STATISTICHE DATABASE")
-        print("=" * 70)
-
-        cursor.execute("SELECT COUNT(*) FROM giorni_liturgici")
-        days_count = cursor.fetchone()[0]
-        print(f"📅 Giorni liturgici: {days_count}")
-
-        cursor.execute("SELECT COUNT(*) FROM lodi_mattutine")
-        lodi_count = cursor.fetchone()[0]
-        print(f"🙏 Lodi Mattutine: {lodi_count}")
-
-        cursor.execute("SELECT COUNT(*) FROM vespri")
-        vespri_count = cursor.fetchone()[0]
-        print(f"🌙 Vespri: {vespri_count}")
-
-        try:
-            cursor.execute("SELECT COUNT(*) FROM santi")
-            santi_count = cursor.fetchone()[0]
-            print(f"✝️  Santi: {santi_count}")
-        except:
-            print(f"✝️  Santi: N/A")
-
-        try:
-            cursor.execute("SELECT COUNT(*) FROM utenti")
-            users_count = cursor.fetchone()[0]
-            print(f"👥 Utenti: {users_count}")
-        except:
-            print(f"👥 Utenti: N/A")
-
-        print("=" * 70)
+            for row in cursor.fetchall():
+                print(f"  {row}")
 
         conn.close()
-        print("\n✅ Migrazione completata con successo!\n")
         return True
 
     except Exception as e:
-        print(f"\n❌ Errore durante la migrazione: {e}")
-        import traceback
-        traceback.print_exc()
-        conn.close()
+        print(f"❌ Verification failed: {e}")
         return False
 
 
-if __name__ == '__main__':
-    print("\n" + "=" * 70)
-    print("🔄 MIGRAZIONE DATABASE OREMUS")
-    print("=" * 70 + "\n")
+def main():
+    db_path = "instance/oremus.db"
 
-    success = migrate_database()
+    print("=" * 60)
+    print("🔄 DATABASE MIGRATION SCRIPT")
+    print("=" * 60)
 
-    if success:
-        print("🎉 Migrazione completata! Ora puoi eseguire: python app.py\n")
-    else:
-        print("⚠️  Errore durante la migrazione\n")
+    # Check if database exists
+    if not os.path.exists(db_path):
+        print(f"❌ Database not found at {db_path}")
+        print("   Please run your data import script first.")
+        return False
+
+    print(f"📁 Target database: {db_path}\n")
+
+    # Backup database
+    print("Step 1: Creating backup...")
+    if not backup_database(db_path):
+        print("❌ Failed to create backup. Migration aborted.")
+        return False
+
+    # Add column
+    print("\nStep 2: Adding missing column...")
+    if not add_santo_principale_column(db_path):
+        print("❌ Migration failed. Your backup is at {db_path}.backup")
+        return False
+
+    # Verify
+    print("\nStep 3: Verifying schema...")
+    if not verify_schema(db_path):
+        print("❌ Verification failed")
+        return False
+
+    print("\n" + "=" * 60)
+    print("✅ MIGRATION COMPLETED SUCCESSFULLY!")
+    print("=" * 60)
+    print("\nYour database has been updated and is ready to use.")
+    return True
+
+
+if __name__ == "__main__":
+    success = main()
+    exit(0 if success else 1)
