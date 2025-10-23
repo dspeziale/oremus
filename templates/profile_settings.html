@@ -1,0 +1,262 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+	<div class="col-md-3">
+		<!-- Settings Navigation -->
+		<div class="card">
+			<div class="list-group list-group-flush">
+				<a href="#general" class="list-group-item list-group-item-action active" data-toggle="list">
+					<i class="fas fa-cog mr-2"></i>Impostazioni Generali
+				</a>
+				<a href="#privacy" class="list-group-item list-group-item-action" data-toggle="list">
+					<i class="fas fa-lock mr-2"></i>Privacy e Sicurezza
+				</a>
+				<a href="#notifications" class="list-group-item list-group-item-action" data-toggle="list">
+					<i class="fas fa-bell mr-2"></i>Notifiche
+				</a>
+				<a href="#preferences" class="list-group-item list-group-item-action" data-toggle="list">
+					<i class="fas fa-sliders-h mr-2"></i>Preferenze
+				</a>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-md-9">
+		<!-- Settings Content -->
+		<div class="tab-content">
+			<!-- General Settings -->
+			<div class="tab-pane fade show active" id="general">
+				<div class="card">
+					<div class="card-header">
+						<h4 class="card-title">Impostazioni Generali</h4>
+					</div>
+					<div class="card-body">
+						<form method="POST">
+							<div class="form-group">
+								<label for="lingua" class="form-label">Lingua</label>
+								<select class="form-control" id="lingua" name="lingua">
+									<option value="it" selected>Italiano</option>
+									<option value="en">English</option>
+									<option value="es">Español</option>
+									<option value="fr">Français</option>
+									<option value="de">Deutsch</option>
+								</select>
+								<small class="form-text text-muted">Seleziona la lingua dell'interfaccia</small>
+							</div>
+
+							<div class="form-group">
+								<label for="tema" class="form-label">Tema</label>
+								<select class="form-control" id="tema" name="tema">
+									<option value="light" selected>Chiaro</option>
+									<option value="dark">Scuro</option>
+									<option value="auto">Automatico</option>
+								</select>
+								<small class="form-text text-muted">Scegli il tema dell'interfaccia</small>
+							</div>
+
+							<div class="form-group">
+								<label for="fuso_orario" class="form-label">Fuso Orario</label>
+								<select class="form-control" id="fuso_orario" name="fuso_orario">
+									<option value="Europe/Rome" selected>Europe/Rome (UTC+1)</option>
+									<option value="Europe/London">Europe/London (UTC+0)</option>
+									<option value="Europe/Paris">Europe/Paris (UTC+1)</option>
+									<option value="America/New_York">America/New_York (UTC-5)</option>
+									<option value="America/Los_Angeles">America/Los_Angeles (UTC-8)</option>
+								</select>
+								<small class="form-text text-muted">Seleziona il tuo fuso orario</small>
+							</div>
+
+							<button type="submit" class="btn btn-primary">
+								<i class="fas fa-save mr-2"></i>Salva Modifiche
+							</button>
+						</form>
+					</div>
+				</div>
+			</div>
+
+			<!-- Privacy and Security -->
+			<div class="tab-pane fade" id="privacy">
+				<div class="card">
+					<div class="card-header">
+						<h4 class="card-title">Privacy e Sicurezza</h4>
+					</div>
+					<div class="card-body">
+						<h5 class="mb-3">Autenticazione a Due Fattori</h5>
+						<div class="custom-control custom-switch mb-4">
+							<input type="checkbox" class="custom-control-input" id="two_factor" name="two_factor">
+							<label class="custom-control-label" for="two_factor">
+								Abilita autenticazione a due fattori (2FA)
+							</label>
+						</div>
+						<small class="form-text text-muted d-block mb-4">
+							Aggiungi un livello extra di sicurezza al tuo account
+						</small>
+
+						<hr>
+
+						<h5 class="mb-3">Dispositivi Collegati</h5>
+						<div class="list-group">
+							<div class="list-group-item">
+								<div class="row align-items-center">
+									<div class="col">
+										<h6 class="mb-1">Chrome - Windows 10</h6>
+										<small class="text-muted">Ultimo accesso: 22 Ott 2025 ore 15:30</small>
+									</div>
+									<div class="col-auto">
+										<button class="btn btn-sm btn-outline-danger">Disconnetti</button>
+									</div>
+								</div>
+							</div>
+							<div class="list-group-item">
+								<div class="row align-items-center">
+									<div class="col">
+										<h6 class="mb-1">Safari - iPhone</h6>
+										<small class="text-muted">Ultimo accesso: 20 Ott 2025 ore 10:15</small>
+									</div>
+									<div class="col-auto">
+										<button class="btn btn-sm btn-outline-danger">Disconnetti</button>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<hr>
+
+						<h5 class="mb-3">Disconnetti da Tutti gli Dispositivi</h5>
+						<p class="text-muted small">Ti disconnetterà da tutti i tuoi dispositivi eccetto questo</p>
+						<button class="btn btn-danger">
+							<i class="fas fa-sign-out-alt mr-2"></i>Disconnetti Ovunque
+						</button>
+					</div>
+				</div>
+			</div>
+
+			<!-- Notifications -->
+			<div class="tab-pane fade" id="notifications">
+				<div class="card">
+					<div class="card-header">
+						<h4 class="card-title">Preferenze Notifiche</h4>
+					</div>
+					<div class="card-body">
+						<h5 class="mb-3">Email</h5>
+						<div class="custom-control custom-checkbox mb-3">
+							<input type="checkbox" class="custom-control-input" id="email_news" name="email_news" checked>
+							<label class="custom-control-label" for="email_news">
+								Ricevi newsletter
+							</label>
+						</div>
+						<div class="custom-control custom-checkbox mb-3">
+							<input type="checkbox" class="custom-control-input" id="email_promo" name="email_promo" checked>
+							<label class="custom-control-label" for="email_promo">
+								Ricevi promozioni e offerte speciali
+							</label>
+						</div>
+						<div class="custom-control custom-checkbox mb-4">
+							<input type="checkbox" class="custom-control-input" id="email_updates" name="email_updates" checked>
+							<label class="custom-control-label" for="email_updates">
+								Ricevi aggiornamenti su ordini e account
+							</label>
+						</div>
+
+						<hr>
+
+						<h5 class="mb-3">Browser</h5>
+						<div class="custom-control custom-checkbox mb-3">
+							<input type="checkbox" class="custom-control-input" id="browser_desktop" name="browser_desktop">
+							<label class="custom-control-label" for="browser_desktop">
+								Abilita notifiche browser desktop
+							</label>
+						</div>
+						<div class="custom-control custom-checkbox mb-4">
+							<input type="checkbox" class="custom-control-input" id="browser_sound" name="browser_sound" checked>
+							<label class="custom-control-label" for="browser_sound">
+								Suono notifiche
+							</label>
+						</div>
+
+						<button type="submit" class="btn btn-primary">
+							<i class="fas fa-save mr-2"></i>Salva Preferenze
+						</button>
+					</div>
+				</div>
+			</div>
+
+			<!-- Preferences -->
+			<div class="tab-pane fade" id="preferences">
+				<div class="card">
+					<div class="card-header">
+						<h4 class="card-title">Altre Preferenze</h4>
+					</div>
+					<div class="card-body">
+						<h5 class="mb-3">Dati e Privacy</h5>
+						<div class="mb-4">
+							<button class="btn btn-outline-primary">
+								<i class="fas fa-download mr-2"></i>Scarica i Miei Dati
+							</button>
+							<small class="form-text text-muted d-block mt-2">
+								Scarica una copia di tutti i tuoi dati personali
+							</small>
+						</div>
+
+						<hr>
+
+						<h5 class="mb-3">Zona Pericolosa</h5>
+						<p class="text-danger mb-3">
+							<strong>Attenzione!</strong> Le seguenti azioni sono permanenti e non possono essere annullate.
+						</p>
+						<button class="btn btn-danger" data-toggle="modal" data-target="#deleteAccountModal">
+							<i class="fas fa-trash mr-2"></i>Elimina Account Permanentemente
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Delete Account Modal -->
+<div class="modal fade" id="deleteAccountModal" tabindex="-1" role="dialog" aria-labelledby="deleteAccountLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header bg-danger">
+				<h5 class="modal-title text-white" id="deleteAccountLabel">Elimina Account Permanentemente</h5>
+				<button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<p class="text-danger"><strong>Avvertenza:</strong> Questa azione eliminerà permanentemente il tuo account e tutti i dati ad esso associati.</p>
+				<p>Inserisci la tua password per confermare:</p>
+				<input type="password" class="form-control" id="confirmPassword" placeholder="Password">
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Annulla</button>
+				<button type="button" class="btn btn-danger">Elimina Definitivamente</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<style>
+	.list-group-item.active {
+		background-color: #667eea;
+		border-color: #667eea;
+	}
+
+	.form-label {
+		font-weight: 600;
+		color: #333;
+	}
+
+	.custom-switch .custom-control-label {
+		cursor: pointer;
+	}
+
+	hr {
+		margin: 2rem 0;
+		border: none;
+		border-top: 1px solid #e3e6f0;
+	}
+</style>
+{% endblock %}

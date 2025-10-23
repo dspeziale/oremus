@@ -1,0 +1,142 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+	<div class="col-md-8 offset-md-2">
+		<div class="card">
+			<div class="card-header">
+				<h4 class="card-title">
+					<i class="fas fa-edit mr-2"></i>Modifica Profilo
+				</h4>
+			</div>
+			<div class="card-body">
+				<form method="POST" enctype="multipart/form-data">
+					<div class="row">
+						<div class="col-md-6 mb-3">
+							<label for="nome" class="form-label">Nome Completo *</label>
+							<input type="text" class="form-control" id="nome" name="nome" placeholder="Inserisci il nome" value="{{ profile.nome if profile else '' }}" required>
+						</div>
+						<div class="col-md-6 mb-3">
+							<label for="email" class="form-label">Email *</label>
+							<input type="email" class="form-control" id="email" name="email" placeholder="Inserisci l'email" value="{{ profile.email if profile else '' }}" required>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-md-6 mb-3">
+							<label for="telefono" class="form-label">Telefono</label>
+							<input type="tel" class="form-control" id="telefono" name="telefono" placeholder="+39 ..." value="{{ profile.telefono if profile else '' }}">
+						</div>
+						<div class="col-md-6 mb-3">
+							<label for="data_nascita" class="form-label">Data di Nascita</label>
+							<input type="date" class="form-control" id="data_nascita" name="data_nascita" value="{{ profile.data_nascita if profile else '' }}">
+						</div>
+					</div>
+
+					<div class="mb-3">
+						<label for="bio" class="form-label">Bio</label>
+						<textarea class="form-control" id="bio" name="bio" rows="4" placeholder="Descrivi te stesso...">{{ profile.bio if profile else '' }}</textarea>
+					</div>
+
+					<div class="mb-3">
+						<label for="avatar" class="form-label">Foto Profilo</label>
+						<div class="custom-file">
+							<input type="file" class="custom-file-input" id="avatar" name="avatar" accept="image/*">
+							<label class="custom-file-label" for="avatar">Seleziona file...</label>
+						</div>
+						{% if profile and profile.avatar_url %}
+						<small class="text-muted d-block mt-2">Foto attuale: <img src="{{ profile.avatar_url }}" alt="Avatar" style="max-width: 100px; border-radius: 5px;"></small>
+						{% endif %}
+					</div>
+
+					<hr>
+
+					<h5 class="mb-3">Indirizzo</h5>
+
+					<div class="mb-3">
+						<label for="indirizzo" class="form-label">Via/Indirizzo</label>
+						<input type="text" class="form-control" id="indirizzo" name="indirizzo" placeholder="Via..." value="{{ profile.indirizzo if profile else '' }}">
+					</div>
+
+					<div class="row">
+						<div class="col-md-6 mb-3">
+							<label for="citta" class="form-label">Città</label>
+							<input type="text" class="form-control" id="citta" name="citta" placeholder="Città" value="{{ profile.citta if profile else '' }}">
+						</div>
+						<div class="col-md-3 mb-3">
+							<label for="provincia" class="form-label">Provincia</label>
+							<input type="text" class="form-control" id="provincia" name="provincia" placeholder="PR" value="{{ profile.provincia if profile else '' }}" maxlength="2">
+						</div>
+						<div class="col-md-3 mb-3">
+							<label for="cap" class="form-label">CAP</label>
+							<input type="text" class="form-control" id="cap" name="cap" placeholder="00000" value="{{ profile.cap if profile else '' }}" maxlength="5">
+						</div>
+					</div>
+
+					<div class="mb-3">
+						<label for="paese" class="form-label">Paese</label>
+						<input type="text" class="form-control" id="paese" name="paese" placeholder="Italia" value="{{ profile.paese if profile else '' }}">
+					</div>
+
+					<hr>
+
+					<div class="form-group">
+						<div class="custom-control custom-checkbox">
+							<input type="checkbox" class="custom-control-input" id="newsletter" name="newsletter" {% if profile and profile.newsletter %}checked{% endif %}>
+							<label class="custom-control-label" for="newsletter">
+								Desidero ricevere newsletter e promozioni
+							</label>
+						</div>
+					</div>
+
+					<div class="alert alert-info" role="alert">
+						<i class="fas fa-info-circle mr-2"></i>
+						<small>I campi contrassegnati con * sono obbligatori.</small>
+					</div>
+
+					<div class="mt-4">
+						<button type="submit" class="btn btn-primary btn-lg">
+							<i class="fas fa-save mr-2"></i>Salva Modifiche
+						</button>
+						<a href="{{ url_for('profile') }}" class="btn btn-secondary btn-lg">
+							<i class="fas fa-times mr-2"></i>Annulla
+						</a>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+	// Update custom file input label
+	document.getElementById('avatar').addEventListener('change', function(e) {
+		let label = document.querySelector('.custom-file-label');
+		let fileName = e.target.files[0] ? e.target.files[0].name : 'Seleziona file...';
+		label.textContent = fileName;
+	});
+</script>
+
+<style>
+	.form-label {
+		font-weight: 600;
+		color: #333;
+		margin-bottom: 0.5rem;
+	}
+
+	.form-control:focus {
+		border-color: #667eea;
+		box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+	}
+
+	.custom-file-label::after {
+		content: "Sfoglia";
+	}
+
+	hr {
+		margin: 2rem 0;
+		border: none;
+		border-top: 1px solid #e3e6f0;
+	}
+</style>
+{% endblock %}

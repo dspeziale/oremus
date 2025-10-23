@@ -1,9 +1,5 @@
 {% extends "base.html" %}
 
-{% block title %}Oggi - Oremus{% endblock %}
-{% block page_title %}Oggi{% endblock %}
-{% block page_subtitle %}{{ giorno.data if giorno else 'Caricamento...' }}{% endblock %}
-
 {% block content %}
 <div class="row">
 	<!-- Card Santo del Giorno -->
@@ -24,7 +20,11 @@
 						{% endif %}
 					{% endfor %}
 				{% else %}
-				<p>Nessun santo disponibile</p>
+				<div class="saint-main">
+					<i class="fas fa-cross fa-3x mb-3"></i>
+					<h2>Nessun Santo</h2>
+					<p class="lead">Dati non disponibili per oggi</p>
+				</div>
 				{% endif %}
 			</div>
 		</div>
@@ -54,15 +54,24 @@
 						</div>
 						{% endif %}
 
-						{% if lodi.salmi %}
+						{% if lodi.lettura_breve %}
 						<div class="mb-3">
-							<small class="text-muted d-block mb-2">Salmi</small>
-							{% for salmo in lodi.salmi[:2] %}
-							<div class="psalm-item mb-2">
-								<strong>{{ salmo.titolo }}</strong>
-								<p class="text-muted small">{{ salmo.antifona_testo[:100] }}...</p>
-							</div>
-							{% endfor %}
+							<small class="text-muted">Lettura Breve</small>
+							<p class="text-justify">{{ lodi.lettura_breve }}</p>
+						</div>
+						{% endif %}
+
+						{% if lodi.responsorio_breve %}
+						<div class="mb-3">
+							<small class="text-muted">Responsorio Breve</small>
+							<p class="text-justify">{{ lodi.responsorio_breve }}</p>
+						</div>
+						{% endif %}
+
+						{% if lodi.cantico_finale %}
+						<div class="mb-3">
+							<small class="text-muted">Cantico Finale</small>
+							<p class="text-justify">{{ lodi.cantico_finale }}</p>
 						</div>
 						{% endif %}
 
@@ -71,7 +80,10 @@
 						</a>
 					</div>
 				{% else %}
-				<p class="text-muted">Lodi non disponibili per oggi</p>
+				<div class="alert alert-info" role="alert">
+					<i class="fas fa-info-circle mr-2"></i>
+					<strong>Nessun dato disponibile</strong> per le Lodi Mattutine di oggi.
+				</div>
 				{% endif %}
 			</div>
 		</div>
@@ -99,15 +111,24 @@
 						</div>
 						{% endif %}
 
-						{% if vespri.salmi %}
+						{% if vespri.lettura_breve %}
 						<div class="mb-3">
-							<small class="text-muted d-block mb-2">Salmi</small>
-							{% for salmo in vespri.salmi[:2] %}
-							<div class="psalm-item mb-2">
-								<strong>{{ salmo.titolo }}</strong>
-								<p class="text-muted small">{{ salmo.antifona_testo[:100] }}...</p>
-							</div>
-							{% endfor %}
+							<small class="text-muted">Lettura Breve</small>
+							<p class="text-justify">{{ vespri.lettura_breve }}</p>
+						</div>
+						{% endif %}
+
+						{% if vespri.responsorio_breve %}
+						<div class="mb-3">
+							<small class="text-muted">Responsorio Breve</small>
+							<p class="text-justify">{{ vespri.responsorio_breve }}</p>
+						</div>
+						{% endif %}
+
+						{% if vespri.cantico_finale %}
+						<div class="mb-3">
+							<small class="text-muted">Cantico Finale</small>
+							<p class="text-justify">{{ vespri.cantico_finale }}</p>
 						</div>
 						{% endif %}
 
@@ -116,12 +137,42 @@
 						</a>
 					</div>
 				{% else %}
-				<p class="text-muted">Vespri non disponibili per oggi</p>
+				<div class="alert alert-info" role="alert">
+					<i class="fas fa-info-circle mr-2"></i>
+					<strong>Nessun dato disponibile</strong> per i Vespri di oggi.
+				</div>
 				{% endif %}
 			</div>
 		</div>
 	</div>
 </div>
+
+<!-- Data e Giorno -->
+{% if giorno %}
+<div class="row">
+	<div class="col-md-12">
+		<div class="card">
+			<div class="card-header">
+				<h4 class="card-title">
+					<i class="fas fa-calendar mr-2"></i>Informazioni Giorno
+				</h4>
+			</div>
+			<div class="card-body">
+				<div class="row">
+					<div class="col-md-6">
+						<h6>Data</h6>
+						<p><strong>{{ giorno.data }}</strong></p>
+					</div>
+					<div class="col-md-6">
+						<h6>Giorno della Settimana</h6>
+						<p><strong>{{ giorno.giorno_settimana }}</strong></p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endif %}
 
 <!-- Altri Santi del Giorno -->
 {% if santi|length > 1 %}
@@ -141,7 +192,7 @@
 							<div class="saint-card p-3 border rounded">
 								<h6>{{ santo.nome_santo }}</h6>
 								{% if santo.martirologio %}
-								<p class="text-muted small">{{ santo.martirologio[:150] }}</p>
+								<p class="text-muted small">{{ santo.martirologio[:150] }}...</p>
 								{% endif %}
 							</div>
 						</div>
@@ -206,6 +257,14 @@
 	.btn-rounded {
 		border-radius: 20px;
 		padding: 6px 16px;
+	}
+
+	.text-justify {
+		text-align: justify;
+	}
+
+	.bg-light {
+		background-color: #f8f9fa !important;
 	}
 </style>
 {% endblock %}

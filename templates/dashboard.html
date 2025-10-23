@@ -1,0 +1,172 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Dashboard Cards -->
+<div class="row">
+	<div class="col-md-3 mb-4">
+		<div class="card card-stats card-stats-primary">
+			<div class="card-body">
+				<div class="row">
+					<div class="col-3 text-center">
+						<div class="icon-big text-center icon-primary">
+							<i class="fas fa-users"></i>
+						</div>
+					</div>
+					<div class="col-9 text-right">
+						<div class="define">
+							<h3>1,234</h3>
+							<p>Utenti Registrati</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-md-3 mb-4">
+		<div class="card card-stats card-stats-success">
+			<div class="card-body">
+				<div class="row">
+					<div class="col-3 text-center">
+						<div class="icon-big text-center icon-success">
+							<i class="fas fa-check-circle"></i>
+						</div>
+					</div>
+					<div class="col-9 text-right">
+						<div class="define">
+							<h3>856</h3>
+							<p>Vendite Completate</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-md-3 mb-4">
+		<div class="card card-stats card-stats-danger">
+			<div class="card-body">
+				<div class="row">
+					<div class="col-3 text-center">
+						<div class="icon-big text-center icon-danger">
+							<i class="fas fa-shopping-cart"></i>
+						</div>
+					</div>
+					<div class="col-9 text-right">
+						<div class="define">
+							<h3>$45.632</h3>
+							<p>Totale Guadagni</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-md-3 mb-4">
+		<div class="card card-stats card-stats-info">
+			<div class="card-body">
+				<div class="row">
+					<div class="col-3 text-center">
+						<div class="icon-big text-center icon-info">
+							<i class="fas fa-eye"></i>
+						</div>
+					</div>
+					<div class="col-9 text-right">
+						<div class="define">
+							<h3>98.765</h3>
+							<p>Visualizzazioni</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Charts Row -->
+<div class="row">
+	<div class="col-md-6">
+		<div class="card">
+			<div class="card-header">
+				<h4 class="card-title">Reddito Totale</h4>
+			</div>
+			<div class="card-body">
+				<canvas id="totalIncomeChart" height="250"></canvas>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-md-6">
+		<div class="card">
+			<div class="card-header">
+				<h4 class="card-title">Statistiche Mensili</h4>
+			</div>
+			<div class="card-body">
+				<div class="row">
+					<div class="col-4 text-center">
+						<div id="circles-1"></div>
+					</div>
+					<div class="col-4 text-center">
+						<div id="circles-2"></div>
+					</div>
+					<div class="col-4 text-center">
+						<div id="circles-3"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Activity Row -->
+<div class="row">
+	<div class="col-md-12">
+		<div class="card">
+			<div class="card-header">
+				<h4 class="card-title">Attività Recente</h4>
+			</div>
+			<div class="card-body">
+				<div class="table-responsive">
+					<table class="table table-hover">
+						<thead>
+							<tr>
+								<th>Data</th>
+								<th>Evento</th>
+								<th>Utente</th>
+								<th>Stato</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>21 Ott 2025</td>
+								<td>Nuovo utente registrato</td>
+								<td>Marco Rossi</td>
+								<td><span class="badge badge-success">Completato</span></td>
+							</tr>
+							<tr>
+								<td>20 Ott 2025</td>
+								<td>Ordine confermato</td>
+								<td>Giulia Bianchi</td>
+								<td><span class="badge badge-success">Completato</span></td>
+							</tr>
+							<tr>
+								<td>19 Ott 2025</td>
+								<td>Pagamento ricevuto</td>
+								<td>Andrea Verdi</td>
+								<td><span class="badge badge-warning">In Sospeso</span></td>
+							</tr>
+							<tr>
+								<td>18 Ott 2025</td>
+								<td>Supporto clienti</td>
+								<td>Sara Neri</td>
+								<td><span class="badge badge-info">Richiesta</span></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

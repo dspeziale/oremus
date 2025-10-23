@@ -1,0 +1,220 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+	<div class="col-md-12">
+		<div class="card">
+			<div class="card-header">
+				<h3 class="card-title">
+					<i class="fas fa-question-circle mr-2"></i>Centro Aiuto
+				</h3>
+			</div>
+			<div class="card-body">
+				<!-- Search Bar -->
+				<div class="mb-4">
+					<input type="text" class="form-control form-control-lg" id="searchHelp" placeholder="Cerca aiuto...">
+				</div>
+
+				<!-- Help Categories -->
+				<div class="row">
+					<div class="col-md-6 mb-3">
+						<div class="card bg-light">
+							<div class="card-body text-center">
+								<i class="fas fa-user fa-3x text-primary mb-3"></i>
+								<h5>Il Mio Account</h5>
+								<p class="text-muted small">Gestisci profilo e impostazioni</p>
+								<a href="#account" class="btn btn-sm btn-primary">Scopri di più</a>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-6 mb-3">
+						<div class="card bg-light">
+							<div class="card-body text-center">
+								<i class="fas fa-lock fa-3x text-success mb-3"></i>
+								<h5>Sicurezza</h5>
+								<p class="text-muted small">Password, 2FA e protezione</p>
+								<a href="#security" class="btn btn-sm btn-success">Scopri di più</a>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-6 mb-3">
+						<div class="card bg-light">
+							<div class="card-body text-center">
+								<i class="fas fa-shopping-cart fa-3x text-warning mb-3"></i>
+								<h5>Ordini</h5>
+								<p class="text-muted small">Tracciamento e resi</p>
+								<a href="#orders" class="btn btn-sm btn-warning">Scopri di più</a>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-6 mb-3">
+						<div class="card bg-light">
+							<div class="card-body text-center">
+								<i class="fas fa-envelope fa-3x text-danger mb-3"></i>
+								<h5>Notifiche</h5>
+								<p class="text-muted small">Email e preferenze</p>
+								<a href="#notifications" class="btn btn-sm btn-danger">Scopri di più</a>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<hr class="my-5">
+
+				<!-- FAQ Section -->
+				<h4 class="mb-4">Domande Frequenti</h4>
+
+				<div class="accordion" id="faqAccordion">
+					<!-- Account FAQ -->
+					<div class="card mb-2">
+						<div class="card-header" id="headingAccount">
+							<h2 class="mb-0">
+								<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseAccount">
+									<i class="fas fa-user mr-2"></i>Come modifico il mio profilo?
+								</button>
+							</h2>
+						</div>
+						<div id="collapseAccount" class="collapse" data-parent="#faqAccordion">
+							<div class="card-body">
+								<p>Per modificare il tuo profilo:</p>
+								<ol>
+									<li>Vai alla pagina <strong>Profilo</strong></li>
+									<li>Clicca su <strong>Modifica Profilo</strong></li>
+									<li>Apporta le modifiche desiderate</li>
+									<li>Salva i cambiamenti</li>
+								</ol>
+							</div>
+						</div>
+					</div>
+
+					<div class="card mb-2">
+						<div class="card-header" id="headingPassword">
+							<h2 class="mb-0">
+								<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapsePassword">
+									<i class="fas fa-key mr-2"></i>Come cambio la mia password?
+								</button>
+							</h2>
+						</div>
+						<div id="collapsePassword" class="collapse" data-parent="#faqAccordion">
+							<div class="card-body">
+								<p>Per cambiare la password:</p>
+								<ol>
+									<li>Accedi al tuo account</li>
+									<li>Vai a <strong>Profilo > Impostazioni</strong></li>
+									<li>Nella sezione <strong>Privacy e Sicurezza</strong>, clicca su <strong>Cambia Password</strong></li>
+									<li>Inserisci la password attuale e quella nuova</li>
+									<li>Salva</li>
+								</ol>
+							</div>
+						</div>
+					</div>
+
+					<div class="card mb-2">
+						<div class="card-header" id="heading2FA">
+							<h2 class="mb-0">
+								<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse2FA">
+									<i class="fas fa-shield-alt mr-2"></i>Cos'è l'autenticazione a due fattori?
+								</button>
+							</h2>
+						</div>
+						<div id="collapse2FA" class="collapse" data-parent="#faqAccordion">
+							<div class="card-body">
+								<p>L'autenticazione a due fattori (2FA) aggiunge un livello extra di sicurezza al tuo account. Oltre alla password, dovrai fornire un codice di verifica dal tuo telefono per accedere.</p>
+								<p><strong>Vantaggi:</strong></p>
+								<ul>
+									<li>Protezione contro accessi non autorizzati</li>
+									<li>Codici univoci ad ogni accesso</li>
+									<li>Sincronizzazione con app autenticatore</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+
+					<div class="card mb-2">
+						<div class="card-header" id="headingNotifications">
+							<h2 class="mb-0">
+								<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseNotifications">
+									<i class="fas fa-bell mr-2"></i>Come gestisco le notifiche?
+								</button>
+							</h2>
+						</div>
+						<div id="collapseNotifications" class="collapse" data-parent="#faqAccordion">
+							<div class="card-body">
+								<p>Accedi alle impostazioni notifiche:</p>
+								<ol>
+									<li>Vai a <strong>Profilo > Impostazioni</strong></li>
+									<li>Seleziona la scheda <strong>Notifiche</strong></li>
+									<li>Personalizza le tue preferenze per email, browser e notifiche push</li>
+									<li>Salva</li>
+								</ol>
+							</div>
+						</div>
+					</div>
+
+					<div class="card mb-2">
+						<div class="card-header" id="headingDelete">
+							<h2 class="mb-0">
+								<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseDelete">
+									<i class="fas fa-trash mr-2"></i>Come elimino il mio account?
+								</button>
+							</h2>
+						</div>
+						<div id="collapseDelete" class="collapse" data-parent="#faqAccordion">
+							<div class="card-body">
+								<p class="text-danger"><strong>Attenzione:</strong> L'eliminazione dell'account è permanente e non può essere annullata.</p>
+								<ol>
+									<li>Vai a <strong>Profilo > Impostazioni</strong></li>
+									<li>Scorri fino a <strong>Zona Pericolosa</strong></li>
+									<li>Clicca su <strong>Elimina Account Permanentemente</strong></li>
+									<li>Conferma con la tua password</li>
+								</ol>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<hr class="my-5">
+
+				<!-- Contact Support -->
+				<div class="alert alert-info" role="alert">
+					<i class="fas fa-info-circle mr-2"></i>
+					<strong>Hai ancora domande?</strong> Contatta il nostro team di supporto a <a href="mailto:support@oremus.it">support@oremus.it</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+	document.getElementById('searchHelp').addEventListener('input', function(e) {
+		const search = e.target.value.toLowerCase();
+		const buttons = document.querySelectorAll('.accordion .btn');
+		buttons.forEach(btn => {
+			const text = btn.textContent.toLowerCase();
+			const card = btn.closest('.card');
+			card.style.display = text.includes(search) ? '' : 'none';
+		});
+	});
+</script>
+
+<style>
+	.accordion .btn {
+		text-align: left;
+		font-weight: 600;
+		color: #333;
+	}
+
+	.accordion .btn:hover {
+		color: #667eea;
+	}
+
+	.card {
+		border: none;
+		box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+	}
+
+	.bg-light {
+		background-color: #f8f9fa !important;
+	}
+</style>
+{% endblock %}

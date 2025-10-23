@@ -1,0 +1,219 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+	<div class="col-md-8 offset-md-2">
+		<div class="card">
+			<div class="card-header">
+				<h4 class="card-title">
+					<i class="fas fa-user-plus mr-2"></i>
+					{% if user %}Modifica Utente{% else %}Aggiungi Nuovo Utente{% endif %}
+				</h4>
+			</div>
+			<div class="card-body">
+				<form id="userForm">
+					<div class="form-group">
+						<label for="nome">Nome Completo *</label>
+						<input type="text" class="form-control" id="nome" name="nome"
+							   value="{% if user %}{{ user.nome }}{% endif %}" required>
+						<small class="form-text text-muted">Nome e cognome</small>
+					</div>
+
+					<div class="form-group">
+						<label for="email">Email *</label>
+						<input type="email" class="form-control" id="email" name="email"
+							   value="{% if user %}{{ user.email }}{% endif %}" required>
+						<small class="form-text text-muted">Email valida per il login</small>
+					</div>
+
+					<div class="form-group">
+						<label for="password">Password {% if not user %}*{% endif %}</label>
+						<input type="password" class="form-control" id="password" name="password"
+							   {% if not user %}required{% endif %}>
+						<small class="form-text text-muted">
+							{% if user %}Lascia vuoto per mantenere la password attuale{% else %}Almeno 8 caratteri{% endif %}
+						</small>
+					</div>
+
+					<div class="form-group">
+						<label for="telefono">Telefono</label>
+						<input type="tel" class="form-control" id="telefono" name="telefono"
+							   value="{% if user %}{{ user.telefono }}{% endif %}">
+						<small class="form-text text-muted">Numero di telefono (opzionale)</small>
+					</div>
+
+					<div class="form-group">
+						<label for="ruolo">Ruolo *</label>
+						<select class="form-control" id="ruolo" name="ruolo" required>
+							<option value="user" {% if user and user.ruolo == 'user' %}selected{% endif %}>Utente</option>
+							<option value="moderator" {% if user and user.ruolo == 'moderator' %}selected{% endif %}>Moderatore</option>
+							<option value="admin" {% if user and user.ruolo == 'admin' %}selected{% endif %}>Amministratore</option>
+						</select>
+						<small class="form-text text-muted">Seleziona il livello di accesso</small>
+					</div>
+
+					<div class="alert alert-info" role="alert">
+						<i class="fas fa-info-circle mr-2"></i>
+						<strong>Nota:</strong> I campi contrassegnati con * sono obbligatori.
+					</div>
+
+					<div class="form-group">
+						<button type="submit" class="btn btn-primary btn-block">
+							<i class="fas fa-save mr-2"></i>
+							{% if user %}Aggiorna Utente{% else %}Crea Utente{% endif %}
+						</button>
+						<a href="{{ url_for('users') }}" class="btn btn-secondary btn-block mt-2">
+							<i class="fas fa-arrow-left mr-2"></i>Torna alla Lista
+						</a>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Alert Container -->
+<div id="alertContainer" style="position: fixed; top: 20px; right: 20px; z-index: 9999; max-width: 400px;"></div>
+
+<script>
+	document.getElementById('userForm').addEventListener('submit', async function(e) {
+		e.preventDefault();
+
+		// Raccogli i dati del form
+		const formData = {
+			nome: document.getElementById('nome').value,
+			email: document.getElementById('email').value,
+			password: document.getElementById('password').value,
+			telefono: document.getElementById('telefono').value,
+			ruolo: document.getElementById('ruolo').value
+		};
+
+		// Valida i dati
+		if (!formData.nome.trim()) {
+			showAlert('Inserisci il nome', 'danger');
+			return;
+		}
+
+		if (!formData.email.trim()) {
+			showAlert('Inserisci l\'email', 'danger');
+			return;
+		}
+
+		const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+		if (!emailRegex.test(formData.email)) {
+			showAlert('Email non valida', 'danger');
+			return;
+		}
+
+		// Se è un nuovo utente, password obbligatoria
+		if (!formData.password || formData.password.length < 8) {
+			showAlert('Password deve essere almeno 8 caratteri', 'danger');
+			return;
+		}
+
+		try {
+			// Determina l'URL
+			const url = window.location.pathname.includes('/edit')
+				? window.location.pathname
+				: '/users/add';
+
+			// Invia la richiesta con JSON
+			const response = await fetch(url, {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify(formData)
+			});
+
+			const data = await response.json();
+
+			if (response.ok && data.status === 'success') {
+				showAlert(data.message, 'success');
+				setTimeout(() => {
+					window.location.href = '/users';
+				}, 1500);
+			} else {
+				showAlert(data.message || 'Errore durante il salvataggio', 'danger');
+			}
+		} catch (error) {
+			console.error('Errore:', error);
+			showAlert('Errore durante il salvataggio: ' + error.message, 'danger');
+		}
+	});
+
+	function showAlert(message, type) {
+		const alertDiv = document.createElement('div');
+		alertDiv.className = `alert alert-${type} alert-dismissible fade show`;
+		alertDiv.role = 'alert';
+		alertDiv.innerHTML = `
+			${message}
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		`;
+
+		const container = document.getElementById('alertContainer');
+		container.appendChild(alertDiv);
+
+		// Auto-remove dopo 5 secondi
+		setTimeout(() => {
+			alertDiv.remove();
+		}, 5000);
+	}
+</script>
+
+<style>
+	.form-group {
+		margin-bottom: 1.5rem;
+	}
+
+	.form-control {
+		border-radius: 4px;
+		border: 1px solid #ddd;
+		transition: all 0.3s ease;
+	}
+
+	.form-control:focus {
+		border-color: #667eea;
+		box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+	}
+
+	.btn {
+		border-radius: 4px;
+		font-weight: 500;
+	}
+
+	.btn-primary {
+		background-color: #667eea;
+		border-color: #667eea;
+	}
+
+	.btn-primary:hover {
+		background-color: #5568d3;
+		border-color: #5568d3;
+	}
+
+	label {
+		font-weight: 600;
+		color: #333;
+		margin-bottom: 0.5rem;
+	}
+
+	.alert {
+		border-radius: 4px;
+	}
+
+	.card {
+		box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+		border: none;
+		margin-top: 2rem;
+	}
+
+	.card-header {
+		background-color: #f8f9fa;
+		border-bottom: 1px solid #ddd;
+		border-radius: 4px 4px 0 0;
+	}
+</style>
+{% endblock %}

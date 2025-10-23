@@ -1,0 +1,141 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+	<div class="col-md-12">
+		<div class="card">
+			<div class="card-header bg-info">
+				<h3 class="card-title text-white mb-0">
+					<i class="fas fa-sun mr-2"></i>Lodi Mattutine
+				</h3>
+			</div>
+			<div class="card-body">
+				{% if lodi %}
+					<!-- Data e Giorno -->
+					{% if giorno %}
+					<div class="row mb-4">
+						<div class="col-md-6">
+							<h5>Data</h5>
+							<p class="text-muted">{{ giorno.data }}</p>
+						</div>
+						<div class="col-md-6">
+							<h5>Giorno Liturgico</h5>
+							<p class="text-muted">{{ giorno.giorno_settimana }}</p>
+						</div>
+					</div>
+					<hr>
+					{% endif %}
+
+					<!-- Titolo -->
+					{% if lodi.titolo %}
+					<div class="mb-4">
+						<h4>{{ lodi.titolo }}</h4>
+					</div>
+					{% endif %}
+
+					<!-- Inno -->
+					{% if lodi.inno %}
+					<div class="mb-4">
+						<h5><i class="fas fa-music mr-2 text-primary"></i>Inno</h5>
+						<div class="bg-light p-4 rounded border-left border-info">
+							<p class="text-justify" style="line-height: 1.8; white-space: pre-line;">{{ lodi.inno }}</p>
+						</div>
+					</div>
+					{% endif %}
+
+					<!-- Lettura Breve -->
+					{% if lodi.lettura_breve %}
+					<div class="mb-4">
+						<h5><i class="fas fa-book mr-2 text-warning"></i>Lettura Breve</h5>
+						<div class="bg-light p-4 rounded border-left border-warning">
+							<p class="text-justify" style="line-height: 1.8; white-space: pre-line;">{{ lodi.lettura_breve }}</p>
+						</div>
+					</div>
+					{% endif %}
+
+					<!-- Responsorio Breve -->
+					{% if lodi.responsorio_breve %}
+					<div class="mb-4">
+						<h5><i class="fas fa-comments mr-2 text-success"></i>Responsorio Breve</h5>
+						<div class="bg-light p-4 rounded border-left border-success">
+							<p class="text-justify" style="line-height: 1.8; white-space: pre-line;">{{ lodi.responsorio_breve }}</p>
+						</div>
+					</div>
+					{% endif %}
+
+					<!-- Cantico Finale -->
+					{% if lodi.cantico_finale %}
+					<div class="mb-4">
+						<h5><i class="fas fa-cross mr-2 text-danger"></i>Cantico Finale</h5>
+						<div class="bg-light p-4 rounded border-left border-danger">
+							<p class="text-justify" style="line-height: 1.8; white-space: pre-line;">{{ lodi.cantico_finale }}</p>
+						</div>
+					</div>
+					{% endif %}
+
+					<hr>
+
+					<!-- Navigation Buttons -->
+					<div class="mt-4">
+						<a href="{{ url_for('index') }}" class="btn btn-secondary btn-rounded">
+							<i class="fas fa-arrow-left mr-2"></i>Torna a Oggi
+						</a>
+						<a href="{{ url_for('vespri') }}" class="btn btn-warning btn-rounded">
+							<i class="fas fa-moon mr-2"></i>Vespri
+						</a>
+					</div>
+
+				{% else %}
+				<div class="alert alert-info" role="alert">
+					<i class="fas fa-info-circle mr-2"></i>
+					<strong>Nessun dato disponibile</strong> per le Lodi Mattutine di oggi.
+				</div>
+				<a href="{{ url_for('index') }}" class="btn btn-secondary btn-rounded">
+					<i class="fas fa-arrow-left mr-2"></i>Torna a Oggi
+				</a>
+				{% endif %}
+			</div>
+		</div>
+	</div>
+</div>
+
+<style>
+	.border-left {
+		border-left: 4px solid;
+	}
+
+	.border-left.border-info {
+		border-left-color: #17a2b8 !important;
+	}
+
+	.border-left.border-warning {
+		border-left-color: #ffc107 !important;
+	}
+
+	.border-left.border-success {
+		border-left-color: #28a745 !important;
+	}
+
+	.border-left.border-danger {
+		border-left-color: #dc3545 !important;
+	}
+
+	.bg-light {
+		background-color: #f8f9fa !important;
+	}
+
+	.text-justify {
+		text-align: justify;
+	}
+
+	.btn-rounded {
+		border-radius: 20px;
+		padding: 8px 18px;
+		margin-right: 10px;
+	}
+
+	p {
+		line-height: 1.8;
+	}
+</style>
+{% endblock %}

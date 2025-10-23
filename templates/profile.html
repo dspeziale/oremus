@@ -1,0 +1,175 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+	<div class="col-md-8">
+		<div class="card">
+			<div class="card-header">
+				<h4 class="card-title">
+					<i class="fas fa-user mr-2"></i>Profilo Utente
+				</h4>
+			</div>
+			<div class="card-body">
+				{% if profile %}
+				<div class="row">
+					<div class="col-md-3 text-center mb-4">
+						<div class="avatar-xl">
+							<img src="{{ profile.avatar_url if profile.avatar_url else url_for('static', filename='img/profile.jpg') }}" alt="Profilo" class="rounded-circle" style="width: 200px; height: 200px; object-fit: cover;">
+						</div>
+					</div>
+					<div class="col-md-9">
+						<div class="mb-3">
+							<label class="font-weight-bold">Nome Completo</label>
+							<p>{{ profile.nome }}</p>
+						</div>
+						<div class="mb-3">
+							<label class="font-weight-bold">Email</label>
+							<p>{{ profile.email }}</p>
+						</div>
+						<div class="mb-3">
+							<label class="font-weight-bold">Telefono</label>
+							<p>{{ profile.telefono if profile.telefono else 'Non fornito' }}</p>
+						</div>
+						<div class="mb-3">
+							<label class="font-weight-bold">Ruolo</label>
+							<p>
+								{% if profile.ruolo == 'admin' %}
+									<span class="badge badge-danger">Amministratore</span>
+								{% elif profile.ruolo == 'moderator' %}
+									<span class="badge badge-warning">Moderatore</span>
+								{% else %}
+									<span class="badge badge-primary">Utente</span>
+								{% endif %}
+							</p>
+						</div>
+						<div class="mb-3">
+							<label class="font-weight-bold">Data di Registrazione</label>
+							<p>{{ profile.data_registrazione }}</p>
+						</div>
+					</div>
+				</div>
+
+				<hr>
+
+				<div class="row">
+					<div class="col-md-12">
+						<div class="mb-3">
+							<label class="font-weight-bold">Bio</label>
+							<p>{{ profile.bio if profile.bio else 'Nessuna bio fornita' }}</p>
+						</div>
+						<div class="mb-3">
+							<label class="font-weight-bold">Indirizzo</label>
+							<p>{{ profile.indirizzo if profile.indirizzo else 'Non fornito' }}</p>
+						</div>
+						<div class="mb-3">
+							<label class="font-weight-bold">Città</label>
+							<p>{{ profile.citta if profile.citta else 'Non fornita' }}</p>
+						</div>
+						<div class="mb-3">
+							<label class="font-weight-bold">Paese</label>
+							<p>{{ profile.paese if profile.paese else 'Non fornito' }}</p>
+						</div>
+					</div>
+				</div>
+				{% else %}
+				<div class="alert alert-warning" role="alert">
+					<i class="fas fa-exclamation-triangle mr-2"></i>
+					Profilo non trovato.
+				</div>
+				{% endif %}
+			</div>
+		</div>
+	</div>
+
+	<div class="col-md-4">
+		<div class="card">
+			<div class="card-header">
+				<h4 class="card-title">Azioni</h4>
+			</div>
+			<div class="card-body">
+				<a href="{{ url_for('profile_edit') }}" class="btn btn-warning btn-block mb-2">
+					<i class="fas fa-edit mr-2"></i>Modifica Profilo
+				</a>
+				<a href="{{ url_for('profile_settings') }}" class="btn btn-info btn-block mb-2">
+					<i class="fas fa-cog mr-2"></i>Impostazioni
+				</a>
+				<button class="btn btn-danger btn-block" data-toggle="modal" data-target="#changePasswordModal">
+					<i class="fas fa-key mr-2"></i>Cambia Password
+				</button>
+			</div>
+		</div>
+
+		<div class="card mt-3">
+			<div class="card-header">
+				<h4 class="card-title">Statistiche</h4>
+			</div>
+			<div class="card-body">
+				<div class="mb-3">
+					<small class="text-muted">Ultimo accesso</small>
+					<p class="mb-0">{{ profile.ultimo_accesso if profile and profile.ultimo_accesso else 'Mai' }}</p>
+				</div>
+				<div class="mb-3">
+					<small class="text-muted">Ordini</small>
+					<p class="mb-0">{{ profile.total_ordini if profile and profile.total_ordini else '0' }}</p>
+				</div>
+				<div class="mb-3">
+					<small class="text-muted">Spesa Totale</small>
+					<p class="mb-0">€ {{ profile.spesa_totale if profile and profile.spesa_totale else '0.00' }}</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Change Password Modal -->
+<div class="modal fade" id="changePasswordModal" tabindex="-1" role="dialog" aria-labelledby="changePasswordLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="changePasswordLabel">Cambia Password</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<form id="changePasswordForm">
+				<div class="modal-body">
+					<div class="form-group">
+						<label for="currentPassword">Password Attuale</label>
+						<input type="password" class="form-control" id="currentPassword" required>
+					</div>
+					<div class="form-group">
+						<label for="newPassword">Nuova Password</label>
+						<input type="password" class="form-control" id="newPassword" required>
+					</div>
+					<div class="form-group">
+						<label for="confirmPassword">Conferma Password</label>
+						<input type="password" class="form-control" id="confirmPassword" required>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Annulla</button>
+					<button type="submit" class="btn btn-primary">Cambia Password</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+<style>
+	.avatar-xl {
+		display: inline-block;
+	}
+
+	.badge {
+		padding: 5px 10px;
+	}
+
+	.btn-block {
+		width: 100%;
+	}
+
+	.card {
+		box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+	}
+</style>
+{% endblock %}
